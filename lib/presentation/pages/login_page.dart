@@ -1,5 +1,6 @@
 import 'package:fic_mini_project/common/styles.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -51,12 +52,24 @@ class LoginPage extends StatelessWidget {
                     borderRadius: BorderRadius.circular(16),
                   ),
                 ),
-                child: Text(
-                  'Log in as Vendor',
-                  style: whiteTextStyle.copyWith(
-                    fontSize: 16,
-                    fontWeight: medium,
-                  ),
+                child: Stack(
+                  children: [
+                    const Align(
+                      alignment: Alignment.centerLeft,
+                      child: FaIcon(FontAwesomeIcons.googlePlusG),
+                    ),
+                    Align(
+                      alignment: Alignment.center,
+                      child: Text(
+                        'Log in as Vendor',
+                        textAlign: TextAlign.center,
+                        style: whiteTextStyle.copyWith(
+                          fontSize: 16,
+                          fontWeight: medium,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
               const SizedBox(height: 12),
@@ -78,12 +91,24 @@ class LoginPage extends StatelessWidget {
                     borderRadius: BorderRadius.circular(16),
                   ),
                 ),
-                child: Text(
-                  'Log in as Member',
-                  style: whiteTextStyle.copyWith(
-                    fontSize: 16,
-                    fontWeight: medium,
-                  ),
+                child: Stack(
+                  children: [
+                    const Align(
+                      alignment: Alignment.centerLeft,
+                      child: FaIcon(FontAwesomeIcons.googlePlusG),
+                    ),
+                    Align(
+                      alignment: Alignment.center,
+                      child: Text(
+                        'Log in as Member',
+                        textAlign: TextAlign.center,
+                        style: whiteTextStyle.copyWith(
+                          fontSize: 16,
+                          fontWeight: medium,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],
