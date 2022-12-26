@@ -44,10 +44,10 @@ class LoginPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Palem Cafe POS',
+                    'Palem Kafe - POS App',
                     style: navyTextStyle.copyWith(
                       fontSize: 24,
-                      fontWeight: medium,
+                      fontWeight: bold,
                     ),
                   ),
                   const SizedBox(height: 8),
@@ -59,10 +59,15 @@ class LoginPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 50),
                   Center(
-                    child: Image.asset(
-                      'assets/logo.png',
-                      width: 162,
-                      height: 187,
+                    child: Container(
+                      width: 220,
+                      height: 220,
+                      decoration: BoxDecoration(
+                        image: const DecorationImage(
+                          image: AssetImage('assets/logo.png'),
+                        ),
+                        borderRadius: BorderRadius.circular(16),
+                      ),
                     ),
                   ),
                   const SizedBox(height: 50),
@@ -143,7 +148,7 @@ class _LoginButton extends StatelessWidget {
               text,
               style: whiteTextStyle.copyWith(
                 fontSize: 16,
-                fontWeight: medium,
+                fontWeight: bold,
               ),
             ),
           ),

@@ -16,6 +16,8 @@ class MemberHomePage extends StatelessWidget {
                 context, loginRoute, (_) => false);
           }
         },
+        listenWhen: (previous, current) =>
+            previous != current && current is LogoutSuccess,
         child: SafeArea(
           child: Center(
             child: Column(

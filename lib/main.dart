@@ -4,6 +4,7 @@ import 'package:fic_mini_project/firebase_options.dart';
 import 'package:fic_mini_project/presentation/blocs/auth/auth_bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fic_mini_project/injection.dart' as di;
 
@@ -32,6 +33,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         title: 'Palem Kafe - POS App',
+        debugShowCheckedModeBanner: false,
         theme: ThemeData(
           colorScheme: Theme.of(context).colorScheme.copyWith(
                 primary: blueColor,
@@ -40,12 +42,16 @@ class MyApp extends StatelessWidget {
           scaffoldBackgroundColor: whiteColor,
           visualDensity: VisualDensity.adaptivePlatformDensity,
           appBarTheme: AppBarTheme(
-            elevation: 2,
+            systemOverlayStyle: const SystemUiOverlayStyle(
+              statusBarColor: whiteColor,
+              statusBarIconBrightness: Brightness.dark,
+            ),
+            elevation: 0,
             color: whiteColor,
             centerTitle: true,
             titleTextStyle: blueTextStyle.copyWith(
               fontSize: 22,
-              fontWeight: medium,
+              fontWeight: bold,
             ),
           ),
         ),
