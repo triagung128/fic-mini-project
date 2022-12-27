@@ -18,7 +18,7 @@ class LoginPage extends StatelessWidget {
         listener: (context, state) {
           if (state is LoginAsVendorAuthenticated) {
             Navigator.pushNamedAndRemoveUntil(
-                context, vendorHomeRoute, (_) => false);
+                context, vendorMainRoute, (_) => false);
           } else if (state is LoginAsMemberAuthenticated) {
             Navigator.pushNamedAndRemoveUntil(
                 context, memberHomeRoute, (_) => false);
@@ -44,7 +44,7 @@ class LoginPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Palem Kafe - POS App',
+                    'Palem Kafe POS App',
                     style: navyTextStyle.copyWith(
                       fontSize: 24,
                       fontWeight: bold,

@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:dartz/dartz.dart';
 import 'package:fic_mini_project/common/failure.dart';
 import 'package:fic_mini_project/data/datasources/auth_local_data_source.dart';
 import 'package:fic_mini_project/data/datasources/auth_remote_data_source.dart';
+import 'package:fic_mini_project/data/models/user_model.dart';
 import 'package:fic_mini_project/domain/entity/user.dart';
 import 'package:fic_mini_project/domain/repositories/auth_repository.dart';
 import 'package:flutter/material.dart';
@@ -72,6 +75,29 @@ class AuthRepositoryImpl implements AuthRepository {
       await localDataSource.setRole(role);
     } catch (e) {
       debugPrint(e.toString());
+    }
+  }
+
+  @override
+  Future<Either<Failure, String>> updateUser(User user) async {
+    try {
+      await remoteDataSource.updateUser(UserModel.fromEntity(user));
+      return const Right('Berhasil update profile');
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, String>> updateUserImage(
+    String fileName,
+    File file,
+  ) async {
+    try {
+      final result = await remoteDataSource.updateUserImage(fileName, file);
+      return Right(result);
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
     }
   }
 }

@@ -9,7 +9,7 @@ abstract class AuthLocalDataSource {
 class AuthLocalDataSourceImpl extends AuthLocalDataSource {
   final PreferenceHelper preferencesHelper;
 
-  AuthLocalDataSourceImpl({required this.preferencesHelper});
+  AuthLocalDataSourceImpl(this.preferencesHelper);
 
   @override
   Future<String?> getRole() async {

@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 
-class VendorHomePage extends StatelessWidget {
-  const VendorHomePage({super.key});
+class TransactionPage extends StatelessWidget {
+  const TransactionPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Beranda'),
+        title: const Text('Transaksi'),
       ),
       body: const Center(
-        child: Text('Vendor Home Page'),
+        child: Text('Transaction Page'),
       ),
     );
   }

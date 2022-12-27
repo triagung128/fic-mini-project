@@ -30,7 +30,7 @@ class _SplashPageState extends State<SplashPage> {
                 context,
                 state.status == true
                     ? state.role == AuthBloc.roleVendor
-                        ? vendorHomeRoute
+                        ? vendorMainRoute
                         : memberHomeRoute
                     : loginRoute,
                 (_) => false,

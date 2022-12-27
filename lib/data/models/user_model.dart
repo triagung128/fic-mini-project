@@ -34,6 +34,14 @@ class UserModel extends Equatable {
         photoUrl: photoUrl,
       );
 
+  factory UserModel.fromEntity(User user) => UserModel(
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        phoneNumber: user.phoneNumber,
+        photoUrl: user.photoUrl,
+      );
+
   factory UserModel.fromSnapshot(DocumentSnapshot snapshot) => UserModel(
         id: snapshot.get('id'),
         name: snapshot.get('name'),

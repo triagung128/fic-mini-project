@@ -2,7 +2,7 @@
     package="com.triagung.fic_mini_project">
     <uses-permission android:name="android.permission.INTERNET" />
    <application
-        android:label="Palem Kafe - POS App"
+        android:label="Palem Kafe POS App"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

@@ -1,13 +1,15 @@
 import 'package:fic_mini_project/presentation/pages/login_page.dart';
 import 'package:fic_mini_project/presentation/pages/member/member_home_page.dart';
+import 'package:fic_mini_project/presentation/pages/profile/update_profile_page.dart';
 import 'package:fic_mini_project/presentation/pages/splash_page.dart';
-import 'package:fic_mini_project/presentation/pages/vendor/vendor_home_page.dart';
+import 'package:fic_mini_project/presentation/pages/vendor/vendor_main_page.dart';
 import 'package:flutter/material.dart';
 
 const String splashRoute = '/';
 const String loginRoute = '/login';
-const String vendorHomeRoute = '/vendor-home';
+const String vendorMainRoute = '/vendor-main';
 const String memberHomeRoute = '/member-home';
+const String updateProfileRoute = '/update-profile';
 
 class Routes {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -16,10 +18,12 @@ class Routes {
         return MaterialPageRoute(builder: (_) => const SplashPage());
       case loginRoute:
         return MaterialPageRoute(builder: (_) => const LoginPage());
-      case vendorHomeRoute:
-        return MaterialPageRoute(builder: (_) => const VendorHomePage());
+      case vendorMainRoute:
+        return MaterialPageRoute(builder: (_) => const VendorMainPage());
       case memberHomeRoute:
         return MaterialPageRoute(builder: (_) => const MemberHomePage());
+      case updateProfileRoute:
+        return MaterialPageRoute(builder: (_) => const UpdateProfilePage());
       default:
         return MaterialPageRoute(
           builder: (_) => const Scaffold(
