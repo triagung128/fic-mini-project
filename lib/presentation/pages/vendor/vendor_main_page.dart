@@ -28,10 +28,10 @@ class _VendorMainPageState extends State<VendorMainPage> {
     ),
   ];
 
-  final List<Widget> _listWidget = const [
+  final List<Widget> _listWidget = [
     VendorHomePage(),
-    TransactionPage(),
-    ProfilePage(),
+    const TransactionPage(),
+    const ProfilePage(),
   ];
 
   void _onBottomNavTapped(int index) {
