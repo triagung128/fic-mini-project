@@ -58,20 +58,4 @@ class UserModel extends Equatable {
         'phoneNumber': phoneNumber,
         'photoUrl': photoUrl,
       };
-
-  UserModel copyWith({
-    String? id,
-    String? name,
-    String? email,
-    String? phoneNumber,
-    String? photoUrl,
-  }) {
-    return UserModel(
-      id: id ?? this.id,
-      name: name ?? this.name,
-      email: email ?? this.email,
-      phoneNumber: phoneNumber ?? this.phoneNumber,
-      photoUrl: photoUrl ?? this.photoUrl,
-    );
-  }
 }

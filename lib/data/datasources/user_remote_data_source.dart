@@ -42,7 +42,6 @@ class UserRemoteDataSourceImpl extends UserRemoteDataSource {
       await storageRef.putFile(file);
       final imageUrl = await storageRef.getDownloadURL();
 
-      // user.copyWith(photoUrl: imageUrl);
       user = UserModel(
         id: user.id,
         name: user.name,
