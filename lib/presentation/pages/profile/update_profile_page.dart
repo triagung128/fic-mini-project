@@ -25,7 +25,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Update Profil'),
+        title: const Text('Ubah Profil'),
       ),
       body: BlocListener<ProfileBloc, ProfileState>(
         listener: (context, state) {
@@ -35,10 +35,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
               ..showSnackBar(
                 SnackBar(
                   backgroundColor: Colors.red,
-                  content: Text(
-                    state.message,
-                    style: whiteTextStyle,
-                  ),
+                  content: Text(state.message),
                 ),
               );
           }
@@ -48,10 +45,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
               ..hideCurrentSnackBar()
               ..showSnackBar(
                 SnackBar(
-                  content: Text(
-                    state.message,
-                    style: whiteTextStyle,
-                  ),
+                  content: Text(state.message),
                 ),
               );
           }
@@ -219,10 +213,10 @@ class _ContentUpdateProfile extends StatelessWidget {
                       : const Icon(Icons.save),
                   label: Text(
                     'Simpan',
-                    style: whiteTextStyle.copyWith(
-                      fontSize: 16,
-                      fontWeight: bold,
-                    ),
+                    style: Theme.of(context)
+                        .textTheme
+                        .button!
+                        .copyWith(color: whiteColor),
                   ),
                   style: ElevatedButton.styleFrom(
                     fixedSize: Size(MediaQuery.of(context).size.width, 57),
@@ -257,7 +251,7 @@ class _CustomTextField extends StatelessWidget {
       controller: controller,
       keyboardType: keyboardType,
       textCapitalization: textCapitalization,
-      style: navyTextStyle.copyWith(fontSize: 14),
+      style: Theme.of(context).textTheme.bodyText2!.copyWith(color: navyColor),
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.symmetric(
           horizontal: 24,
@@ -273,10 +267,10 @@ class _CustomTextField extends StatelessWidget {
         filled: true,
         fillColor: Colors.transparent.withOpacity(0.05),
         hintText: hintText,
-        hintStyle: navyTextStyle.copyWith(
-          fontSize: 14,
-          color: navyColor.withOpacity(0.5),
-        ),
+        hintStyle: Theme.of(context)
+            .textTheme
+            .bodyText2!
+            .copyWith(color: navyColor.withOpacity(0.5)),
       ),
     );
   }
@@ -296,7 +290,8 @@ class _LabelText extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 10),
       child: Text(
         text,
-        style: navyTextStyle.copyWith(fontSize: 16),
+        style:
+            Theme.of(context).textTheme.bodyText1!.copyWith(color: navyColor),
       ),
     );
   }

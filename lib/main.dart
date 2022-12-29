@@ -41,6 +41,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           scaffoldBackgroundColor: whiteColor,
           visualDensity: VisualDensity.adaptivePlatformDensity,
+          textTheme: textTheme,
           colorScheme: Theme.of(context).colorScheme.copyWith(
                 primary: blueColor,
                 secondary: navyColor,
@@ -54,10 +55,10 @@ class MyApp extends StatelessWidget {
                 backgroundColor: whiteColor,
                 centerTitle: true,
                 iconTheme: const IconThemeData(color: blueColor),
-                titleTextStyle: blueTextStyle.copyWith(
-                  fontSize: 22,
-                  fontWeight: bold,
-                ),
+                titleTextStyle: Theme.of(context)
+                    .textTheme
+                    .headline6!
+                    .copyWith(color: blueColor, fontWeight: FontWeight.w700),
               ),
         ),
         initialRoute: splashRoute,

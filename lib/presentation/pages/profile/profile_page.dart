@@ -94,15 +94,18 @@ class _ContentProfile extends StatelessWidget {
                 children: [
                   Text(
                     '${user.name}',
-                    style: navyTextStyle.copyWith(
-                      fontSize: 22,
-                      fontWeight: bold,
-                    ),
+                    style: Theme.of(context).textTheme.headline5!.copyWith(
+                          color: navyColor,
+                          fontWeight: FontWeight.w700,
+                        ),
                   ),
                   const SizedBox(height: 4),
                   Text(
                     '${user.email}',
-                    style: navyTextStyle.copyWith(fontSize: 16),
+                    style: Theme.of(context)
+                        .textTheme
+                        .subtitle1!
+                        .copyWith(color: navyColor),
                   ),
                 ],
               ),
@@ -113,7 +116,7 @@ class _ContentProfile extends StatelessWidget {
             onPressed: () {
               Navigator.pushNamed(context, updateProfileRoute);
             },
-            text: 'Update Profil',
+            text: 'Ubah Profil',
           ),
           const SizedBox(height: 16),
           _ListMenuProfile(
@@ -142,7 +145,8 @@ class _ListMenuProfile extends StatelessWidget {
       onTap: onPressed,
       title: Text(
         text,
-        style: whiteTextStyle.copyWith(fontSize: 16),
+        style:
+            Theme.of(context).textTheme.bodyText2!.copyWith(color: whiteColor),
       ),
       iconColor: whiteColor,
       trailing: const Icon(Icons.arrow_forward_ios),
@@ -164,16 +168,15 @@ Future<void> _showConfirmLogout(BuildContext context) {
         ),
         title: Text(
           'Logout',
-          style: navyTextStyle.copyWith(
-            fontSize: 18,
-            fontWeight: bold,
-          ),
+          style:
+              Theme.of(context).textTheme.headline6!.copyWith(color: navyColor),
         ),
         icon: const Icon(Icons.logout),
         content: Text(
           'Apakah Anda ingin logout ?',
           textAlign: TextAlign.center,
-          style: navyTextStyle,
+          style:
+              Theme.of(context).textTheme.bodyText2!.copyWith(color: navyColor),
         ),
         actionsAlignment: MainAxisAlignment.center,
         actions: [
@@ -188,7 +191,10 @@ Future<void> _showConfirmLogout(BuildContext context) {
             ),
             child: Text(
               'Ya',
-              style: whiteTextStyle.copyWith(fontSize: 16),
+              style: Theme.of(context)
+                  .textTheme
+                  .button!
+                  .copyWith(color: whiteColor),
             ),
           ),
           ElevatedButton(
@@ -200,7 +206,10 @@ Future<void> _showConfirmLogout(BuildContext context) {
             ),
             child: Text(
               'Tidak',
-              style: whiteTextStyle.copyWith(fontSize: 16),
+              style: Theme.of(context)
+                  .textTheme
+                  .button!
+                  .copyWith(color: whiteColor),
             ),
           ),
         ],

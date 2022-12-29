@@ -1,3 +1,4 @@
+import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:fic_mini_project/presentation/pages/profile/profile_page.dart';
 import 'package:fic_mini_project/presentation/pages/vendor/transaction_page.dart';
 import 'package:fic_mini_project/presentation/pages/vendor/vendor_home_page.dart';
@@ -13,18 +14,18 @@ class VendorMainPage extends StatefulWidget {
 class _VendorMainPageState extends State<VendorMainPage> {
   int _bottomNavIndex = 0;
 
-  final List<BottomNavigationBarItem> _bottomNavBarItems = const [
-    BottomNavigationBarItem(
-      icon: Icon(Icons.home),
-      label: 'Beranda',
+  final List<BottomNavyBarItem> _bottomNavBarItems = [
+    BottomNavyBarItem(
+      icon: const Icon(Icons.home),
+      title: const Text('Beranda'),
     ),
-    BottomNavigationBarItem(
-      icon: Icon(Icons.data_usage),
-      label: 'Transaksi',
+    BottomNavyBarItem(
+      icon: const Icon(Icons.data_usage),
+      title: const Text('Transaksi'),
     ),
-    BottomNavigationBarItem(
-      icon: Icon(Icons.person),
-      label: 'Profil',
+    BottomNavyBarItem(
+      icon: const Icon(Icons.person),
+      title: const Text('Profil'),
     ),
   ];
 
@@ -47,10 +48,11 @@ class _VendorMainPageState extends State<VendorMainPage> {
         index: _bottomNavIndex,
         children: _listWidget,
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _bottomNavIndex,
+      bottomNavigationBar: BottomNavyBar(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         items: _bottomNavBarItems,
-        onTap: _onBottomNavTapped,
+        selectedIndex: _bottomNavIndex,
+        onItemSelected: _onBottomNavTapped,
       ),
     );
   }

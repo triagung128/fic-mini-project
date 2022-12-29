@@ -1,7 +1,18 @@
 import 'package:fic_mini_project/common/styles.dart';
-import 'package:fic_mini_project/data/models/menu_model.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+class MenuModel {
+  final Function() onPressed;
+  final Widget icon;
+  final String labelText;
+
+  MenuModel({
+    required this.onPressed,
+    required this.icon,
+    required this.labelText,
+  });
+}
 
 class VendorHomePage extends StatelessWidget {
   VendorHomePage({super.key});
@@ -32,7 +43,7 @@ class VendorHomePage extends StatelessWidget {
         size: 32,
         color: whiteColor,
       ),
-      labelText: 'POS',
+      labelText: 'Point Of Sales',
     ),
     MenuModel(
       onPressed: () {},
@@ -75,14 +86,18 @@ class VendorHomePage extends StatelessWidget {
                     children: [
                       Text(
                         'Hi, Nama Anda',
-                        style: navyTextStyle,
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyText2!
+                            .copyWith(color: navyColor),
                       ),
+                      const SizedBox(height: 4),
                       Text(
                         '03 November 2022',
-                        style: navyTextStyle.copyWith(
-                          fontSize: 16,
-                          fontWeight: bold,
-                        ),
+                        style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                              color: navyColor,
+                              fontWeight: FontWeight.w700,
+                            ),
                       ),
                     ],
                   ),
@@ -100,30 +115,27 @@ class VendorHomePage extends StatelessWidget {
                     ),
                   ),
                   SizedBox(width: 16),
-                  Expanded(
-                    child: _SummaryCard(
-                      icon: Icons.bar_chart_rounded,
-                      label: 'Total Transaksi',
-                      value: '80',
-                    ),
+                  _SummaryCard(
+                    icon: Icons.bar_chart_rounded,
+                    label: 'Total Transaksi',
+                    value: '80',
                   ),
                 ],
               ),
               const SizedBox(height: 40),
               Text(
                 'Main Menu',
-                style: navyTextStyle.copyWith(
-                  fontSize: 16,
-                  fontWeight: bold,
-                ),
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText2!
+                    .copyWith(color: navyColor),
               ),
               const SizedBox(height: 16),
               Expanded(
                 child: GridView.builder(
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 16,
-                    mainAxisSpacing: 16,
+                    crossAxisCount: 3,
+                    crossAxisSpacing: 8,
                     childAspectRatio: 0.9,
                   ),
                   padding: const EdgeInsets.all(4),
@@ -160,36 +172,29 @@ class _MenuCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 6,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: InkWell(
-        onTap: () {},
-        borderRadius: BorderRadius.circular(16),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              height: 90,
-              width: 90,
-              decoration: BoxDecoration(
-                color: navyColor,
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Center(child: icon),
+    return InkWell(
+      onTap: () {},
+      borderRadius: BorderRadius.circular(16),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            height: 60,
+            width: 60,
+            decoration: BoxDecoration(
+              color: navyColor,
+              borderRadius: BorderRadius.circular(8),
             ),
-            const SizedBox(height: 16),
-            Text(
-              labelText,
-              style: navyTextStyle.copyWith(
-                fontSize: 16,
-                fontWeight: bold,
-              ),
-            ),
-          ],
-        ),
+            child: Center(child: icon),
+          ),
+          const SizedBox(height: 10),
+          Text(
+            labelText,
+            textAlign: TextAlign.center,
+            style:
+                Theme.of(context).textTheme.caption!.copyWith(color: navyColor),
+          ),
+        ],
       ),
     );
   }
@@ -226,17 +231,18 @@ class _SummaryCard extends StatelessWidget {
           const SizedBox(height: 16),
           Text(
             label,
-            style: whiteTextStyle.copyWith(
-              fontWeight: bold,
-            ),
+            style: Theme.of(context)
+                .textTheme
+                .caption!
+                .copyWith(color: whiteColor),
           ),
           const SizedBox(height: 6),
           Text(
             value,
-            style: whiteTextStyle.copyWith(
-              fontSize: 18,
-              fontWeight: bold,
-            ),
+            style: Theme.of(context)
+                .textTheme
+                .headline6!
+                .copyWith(color: whiteColor),
           ),
         ],
       ),

@@ -45,23 +45,24 @@ class LoginPage extends StatelessWidget {
                 children: [
                   Text(
                     'Palem Kafe POS App',
-                    style: navyTextStyle.copyWith(
-                      fontSize: 24,
-                      fontWeight: bold,
-                    ),
+                    style: Theme.of(context).textTheme.headline5!.copyWith(
+                          color: navyColor,
+                          fontWeight: FontWeight.w700,
+                        ),
                   ),
                   const SizedBox(height: 8),
                   Text(
                     'Silahkan login terlebih dahulu sebagai vendor atau member untuk melanjutkan.',
-                    style: navyTextStyle.copyWith(
-                      fontSize: 16,
-                    ),
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText2!
+                        .copyWith(color: navyColor),
                   ),
-                  const SizedBox(height: 50),
+                  const SizedBox(height: 80),
                   Center(
                     child: Container(
-                      width: 220,
-                      height: 220,
+                      width: 180,
+                      height: 180,
                       decoration: BoxDecoration(
                         image: const DecorationImage(
                           image: AssetImage('assets/logo.png'),
@@ -70,7 +71,7 @@ class LoginPage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 50),
+                  const SizedBox(height: 80),
                   _LoginButton(
                     onPressed: state is AuthLoading
                         ? null
@@ -83,10 +84,10 @@ class LoginPage extends StatelessWidget {
                   Center(
                     child: Text(
                       'atau',
-                      style: navyTextStyle.copyWith(
-                        fontSize: 16,
-                        fontWeight: medium,
-                      ),
+                      style: Theme.of(context)
+                          .textTheme
+                          .caption!
+                          .copyWith(color: navyColor),
                     ),
                   ),
                   const SizedBox(height: 12),
@@ -146,10 +147,10 @@ class _LoginButton extends StatelessWidget {
             alignment: Alignment.center,
             child: Text(
               text,
-              style: whiteTextStyle.copyWith(
-                fontSize: 16,
-                fontWeight: bold,
-              ),
+              style: Theme.of(context)
+                  .textTheme
+                  .button!
+                  .copyWith(color: whiteColor),
             ),
           ),
         ],
