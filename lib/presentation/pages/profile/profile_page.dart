@@ -116,7 +116,7 @@ class _ContentProfile extends StatelessWidget {
             },
             text: 'Ubah Profil',
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 8),
           _ListMenuProfile(
             onPressed: () => _showConfirmLogout(context),
             text: 'Logout',
@@ -139,18 +139,22 @@ class _ListMenuProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      onTap: onPressed,
-      title: Text(
-        text,
-        style:
-            Theme.of(context).textTheme.bodyText2!.copyWith(color: whiteColor),
-      ),
-      iconColor: whiteColor,
-      trailing: const Icon(Icons.arrow_forward_ios),
-      tileColor: blueColor,
+    return Card(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      elevation: 4,
+      child: ListTile(
+        onTap: onPressed,
+        title: Text(
+          text,
+          style:
+              Theme.of(context).textTheme.bodyText2!.copyWith(color: navyColor),
+        ),
+        trailing: const Icon(Icons.arrow_forward_ios),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
       ),
     );
   }
