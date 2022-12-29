@@ -37,9 +37,7 @@ class _ProfilePageState extends State<ProfilePage> {
           return previous != current && current is LogoutSuccess;
         },
         child: BlocBuilder<ProfileBloc, ProfileState>(
-          buildWhen: (previous, current) =>
-              current is! SelectImageSuccess &&
-              current is! UpdateProfileLoading,
+          buildWhen: (previous, current) => current is! SelectImageSuccess,
           builder: (context, state) {
             if (state is FetchProfileLoading) {
               return const Center(

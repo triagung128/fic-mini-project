@@ -30,7 +30,7 @@ class _VendorMainPageState extends State<VendorMainPage> {
   ];
 
   final List<Widget> _listWidget = [
-    VendorHomePage(),
+    const VendorHomePage(),
     const TransactionPage(),
     const ProfilePage(),
   ];

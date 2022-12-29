@@ -1,6 +1,9 @@
 import 'package:fic_mini_project/common/styles.dart';
+import 'package:fic_mini_project/presentation/blocs/profile/profile_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
 
 class MenuModel {
   final Function() onPressed;
@@ -14,19 +17,21 @@ class MenuModel {
   });
 }
 
-class VendorHomePage extends StatelessWidget {
-  VendorHomePage({super.key});
+class VendorHomePage extends StatefulWidget {
+  const VendorHomePage({super.key});
+
+  @override
+  State<VendorHomePage> createState() => _VendorHomePageState();
+}
+
+class _VendorHomePageState extends State<VendorHomePage> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<ProfileBloc>().add(FetchProfile());
+  }
 
   final List<MenuModel> _listMenu = [
-    MenuModel(
-      onPressed: () {},
-      icon: const FaIcon(
-        FontAwesomeIcons.mugHot,
-        size: 32,
-        color: whiteColor,
-      ),
-      labelText: 'Produk',
-    ),
     MenuModel(
       onPressed: () {},
       icon: const FaIcon(
@@ -35,6 +40,15 @@ class VendorHomePage extends StatelessWidget {
         color: whiteColor,
       ),
       labelText: 'Kategori',
+    ),
+    MenuModel(
+      onPressed: () {},
+      icon: const FaIcon(
+        FontAwesomeIcons.mugHot,
+        size: 32,
+        color: whiteColor,
+      ),
+      labelText: 'Produk',
     ),
     MenuModel(
       onPressed: () {},
@@ -72,28 +86,49 @@ class VendorHomePage extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  const CircleAvatar(
-                    radius: 22,
-                    backgroundColor: whiteColor,
-                    child: CircleAvatar(
-                      radius: 20,
-                      backgroundColor: Colors.black,
-                    ),
+                  BlocBuilder<ProfileBloc, ProfileState>(
+                    buildWhen: (previous, current) =>
+                        current is! SelectImageSuccess,
+                    builder: (context, state) {
+                      return CircleAvatar(
+                        radius: 20,
+                        backgroundColor: Colors.grey[300],
+                        backgroundImage: state is FetchProfileSuccess
+                            ? state.user.photoUrl != null
+                                ? NetworkImage(state.user.photoUrl!)
+                                : null
+                            : null,
+                        child: state is FetchProfileSuccess
+                            ? state.user.photoUrl == null
+                                ? const Icon(Icons.person)
+                                : null
+                            : null,
+                      );
+                    },
                   ),
                   const SizedBox(width: 8),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        'Hi, Nama Anda',
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyText2!
-                            .copyWith(color: navyColor),
+                      BlocBuilder<ProfileBloc, ProfileState>(
+                        buildWhen: (previous, current) =>
+                            current is! SelectImageSuccess,
+                        builder: (context, state) {
+                          return Text(
+                            state is FetchProfileSuccess
+                                ? 'Hi, ${state.user.name}'
+                                : 'Loading...',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText2!
+                                .copyWith(color: navyColor),
+                          );
+                        },
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        '03 November 2022',
+                        DateFormat('d MMMM yyyy', 'id_ID')
+                            .format(DateTime.now()),
                         style: Theme.of(context).textTheme.bodyText1!.copyWith(
                               color: navyColor,
                               fontWeight: FontWeight.w700,
@@ -116,7 +151,7 @@ class VendorHomePage extends StatelessWidget {
                   ),
                   SizedBox(width: 16),
                   _SummaryCard(
-                    icon: Icons.bar_chart_rounded,
+                    icon: Icons.data_usage,
                     label: 'Total Transaksi',
                     value: '80',
                   ),
@@ -135,9 +170,8 @@ class VendorHomePage extends StatelessWidget {
                 child: GridView.builder(
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 3,
-                    crossAxisSpacing: 8,
-                    childAspectRatio: 0.9,
                   ),
+                  physics: const NeverScrollableScrollPhysics(),
                   padding: const EdgeInsets.all(4),
                   itemCount: _listMenu.length,
                   itemBuilder: (context, index) {
