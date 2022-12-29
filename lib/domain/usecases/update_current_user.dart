@@ -2,13 +2,14 @@ import 'package:dartz/dartz.dart';
 import 'package:fic_mini_project/common/failure.dart';
 import 'package:fic_mini_project/domain/entity/user.dart';
 import 'package:fic_mini_project/domain/repositories/user_repository.dart';
+import 'package:image_picker/image_picker.dart';
 
-class GetCurrentUser {
+class UpdateCurrentUser {
   final UserRepository repository;
 
-  GetCurrentUser(this.repository);
+  UpdateCurrentUser(this.repository);
 
-  Future<Either<Failure, User>> execute() {
-    return repository.getCurrentUser();
+  Future<Either<Failure, String>> execute(User user, XFile? image) {
+    return repository.updateCurrentUser(user, image);
   }
 }

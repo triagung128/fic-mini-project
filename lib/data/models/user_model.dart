@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
+
 import 'package:fic_mini_project/domain/entity/user.dart';
 
 class UserModel extends Equatable {
@@ -57,4 +58,20 @@ class UserModel extends Equatable {
         'phoneNumber': phoneNumber,
         'photoUrl': photoUrl,
       };
+
+  UserModel copyWith({
+    String? id,
+    String? name,
+    String? email,
+    String? phoneNumber,
+    String? photoUrl,
+  }) {
+    return UserModel(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      email: email ?? this.email,
+      phoneNumber: phoneNumber ?? this.phoneNumber,
+      photoUrl: photoUrl ?? this.photoUrl,
+    );
+  }
 }

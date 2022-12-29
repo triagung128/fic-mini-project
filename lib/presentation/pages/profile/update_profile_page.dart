@@ -124,6 +124,8 @@ class _ContentUpdateProfile extends StatelessWidget {
                   child: Stack(
                     children: [
                       BlocBuilder<ProfileBloc, ProfileState>(
+                        buildWhen: (previous, current) =>
+                            current is! UpdateProfileLoading,
                         builder: (_, state) {
                           if (state is SelectImageSuccess) {
                             return CircleAvatar(

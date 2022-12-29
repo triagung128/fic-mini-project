@@ -1,17 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fic_mini_project/data/datasources/auth_local_data_source.dart';
 import 'package:fic_mini_project/data/datasources/auth_remote_data_source.dart';
+import 'package:fic_mini_project/data/datasources/user_remote_data_source.dart';
 import 'package:fic_mini_project/data/pf/preference_helper.dart';
 import 'package:fic_mini_project/data/repositories/auth_repository_impl.dart';
+import 'package:fic_mini_project/data/repositories/user_repository_impl.dart';
 import 'package:fic_mini_project/domain/repositories/auth_repository.dart';
+import 'package:fic_mini_project/domain/repositories/user_repository.dart';
 import 'package:fic_mini_project/domain/usecases/get_role.dart';
 import 'package:fic_mini_project/domain/usecases/get_current_user.dart';
 import 'package:fic_mini_project/domain/usecases/get_login_status.dart';
 import 'package:fic_mini_project/domain/usecases/login.dart';
 import 'package:fic_mini_project/domain/usecases/logout.dart';
 import 'package:fic_mini_project/domain/usecases/set_role.dart';
-import 'package:fic_mini_project/domain/usecases/update_user.dart';
-import 'package:fic_mini_project/domain/usecases/update_user_image.dart';
+import 'package:fic_mini_project/domain/usecases/update_current_user.dart';
 import 'package:fic_mini_project/presentation/blocs/auth/auth_bloc.dart';
 import 'package:fic_mini_project/presentation/blocs/profile/profile_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -34,21 +36,19 @@ void init() {
   );
   locator.registerFactory(
     () => ProfileBloc(
-      updateUser: locator(),
+      updateCurrentUser: locator(),
       getCurrentUser: locator(),
-      updateUserImage: locator(),
     ),
   );
 
   // usecase
   locator.registerLazySingleton(() => Login(locator()));
-  locator.registerLazySingleton(() => GetCurrentUser(locator()));
   locator.registerLazySingleton(() => GetLoginStatus(locator()));
   locator.registerLazySingleton(() => SetRole(locator()));
   locator.registerLazySingleton(() => GetRole(locator()));
   locator.registerLazySingleton(() => Logout(locator()));
-  locator.registerLazySingleton(() => UpdateUser(locator()));
-  locator.registerLazySingleton(() => UpdateUserImage(locator()));
+  locator.registerLazySingleton(() => GetCurrentUser(locator()));
+  locator.registerLazySingleton(() => UpdateCurrentUser(locator()));
 
   // repository
   locator.registerLazySingleton<AuthRepository>(
@@ -57,6 +57,9 @@ void init() {
       localDataSource: locator(),
     ),
   );
+  locator.registerLazySingleton<UserRepository>(
+    () => UserRepositoryImpl(locator()),
+  );
 
   // data source
   locator.registerLazySingleton<AuthRemoteDataSource>(
@@ -64,11 +67,17 @@ void init() {
       googleSignIn: locator(),
       firebaseAuth: locator(),
       firebaseFirestore: locator(),
-      firebaseStorage: locator(),
     ),
   );
   locator.registerLazySingleton<AuthLocalDataSource>(
     () => AuthLocalDataSourceImpl(locator()),
+  );
+  locator.registerLazySingleton<UserRemoteDataSource>(
+    () => UserRemoteDataSourceImpl(
+      firebaseAuth: locator(),
+      firebaseFirestore: locator(),
+      firebaseStorage: locator(),
+    ),
   );
 
   // helper
