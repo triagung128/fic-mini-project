@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:fic_mini_project/common/styles.dart';
 import 'package:fic_mini_project/domain/entity/user.dart';
 import 'package:fic_mini_project/presentation/blocs/profile/profile_bloc.dart';
+import 'package:fic_mini_project/presentation/widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -97,96 +98,89 @@ class _ContentUpdateProfile extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(24),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Center(
-              child: InkWell(
-                borderRadius: BorderRadius.circular(16),
-                onTap: () async {
-                  final imagePicker = ImagePicker();
-                  await imagePicker
-                      .pickImage(source: ImageSource.gallery)
-                      .then((image) {
-                    if (image != null) {
-                      context.read<ProfileBloc>().add(SelectImage(image));
-                    }
-                  });
-                },
-                child: SizedBox(
-                  height: 100,
-                  width: 100,
-                  child: Stack(
-                    children: [
-                      BlocBuilder<ProfileBloc, ProfileState>(
-                        buildWhen: (previous, current) =>
-                            current is! UpdateProfileLoading,
-                        builder: (_, state) {
-                          if (state is SelectImageSuccess) {
-                            return CircleAvatar(
-                              radius: 50,
-                              backgroundColor: Colors.grey[300],
-                              backgroundImage: FileImage(
-                                File(state.image.path),
-                              ),
-                            );
-                          } else {
-                            return user.photoUrl != null
-                                ? CircleAvatar(
-                                    radius: 50,
-                                    backgroundColor: Colors.grey[300],
-                                    backgroundImage:
-                                        NetworkImage(user.photoUrl!),
-                                  )
-                                : CircleAvatar(
-                                    radius: 50,
-                                    backgroundColor: Colors.grey[300],
-                                    child: const Icon(Icons.person, size: 48),
-                                  );
-                          }
-                        },
-                      ),
-                      Align(
-                        alignment: Alignment.bottomRight,
-                        child: Container(
-                          padding: const EdgeInsets.all(4),
-                          decoration: BoxDecoration(
-                            color: blueColor,
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: const Icon(
-                            Icons.edit,
-                            color: whiteColor,
-                            size: 18,
-                          ),
+            InkWell(
+              borderRadius: BorderRadius.circular(16),
+              onTap: () async {
+                final imagePicker = ImagePicker();
+                await imagePicker
+                    .pickImage(source: ImageSource.gallery)
+                    .then((image) {
+                  if (image != null) {
+                    context.read<ProfileBloc>().add(SelectImage(image));
+                  }
+                });
+              },
+              child: SizedBox(
+                height: 100,
+                width: 100,
+                child: Stack(
+                  children: [
+                    BlocBuilder<ProfileBloc, ProfileState>(
+                      buildWhen: (previous, current) =>
+                          current is! UpdateProfileLoading,
+                      builder: (_, state) {
+                        if (state is SelectImageSuccess) {
+                          return CircleAvatar(
+                            radius: 50,
+                            backgroundColor: Colors.grey[300],
+                            backgroundImage: FileImage(
+                              File(state.image.path),
+                            ),
+                          );
+                        } else {
+                          return user.photoUrl != null
+                              ? CircleAvatar(
+                                  radius: 50,
+                                  backgroundColor: Colors.grey[300],
+                                  backgroundImage: NetworkImage(user.photoUrl!),
+                                )
+                              : CircleAvatar(
+                                  radius: 50,
+                                  backgroundColor: Colors.grey[300],
+                                  child: const Icon(Icons.person, size: 48),
+                                );
+                        }
+                      },
+                    ),
+                    Align(
+                      alignment: Alignment.bottomRight,
+                      child: Container(
+                        padding: const EdgeInsets.all(4),
+                        decoration: BoxDecoration(
+                          color: blueColor,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: const Icon(
+                          Icons.edit,
+                          color: whiteColor,
+                          size: 18,
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ),
             const SizedBox(height: 30),
-            // Form Name
-            const _LabelText(text: 'Nama'),
-            _CustomTextField(
+            CustomTextField(
               controller: _nameController,
+              labelText: 'Nama',
               hintText: 'Masukkan Nama',
               keyboardType: TextInputType.name,
               textCapitalization: TextCapitalization.words,
             ),
             const SizedBox(height: 20),
-            // Form Email
-            const _LabelText(text: 'Email'),
-            _CustomTextField(
+            CustomTextField(
               controller: _emailController,
+              labelText: 'Email',
               hintText: 'Masukkan Email',
               keyboardType: TextInputType.emailAddress,
             ),
             const SizedBox(height: 20),
-            // Form Phone Number
-            const _LabelText(text: 'No. Handphone'),
-            _CustomTextField(
+            CustomTextField(
               controller: _phoneNumberController,
+              labelText: 'No. Handphone',
               hintText: 'Masukkan No. Handphone',
               keyboardType: TextInputType.phone,
             ),
@@ -220,73 +214,6 @@ class _ContentUpdateProfile extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class _CustomTextField extends StatelessWidget {
-  const _CustomTextField({
-    Key? key,
-    required this.hintText,
-    required this.keyboardType,
-    required this.controller,
-    this.textCapitalization = TextCapitalization.none,
-  }) : super(key: key);
-
-  final String hintText;
-  final TextInputType keyboardType;
-  final TextCapitalization textCapitalization;
-  final TextEditingController controller;
-
-  @override
-  Widget build(BuildContext context) {
-    return TextField(
-      controller: controller,
-      keyboardType: keyboardType,
-      textCapitalization: textCapitalization,
-      decoration: InputDecoration(
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: 24,
-          vertical: 21,
-        ),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(16),
-          borderSide: BorderSide.none,
-        ),
-        filled: true,
-        fillColor: Colors.transparent.withOpacity(0.05),
-        hintText: hintText,
-        hintStyle: Theme.of(context)
-            .textTheme
-            .bodyText2!
-            .copyWith(color: navyColor.withOpacity(0.5)),
-      ),
-    );
-  }
-}
-
-class _LabelText extends StatelessWidget {
-  const _LabelText({
-    Key? key,
-    required this.text,
-  }) : super(key: key);
-
-  final String text;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 10),
-      child: Text(
-        text,
-        style: Theme.of(context)
-            .textTheme
-            .bodyText1!
-            .copyWith(color: navyColor, fontWeight: FontWeight.w700),
       ),
     );
   }
