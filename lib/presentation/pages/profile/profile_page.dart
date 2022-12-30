@@ -146,11 +146,7 @@ class _ListMenuProfile extends StatelessWidget {
       elevation: 4,
       child: ListTile(
         onTap: onPressed,
-        title: Text(
-          text,
-          style:
-              Theme.of(context).textTheme.bodyText2!.copyWith(color: navyColor),
-        ),
+        title: Text(text),
         trailing: const Icon(Icons.arrow_forward_ios),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),
@@ -174,11 +170,9 @@ Future<void> _showConfirmLogout(BuildContext context) {
               Theme.of(context).textTheme.headline6!.copyWith(color: navyColor),
         ),
         icon: const Icon(Icons.logout),
-        content: Text(
+        content: const Text(
           'Apakah Anda ingin logout ?',
           textAlign: TextAlign.center,
-          style:
-              Theme.of(context).textTheme.bodyText2!.copyWith(color: navyColor),
         ),
         actionsAlignment: MainAxisAlignment.center,
         actions: [
@@ -191,13 +185,7 @@ Future<void> _showConfirmLogout(BuildContext context) {
                 borderRadius: BorderRadius.circular(16),
               ),
             ),
-            child: Text(
-              'Ya',
-              style: Theme.of(context)
-                  .textTheme
-                  .button!
-                  .copyWith(color: whiteColor),
-            ),
+            child: const Text('Ya'),
           ),
           ElevatedButton(
             onPressed: () => Navigator.pop(context),
@@ -206,13 +194,7 @@ Future<void> _showConfirmLogout(BuildContext context) {
                 borderRadius: BorderRadius.circular(16),
               ),
             ),
-            child: Text(
-              'Tidak',
-              style: Theme.of(context)
-                  .textTheme
-                  .button!
-                  .copyWith(color: whiteColor),
-            ),
+            child: const Text('Tidak'),
           ),
         ],
       );

@@ -51,12 +51,8 @@ class LoginPage extends StatelessWidget {
                         ),
                   ),
                   const SizedBox(height: 8),
-                  Text(
+                  const Text(
                     'Silahkan login terlebih dahulu sebagai vendor atau member untuk melanjutkan.',
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyText2!
-                        .copyWith(color: navyColor),
                   ),
                   const SizedBox(height: 80),
                   Center(
@@ -145,13 +141,7 @@ class _LoginButton extends StatelessWidget {
           ),
           Align(
             alignment: Alignment.center,
-            child: Text(
-              text,
-              style: Theme.of(context)
-                  .textTheme
-                  .button!
-                  .copyWith(color: whiteColor),
-            ),
+            child: Text(text),
           ),
         ],
       ),

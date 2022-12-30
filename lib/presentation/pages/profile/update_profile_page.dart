@@ -211,13 +211,7 @@ class _ContentUpdateProfile extends StatelessWidget {
                   icon: state is UpdateProfileLoading
                       ? const CircularProgressIndicator()
                       : const Icon(Icons.save),
-                  label: Text(
-                    'Simpan',
-                    style: Theme.of(context)
-                        .textTheme
-                        .button!
-                        .copyWith(color: whiteColor),
-                  ),
+                  label: const Text('Simpan'),
                   style: ElevatedButton.styleFrom(
                     fixedSize: Size(MediaQuery.of(context).size.width, 57),
                   ),
@@ -251,7 +245,6 @@ class _CustomTextField extends StatelessWidget {
       controller: controller,
       keyboardType: keyboardType,
       textCapitalization: textCapitalization,
-      style: Theme.of(context).textTheme.bodyText2!.copyWith(color: navyColor),
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.symmetric(
           horizontal: 24,
@@ -290,8 +283,10 @@ class _LabelText extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 10),
       child: Text(
         text,
-        style:
-            Theme.of(context).textTheme.bodyText1!.copyWith(color: navyColor),
+        style: Theme.of(context)
+            .textTheme
+            .bodyText1!
+            .copyWith(color: navyColor, fontWeight: FontWeight.w700),
       ),
     );
   }

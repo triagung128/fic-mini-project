@@ -1,3 +1,4 @@
+import 'package:fic_mini_project/common/routes.dart';
 import 'package:fic_mini_project/common/styles.dart';
 import 'package:fic_mini_project/presentation/blocs/profile/profile_bloc.dart';
 import 'package:flutter/material.dart';
@@ -31,47 +32,47 @@ class _VendorHomePageState extends State<VendorHomePage> {
     context.read<ProfileBloc>().add(FetchProfile());
   }
 
-  final List<MenuModel> _listMenu = [
-    MenuModel(
-      onPressed: () {},
-      icon: const FaIcon(
-        FontAwesomeIcons.tags,
-        size: 32,
-        color: whiteColor,
-      ),
-      labelText: 'Kategori',
-    ),
-    MenuModel(
-      onPressed: () {},
-      icon: const FaIcon(
-        FontAwesomeIcons.mugHot,
-        size: 32,
-        color: whiteColor,
-      ),
-      labelText: 'Produk',
-    ),
-    MenuModel(
-      onPressed: () {},
-      icon: const FaIcon(
-        FontAwesomeIcons.cashRegister,
-        size: 32,
-        color: whiteColor,
-      ),
-      labelText: 'Point Of Sales',
-    ),
-    MenuModel(
-      onPressed: () {},
-      icon: const FaIcon(
-        FontAwesomeIcons.qrcode,
-        size: 32,
-        color: whiteColor,
-      ),
-      labelText: 'Scan QR Code',
-    ),
-  ];
-
   @override
   Widget build(BuildContext context) {
+    final List<MenuModel> listMenu = [
+      MenuModel(
+        onPressed: () => Navigator.pushNamed(context, categoryRoute),
+        icon: const FaIcon(
+          FontAwesomeIcons.tags,
+          size: 32,
+          color: whiteColor,
+        ),
+        labelText: 'Kategori',
+      ),
+      MenuModel(
+        onPressed: () {},
+        icon: const FaIcon(
+          FontAwesomeIcons.mugHot,
+          size: 32,
+          color: whiteColor,
+        ),
+        labelText: 'Produk',
+      ),
+      MenuModel(
+        onPressed: () {},
+        icon: const FaIcon(
+          FontAwesomeIcons.cashRegister,
+          size: 32,
+          color: whiteColor,
+        ),
+        labelText: 'Point Of Sales',
+      ),
+      MenuModel(
+        onPressed: () {},
+        icon: const FaIcon(
+          FontAwesomeIcons.qrcode,
+          size: 32,
+          color: whiteColor,
+        ),
+        labelText: 'Scan QR Code',
+      ),
+    ];
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Beranda'),
@@ -118,10 +119,6 @@ class _VendorHomePageState extends State<VendorHomePage> {
                             state is FetchProfileSuccess
                                 ? 'Hi, ${state.user.name}'
                                 : 'Loading...',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyText2!
-                                .copyWith(color: navyColor),
                           );
                         },
                       ),
@@ -162,7 +159,7 @@ class _VendorHomePageState extends State<VendorHomePage> {
                 'Main Menu',
                 style: Theme.of(context)
                     .textTheme
-                    .bodyText2!
+                    .subtitle2!
                     .copyWith(color: navyColor),
               ),
               const SizedBox(height: 16),
@@ -173,9 +170,9 @@ class _VendorHomePageState extends State<VendorHomePage> {
                   ),
                   physics: const NeverScrollableScrollPhysics(),
                   padding: const EdgeInsets.all(4),
-                  itemCount: _listMenu.length,
+                  itemCount: listMenu.length,
                   itemBuilder: (context, index) {
-                    final menuItem = _listMenu[index];
+                    final menuItem = listMenu[index];
                     return _MenuCard(
                       onPressed: menuItem.onPressed,
                       icon: menuItem.icon,
@@ -207,7 +204,7 @@ class _MenuCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: onPressed,
       borderRadius: BorderRadius.circular(16),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -225,8 +222,6 @@ class _MenuCard extends StatelessWidget {
           Text(
             labelText,
             textAlign: TextAlign.center,
-            style:
-                Theme.of(context).textTheme.caption!.copyWith(color: navyColor),
           ),
         ],
       ),
