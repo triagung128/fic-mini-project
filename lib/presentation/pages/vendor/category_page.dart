@@ -1,7 +1,6 @@
 import 'package:fic_mini_project/common/styles.dart';
 import 'package:fic_mini_project/domain/entity/category.dart';
 import 'package:fic_mini_project/presentation/blocs/category/category_bloc.dart';
-import 'package:fic_mini_project/presentation/widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -23,13 +22,19 @@ class _CategoryPageState extends State<CategoryPage> {
   }
 
   @override
+  void dispose() {
+    _nameController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocListener<CategoryBloc, CategoryState>(
       listener: (context, state) {
         if (state is CategoryActionSuccess) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(state.message)),
-          );
+          ScaffoldMessenger.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(SnackBar(content: Text(state.message)));
         }
 
         if (state is CategoryActionFailure) {
@@ -182,7 +187,13 @@ Future<void> _showFormCategory({
   required bool isEdit,
   Category? category,
 }) {
-  if (isEdit) nameController.text = category!.name;
+  if (isEdit) {
+    nameController.text = category!.name;
+  } else {
+    nameController.text = '';
+  }
+
+  final formKey = GlobalKey<FormState>();
 
   return showDialog(
     context: context,
@@ -198,16 +209,36 @@ Future<void> _showFormCategory({
       content: SizedBox(
         width: MediaQuery.of(context).size.width,
         child: SingleChildScrollView(
-          child: Column(
-            children: [
-              CustomTextField(
-                hintText: 'Masukkan Nama',
-                labelText: 'Nama',
-                keyboardType: TextInputType.name,
-                textCapitalization: TextCapitalization.words,
-                controller: nameController,
-              ),
-            ],
+          child: Form(
+            key: formKey,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Nama',
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyText1!
+                      .copyWith(color: navyColor, fontWeight: FontWeight.w700),
+                ),
+                const SizedBox(height: 10),
+                TextFormField(
+                  controller: nameController,
+                  decoration: const InputDecoration(
+                    hintText: 'Masukkan Nama',
+                  ),
+                  keyboardType: TextInputType.name,
+                  textCapitalization: TextCapitalization.words,
+                  validator: (value) {
+                    if (value.toString().isEmpty) {
+                      return 'Nama tidak boleh kosong';
+                    }
+                    return null;
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -217,33 +248,39 @@ Future<void> _showFormCategory({
       ),
       actions: [
         TextButton(
-          onPressed: () => Navigator.pop(context),
+          onPressed: () {
+            Navigator.pop(context);
+            formKey.currentState!.reset();
+          },
           child: const Text('Batal'),
         ),
         ElevatedButton(
           onPressed: () {
-            Navigator.pop(context);
-            final categoryBloc = context.read<CategoryBloc>();
-            if (!isEdit) {
-              final insertCategory = Category(
-                id: null,
-                name: nameController.text,
-              );
-              categoryBloc.add(OnInsertUpdateCategoryEvent(
-                category: insertCategory,
-                isUpdate: false,
-              ));
-            } else {
-              final updateCategory = Category(
-                id: category!.id,
-                name: nameController.text,
-              );
-              categoryBloc.add(OnInsertUpdateCategoryEvent(
-                category: updateCategory,
-                isUpdate: true,
-              ));
+            final isValidForm = formKey.currentState!.validate();
+            if (isValidForm) {
+              Navigator.pop(context);
+              final categoryBloc = context.read<CategoryBloc>();
+              if (!isEdit) {
+                final insertCategory = Category(
+                  id: null,
+                  name: nameController.text,
+                );
+                categoryBloc.add(OnInsertUpdateCategoryEvent(
+                  category: insertCategory,
+                  isUpdate: false,
+                ));
+              } else {
+                final updateCategory = Category(
+                  id: category!.id,
+                  name: nameController.text,
+                );
+                categoryBloc.add(OnInsertUpdateCategoryEvent(
+                  category: updateCategory,
+                  isUpdate: true,
+                ));
+              }
+              formKey.currentState!.reset();
             }
-            nameController.text = '';
           },
           child: const Text('Simpan'),
         ),

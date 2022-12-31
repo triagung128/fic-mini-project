@@ -67,6 +67,25 @@ class MyApp extends StatelessWidget {
                     .headline6!
                     .copyWith(color: blueColor, fontWeight: FontWeight.w700),
               ),
+          inputDecorationTheme: Theme.of(context).inputDecorationTheme.copyWith(
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 24,
+                  vertical: 21,
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(16),
+                  borderSide: BorderSide.none,
+                ),
+                filled: true,
+                fillColor: Colors.transparent.withOpacity(0.05),
+                hintStyle: Theme.of(context)
+                    .textTheme
+                    .bodyText2!
+                    .copyWith(color: navyColor.withOpacity(0.5)),
+              ),
         ),
         initialRoute: splashRoute,
         onGenerateRoute: Routes.generateRoute,

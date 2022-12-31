@@ -9,6 +9,7 @@ class CustomTextField extends StatelessWidget {
     required this.keyboardType,
     required this.controller,
     this.textCapitalization = TextCapitalization.none,
+    this.validator,
   }) : super(key: key);
 
   final String hintText;
@@ -16,6 +17,7 @@ class CustomTextField extends StatelessWidget {
   final TextInputType keyboardType;
   final TextCapitalization textCapitalization;
   final TextEditingController controller;
+  final String? Function(String? value)? validator;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +32,7 @@ class CustomTextField extends StatelessWidget {
               .copyWith(color: navyColor, fontWeight: FontWeight.w700),
         ),
         const SizedBox(height: 10),
-        TextField(
+        TextFormField(
           controller: controller,
           keyboardType: keyboardType,
           textCapitalization: textCapitalization,
@@ -54,6 +56,8 @@ class CustomTextField extends StatelessWidget {
                 .bodyText2!
                 .copyWith(color: navyColor.withOpacity(0.5)),
           ),
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          validator: validator,
         ),
       ],
     );
