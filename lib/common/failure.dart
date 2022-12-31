@@ -16,3 +16,7 @@ class ServerFailure extends Failure {
 class GoogleSignInFailure extends Failure {
   const GoogleSignInFailure(String message) : super(message);
 }
+
+class DatabaseFailure extends Failure {
+  const DatabaseFailure(String message) : super(message);
+}
