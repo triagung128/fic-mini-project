@@ -34,7 +34,12 @@ class _CategoryPageState extends State<CategoryPage> {
         if (state is CategoryActionSuccess) {
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
-            ..showSnackBar(SnackBar(content: Text(state.message)));
+            ..showSnackBar(
+              SnackBar(
+                content: Text(state.message),
+                backgroundColor: Colors.green,
+              ),
+            );
         }
 
         if (state is CategoryActionFailure) {

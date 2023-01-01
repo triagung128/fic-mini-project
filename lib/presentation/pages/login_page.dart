@@ -27,7 +27,10 @@ class LoginPage extends StatelessWidget {
               ScaffoldMessenger.of(context)
                 ..hideCurrentSnackBar()
                 ..showSnackBar(
-                  SnackBar(content: Text(state.message)),
+                  SnackBar(
+                    content: Text(state.message),
+                    backgroundColor: Colors.red,
+                  ),
                 );
             }
           }
