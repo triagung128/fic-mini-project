@@ -52,8 +52,8 @@ class _CategoryPageState extends State<CategoryPage> {
         }
       },
       child: Scaffold(
+        backgroundColor: greyColor,
         appBar: AppBar(
-          elevation: 4,
           title: const Text('Kategori'),
         ),
         body: BlocBuilder<CategoryBloc, CategoryState>(
@@ -130,8 +130,18 @@ class _CategoryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 8),
-      elevation: 4,
+      elevation: 0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+      ),
       child: ListTile(
+        contentPadding: const EdgeInsets.symmetric(
+          vertical: 14,
+          horizontal: 15,
+        ),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        ),
         onTap: () {
           showDialog(
             context: context,
