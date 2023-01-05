@@ -4,6 +4,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:fic_mini_project/common/styles.dart';
 import 'package:fic_mini_project/domain/entity/user.dart';
 import 'package:fic_mini_project/presentation/blocs/profile/profile_bloc.dart';
+import 'package:fic_mini_project/presentation/widgets/text_form_label.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -173,13 +174,7 @@ class _ContentUpdateProfile extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 30),
-              Text(
-                'Nama',
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyText1!
-                    .copyWith(color: navyColor, fontWeight: FontWeight.w700),
-              ),
+              const TextFormLabel(label: 'Nama'),
               const SizedBox(height: 10),
               TextFormField(
                 controller: _nameController,
@@ -196,13 +191,7 @@ class _ContentUpdateProfile extends StatelessWidget {
                 },
               ),
               const SizedBox(height: 20),
-              Text(
-                'Email',
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyText1!
-                    .copyWith(color: navyColor, fontWeight: FontWeight.w700),
-              ),
+              const TextFormLabel(label: 'Email'),
               const SizedBox(height: 10),
               TextFormField(
                 controller: _emailController,
@@ -221,13 +210,7 @@ class _ContentUpdateProfile extends StatelessWidget {
                 },
               ),
               const SizedBox(height: 20),
-              Text(
-                'No. Handphone',
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyText1!
-                    .copyWith(color: navyColor, fontWeight: FontWeight.w700),
-              ),
+              const TextFormLabel(label: 'No. Handphone'),
               const SizedBox(height: 10),
               TextFormField(
                 controller: _phoneNumberController,

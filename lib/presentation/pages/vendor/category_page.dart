@@ -4,6 +4,7 @@ import 'package:fic_mini_project/presentation/blocs/category/category_bloc.dart'
 import 'package:fic_mini_project/presentation/widgets/action_dialog.dart';
 import 'package:fic_mini_project/presentation/widgets/confirm_delete_dialog.dart';
 import 'package:fic_mini_project/presentation/widgets/error_dialog.dart';
+import 'package:fic_mini_project/presentation/widgets/text_form_label.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -200,6 +201,7 @@ class _FormCategoryState extends State<_FormCategory> {
         _isEdit ? 'Ubah Kategori' : 'Tambah Kategori',
         textAlign: TextAlign.center,
       ),
+      titlePadding: const EdgeInsets.symmetric(vertical: 24),
       content: SizedBox(
         width: MediaQuery.of(context).size.width,
         child: SingleChildScrollView(
@@ -209,24 +211,18 @@ class _FormCategoryState extends State<_FormCategory> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  'Nama',
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyText1!
-                      .copyWith(color: navyColor, fontWeight: FontWeight.w700),
-                ),
+                const TextFormLabel(label: 'Nama Kategori'),
                 const SizedBox(height: 10),
                 TextFormField(
                   controller: _nameController,
                   decoration: const InputDecoration(
-                    hintText: 'Masukkan Nama',
+                    hintText: 'Masukkan Nama Kategori',
                   ),
                   keyboardType: TextInputType.name,
                   textCapitalization: TextCapitalization.words,
                   validator: (value) {
                     if (value.toString().isEmpty) {
-                      return 'Nama tidak boleh kosong';
+                      return 'Nama kategori tidak boleh kosong';
                     }
                     return null;
                   },

@@ -6,6 +6,7 @@ import 'package:fic_mini_project/domain/entity/product.dart';
 import 'package:fic_mini_project/presentation/blocs/category/category_bloc.dart';
 import 'package:fic_mini_project/presentation/blocs/product/product_bloc.dart';
 import 'package:fic_mini_project/presentation/widgets/error_dialog.dart';
+import 'package:fic_mini_project/presentation/widgets/text_form_label.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -100,11 +101,7 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'Nama Produk',
-                    style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                        color: navyColor, fontWeight: FontWeight.w700),
-                  ),
+                  const TextFormLabel(label: 'Nama Produk'),
                   const SizedBox(height: 10),
                   TextFormField(
                     controller: _nameController,
@@ -121,11 +118,7 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
                     },
                   ),
                   const SizedBox(height: 20),
-                  Text(
-                    'Harga',
-                    style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                        color: navyColor, fontWeight: FontWeight.w700),
-                  ),
+                  const TextFormLabel(label: 'Harga'),
                   const SizedBox(height: 10),
                   TextFormField(
                     controller: _priceController,
@@ -145,11 +138,7 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
                     },
                   ),
                   const SizedBox(height: 20),
-                  Text(
-                    'Kategori',
-                    style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                        color: navyColor, fontWeight: FontWeight.w700),
-                  ),
+                  const TextFormLabel(label: 'Kategori'),
                   const SizedBox(height: 10),
                   BlocBuilder<CategoryBloc, CategoryState>(
                     builder: (_, state) {
@@ -192,11 +181,7 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
                     },
                   ),
                   const SizedBox(height: 20),
-                  Text(
-                    'Foto Produk',
-                    style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                        color: navyColor, fontWeight: FontWeight.w700),
-                  ),
+                  const TextFormLabel(label: 'Foto Produk'),
                   const SizedBox(height: 10),
                   Container(
                     padding: const EdgeInsets.all(8),
