@@ -3,10 +3,10 @@ import 'package:fic_mini_project/data/db/database_helper.dart';
 import 'package:fic_mini_project/data/models/category_model.dart';
 
 abstract class CategoryLocalDataSource {
-  Future<List<CategoryModel>> getAllCategory();
+  Future<List<CategoryModel>> getAllCategories();
   Future<String> insertCategory(CategoryModel category);
   Future<String> updateCategory(CategoryModel category);
-  Future<String> removeCategory(int id);
+  Future<String> removeCategory(CategoryModel category);
 }
 
 class CategoryLocalDataSourceImpl extends CategoryLocalDataSource {
@@ -15,9 +15,9 @@ class CategoryLocalDataSourceImpl extends CategoryLocalDataSource {
   CategoryLocalDataSourceImpl(this.databaseHelper);
 
   @override
-  Future<List<CategoryModel>> getAllCategory() async {
+  Future<List<CategoryModel>> getAllCategories() async {
     try {
-      final result = await databaseHelper.getAllCategory();
+      final result = await databaseHelper.getAllCategories();
       return result.map((category) => CategoryModel.fromMap(category)).toList();
     } catch (e) {
       throw DatabaseException(e.toString());
@@ -35,9 +35,9 @@ class CategoryLocalDataSourceImpl extends CategoryLocalDataSource {
   }
 
   @override
-  Future<String> removeCategory(int id) async {
+  Future<String> removeCategory(CategoryModel category) async {
     try {
-      await databaseHelper.removeCategory(id);
+      await databaseHelper.removeCategory(category);
       return 'Berhasil menghapus kategori';
     } catch (e) {
       throw DatabaseException(e.toString());

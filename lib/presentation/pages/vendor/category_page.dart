@@ -1,6 +1,9 @@
 import 'package:fic_mini_project/common/styles.dart';
 import 'package:fic_mini_project/domain/entity/category.dart';
 import 'package:fic_mini_project/presentation/blocs/category/category_bloc.dart';
+import 'package:fic_mini_project/presentation/widgets/action_dialog.dart';
+import 'package:fic_mini_project/presentation/widgets/confirm_delete_dialog.dart';
+import 'package:fic_mini_project/presentation/widgets/error_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -13,18 +16,10 @@ class CategoryPage extends StatefulWidget {
 }
 
 class _CategoryPageState extends State<CategoryPage> {
-  final _nameController = TextEditingController();
-
   @override
   void initState() {
     super.initState();
-    context.read<CategoryBloc>().add(OnFetchAllCategoryEvent());
-  }
-
-  @override
-  void dispose() {
-    _nameController.dispose();
-    super.dispose();
+    context.read<CategoryBloc>().add(OnFetchAllCategories());
   }
 
   @override
@@ -37,7 +32,7 @@ class _CategoryPageState extends State<CategoryPage> {
             ..showSnackBar(
               SnackBar(
                 content: Text(state.message),
-                backgroundColor: Colors.green,
+                backgroundColor: Colors.green[400],
               ),
             );
         }
@@ -45,9 +40,8 @@ class _CategoryPageState extends State<CategoryPage> {
         if (state is CategoryActionFailure) {
           showDialog(
             context: context,
-            builder: (_) => AlertDialog(
-              content: Text(state.message),
-            ),
+            barrierDismissible: false,
+            builder: (_) => ErrorDialog(message: state.message),
           );
         }
       },
@@ -63,32 +57,22 @@ class _CategoryPageState extends State<CategoryPage> {
                 child: CircularProgressIndicator(),
               );
             } else if (state is CategoryFailure) {
-              return Padding(
-                padding: const EdgeInsets.all(24),
-                child: Center(
-                  child: Text(state.message),
-                ),
+              return Center(
+                child: Text(state.message),
               );
             } else if (state is CategoryEmpty) {
-              return const Padding(
-                padding: EdgeInsets.all(24),
-                child: Center(
-                  child: Text('Data Kosong'),
-                ),
+              return const Center(
+                child: Text('Data Kosong'),
               );
-            } else if (state is FetchAllCategorySuccess) {
+            } else if (state is AllCategoriesLoaded) {
               return ListView.builder(
-                itemCount: state.listCategory.length,
+                itemCount: state.categories.length,
                 padding: const EdgeInsets.symmetric(
                   horizontal: 24,
                   vertical: 8,
                 ),
                 itemBuilder: (context, index) {
-                  final category = state.listCategory[index];
-                  return _CategoryCard(
-                    category: category,
-                    nameController: _nameController,
-                  );
+                  return _CategoryCard(category: state.categories[index]);
                 },
               );
             } else {
@@ -97,16 +81,13 @@ class _CategoryPageState extends State<CategoryPage> {
           },
         ),
         floatingActionButton: BlocBuilder<CategoryBloc, CategoryState>(
-          buildWhen: (previous, current) => current is! CategoryLoading,
-          builder: (context, state) {
+          buildWhen: (_, current) => current is! CategoryLoading,
+          builder: (context, _) {
             return FloatingActionButton(
-              onPressed: () {
-                _showFormCategory(
-                  context: context,
-                  nameController: _nameController,
-                  isEdit: false,
-                );
-              },
+              onPressed: () => showDialog(
+                context: context,
+                builder: (_) => const _FormCategory(),
+              ),
               child: const Icon(Icons.add),
             );
           },
@@ -120,11 +101,9 @@ class _CategoryCard extends StatelessWidget {
   const _CategoryCard({
     Key? key,
     required this.category,
-    required this.nameController,
   }) : super(key: key);
 
   final Category category;
-  final TextEditingController nameController;
 
   @override
   Widget build(BuildContext context) {
@@ -142,53 +121,37 @@ class _CategoryCard extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
         ),
-        onTap: () {
-          showDialog(
-            context: context,
-            builder: (context) => AlertDialog(
-              insetPadding: const EdgeInsets.symmetric(
-                horizontal: 42,
-                vertical: 16,
-              ),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
-              ),
-              title: const Text('Aksi'),
-              content: SizedBox(
-                width: MediaQuery.of(context).size.width,
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      ListTile(
-                        onTap: () {
-                          Navigator.pop(context);
-                          _showFormCategory(
-                            context: context,
-                            nameController: nameController,
-                            isEdit: true,
-                            category: category,
-                          );
-                        },
-                        title: const Text('Ubah Kategori'),
-                        leading: const Icon(Icons.edit),
-                        trailing: const Icon(Icons.arrow_forward_ios),
-                      ),
-                      ListTile(
-                        onTap: () {
-                          Navigator.pop(context);
-                          _showConfirmDeleteCategory(context, category.id!);
-                        },
-                        title: const Text('Hapus Kategori'),
-                        leading: const Icon(Icons.delete_forever),
-                        trailing: const Icon(Icons.arrow_forward_ios),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          );
-        },
+        onTap: () => showDialog(
+          context: context,
+          builder: (context) => ActionDialog(
+            titleUpdateAction: 'Ubah Kategori',
+            updateActionOnTap: () {
+              Navigator.pop(context);
+              showDialog(
+                context: context,
+                builder: (_) => _FormCategory(category: category),
+              );
+            },
+            titleDeleteAction: 'Hapus Kategori',
+            deleteActionOnTap: () {
+              Navigator.pop(context);
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return ConfirmDeleteDialog(
+                    title: 'Hapus Kategori',
+                    yesOnPressed: () {
+                      Navigator.pop(context);
+                      context
+                          .read<CategoryBloc>()
+                          .add(OnDeleteCategory(category));
+                    },
+                  );
+                },
+              );
+            },
+          ),
+        ),
         leading: const FaIcon(FontAwesomeIcons.tags),
         title: Text(category.name),
       ),
@@ -196,36 +159,46 @@ class _CategoryCard extends StatelessWidget {
   }
 }
 
-Future<void> _showFormCategory({
-  required BuildContext context,
-  required TextEditingController nameController,
-  required bool isEdit,
-  Category? category,
-}) {
-  if (isEdit) {
-    nameController.text = category!.name;
-  } else {
-    nameController.text = '';
+class _FormCategory extends StatefulWidget {
+  const _FormCategory({
+    Key? key,
+    this.category,
+  }) : super(key: key);
+
+  final Category? category;
+
+  @override
+  State<_FormCategory> createState() => _FormCategoryState();
+}
+
+class _FormCategoryState extends State<_FormCategory> {
+  final _formKey = GlobalKey<FormState>();
+  final _nameController = TextEditingController();
+  bool _isEdit = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _isEdit = widget.category != null;
+    _nameController.text = _isEdit ? widget.category!.name : '';
   }
 
-  final formKey = GlobalKey<FormState>();
-
-  return showDialog(
-    context: context,
-    builder: (context) => AlertDialog(
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(8),
       ),
       insetPadding: const EdgeInsets.symmetric(horizontal: 16),
       title: Text(
-        isEdit ? 'Ubah Kategori' : 'Tambah Kategori',
+        _isEdit ? 'Ubah Kategori' : 'Tambah Kategori',
         textAlign: TextAlign.center,
       ),
       content: SizedBox(
         width: MediaQuery.of(context).size.width,
         child: SingleChildScrollView(
           child: Form(
-            key: formKey,
+            key: _formKey,
             autovalidateMode: AutovalidateMode.onUserInteraction,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -239,7 +212,7 @@ Future<void> _showFormCategory({
                 ),
                 const SizedBox(height: 10),
                 TextFormField(
-                  controller: nameController,
+                  controller: _nameController,
                   decoration: const InputDecoration(
                     hintText: 'Masukkan Nama',
                   ),
@@ -263,85 +236,29 @@ Future<void> _showFormCategory({
       ),
       actions: [
         TextButton(
-          onPressed: () {
-            Navigator.pop(context);
-            formKey.currentState!.reset();
-          },
+          onPressed: () => Navigator.pop(context),
           child: const Text('Batal'),
         ),
         ElevatedButton(
           onPressed: () {
-            final isValidForm = formKey.currentState!.validate();
-            if (isValidForm) {
-              Navigator.pop(context);
-              final categoryBloc = context.read<CategoryBloc>();
-              if (!isEdit) {
-                final insertCategory = Category(
-                  id: null,
-                  name: nameController.text,
-                );
-                categoryBloc.add(OnInsertUpdateCategoryEvent(
-                  category: insertCategory,
-                  isUpdate: false,
-                ));
+            if (_formKey.currentState!.validate()) {
+              final data = Category(
+                id: _isEdit ? widget.category!.id : null,
+                name: _nameController.text,
+              );
+
+              if (!_isEdit) {
+                context.read<CategoryBloc>().add(OnCreateCategory(data));
               } else {
-                final updateCategory = Category(
-                  id: category!.id,
-                  name: nameController.text,
-                );
-                categoryBloc.add(OnInsertUpdateCategoryEvent(
-                  category: updateCategory,
-                  isUpdate: true,
-                ));
+                context.read<CategoryBloc>().add(OnUpdateCategory(data));
               }
-              formKey.currentState!.reset();
+
+              Navigator.pop(context);
             }
           },
           child: const Text('Simpan'),
         ),
       ],
-    ),
-  );
-}
-
-Future<void> _showConfirmDeleteCategory(BuildContext context, int categoryId) {
-  return showDialog(
-    context: context,
-    builder: (context) {
-      return AlertDialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
-        title: Text(
-          'Hapus Kategori',
-          style:
-              Theme.of(context).textTheme.headline6!.copyWith(color: navyColor),
-        ),
-        icon: const Icon(
-          Icons.delete_forever,
-          color: Colors.red,
-        ),
-        content: const Text(
-          'Apakah Anda ingin menghapus ?',
-          textAlign: TextAlign.center,
-        ),
-        actionsAlignment: MainAxisAlignment.center,
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Tidak'),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.pop(context);
-              context
-                  .read<CategoryBloc>()
-                  .add(OnRemoveCategoryEvent(categoryId));
-            },
-            child: const Text('Ya'),
-          ),
-        ],
-      );
-    },
-  );
+    );
+  }
 }

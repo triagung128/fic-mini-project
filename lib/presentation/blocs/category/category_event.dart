@@ -7,26 +7,31 @@ abstract class CategoryEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class OnFetchAllCategoryEvent extends CategoryEvent {}
+class OnFetchAllCategories extends CategoryEvent {}
 
-class OnInsertUpdateCategoryEvent extends CategoryEvent {
+class OnCreateCategory extends CategoryEvent {
   final Category category;
-  final bool isUpdate;
 
-  const OnInsertUpdateCategoryEvent({
-    required this.category,
-    required this.isUpdate,
-  });
+  const OnCreateCategory(this.category);
 
   @override
   List<Object> get props => [category];
 }
 
-class OnRemoveCategoryEvent extends CategoryEvent {
-  final int id;
+class OnUpdateCategory extends CategoryEvent {
+  final Category category;
 
-  const OnRemoveCategoryEvent(this.id);
+  const OnUpdateCategory(this.category);
 
   @override
-  List<Object> get props => [id];
+  List<Object> get props => [category];
+}
+
+class OnDeleteCategory extends CategoryEvent {
+  final Category category;
+
+  const OnDeleteCategory(this.category);
+
+  @override
+  List<Object> get props => [category];
 }

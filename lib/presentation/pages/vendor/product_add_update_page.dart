@@ -34,7 +34,7 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
   @override
   void initState() {
     super.initState();
-    context.read<CategoryBloc>().add(OnFetchAllCategoryEvent());
+    context.read<CategoryBloc>().add(OnFetchAllCategories());
 
     _isEdit = widget.product != null;
 
@@ -59,6 +59,7 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
         BlocListener<ProductBloc, ProductState>(
           listener: (context, state) {
             if (state is ProductActionSuccess) {
+              Navigator.pop(context);
               ScaffoldMessenger.of(context)
                 ..hideCurrentSnackBar()
                 ..showSnackBar(
@@ -67,7 +68,6 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
                     backgroundColor: Colors.green[400],
                   ),
                 );
-              Navigator.pop(context);
             }
 
             if (state is ProductActionFailure) {
@@ -153,7 +153,7 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
                   const SizedBox(height: 10),
                   BlocBuilder<CategoryBloc, CategoryState>(
                     builder: (_, state) {
-                      if (state is FetchAllCategorySuccess) {
+                      if (state is AllCategoriesLoaded) {
                         return DropdownButtonFormField(
                           borderRadius: BorderRadius.circular(16),
                           hint: const Text('Pilih Kategori'),
@@ -166,7 +166,7 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
                           value: widget.product != null
                               ? widget.product!.category
                               : null,
-                          items: state.listCategory
+                          items: state.categories
                               .map(
                                 (category) => DropdownMenuItem(
                                   value: category,
@@ -281,9 +281,7 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
         ),
         actions: [
           ElevatedButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
+            onPressed: () => Navigator.pop(context),
             child: const Text('Oke'),
           ),
         ],

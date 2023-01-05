@@ -52,7 +52,7 @@ class DatabaseHelper {
     ''');
   }
 
-  Future<List<Map<String, dynamic>>> getAllCategory() async {
+  Future<List<Map<String, dynamic>>> getAllCategories() async {
     final db = await database;
     return await db!.query(
       _tblCategory,
@@ -75,12 +75,12 @@ class DatabaseHelper {
     );
   }
 
-  Future<int> removeCategory(int id) async {
+  Future<int> removeCategory(CategoryModel category) async {
     final db = await database;
     return await db!.delete(
       _tblCategory,
       where: 'id = ?',
-      whereArgs: [id],
+      whereArgs: [category.id],
     );
   }
 

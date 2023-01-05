@@ -14,7 +14,7 @@ import 'package:fic_mini_project/domain/repositories/auth_repository.dart';
 import 'package:fic_mini_project/domain/repositories/category_repository.dart';
 import 'package:fic_mini_project/domain/repositories/product_repository.dart';
 import 'package:fic_mini_project/domain/repositories/user_repository.dart';
-import 'package:fic_mini_project/domain/usecases/get_all_category.dart';
+import 'package:fic_mini_project/domain/usecases/get_all_categories.dart';
 import 'package:fic_mini_project/domain/usecases/get_all_products.dart';
 import 'package:fic_mini_project/domain/usecases/get_role.dart';
 import 'package:fic_mini_project/domain/usecases/get_current_user.dart';
@@ -59,7 +59,7 @@ void init() {
   );
   locator.registerFactory(
     () => CategoryBloc(
-      getAllCategory: locator(),
+      getAllCategories: locator(),
       insertCategory: locator(),
       updateCategory: locator(),
       removeCategory: locator(),
@@ -82,7 +82,7 @@ void init() {
   locator.registerLazySingleton(() => Logout(locator()));
   locator.registerLazySingleton(() => GetCurrentUser(locator()));
   locator.registerLazySingleton(() => UpdateCurrentUser(locator()));
-  locator.registerLazySingleton(() => GetAllCategory(locator()));
+  locator.registerLazySingleton(() => GetAllCategories(locator()));
   locator.registerLazySingleton(() => InsertCategory(locator()));
   locator.registerLazySingleton(() => UpdateCategory(locator()));
   locator.registerLazySingleton(() => RemoveCategory(locator()));

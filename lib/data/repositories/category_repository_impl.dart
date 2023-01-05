@@ -12,9 +12,9 @@ class CategoryRepositoryImpl extends CategoryRepository {
   CategoryRepositoryImpl(this.localDataSource);
 
   @override
-  Future<Either<Failure, List<Category>>> getAllCategory() async {
+  Future<Either<Failure, List<Category>>> getAllCategories() async {
     try {
-      final result = await localDataSource.getAllCategory();
+      final result = await localDataSource.getAllCategories();
       return Right(result.map((category) => category.toEntity()).toList());
     } on DatabaseException catch (_) {
       return const Left(DatabaseFailure('Gagal mendapatkan data kategori'));
@@ -37,9 +37,10 @@ class CategoryRepositoryImpl extends CategoryRepository {
   }
 
   @override
-  Future<Either<Failure, String>> removeCategory(int id) async {
+  Future<Either<Failure, String>> removeCategory(Category category) async {
     try {
-      final result = await localDataSource.removeCategory(id);
+      final result = await localDataSource
+          .removeCategory(CategoryModel.fromEntity(category));
       return Right(result);
     } on DatabaseException catch (_) {
       return const Left(DatabaseFailure('Gagal hapus kategori'));

@@ -22,6 +22,15 @@ class CategoryFailure extends CategoryState {
 
 class CategoryEmpty extends CategoryState {}
 
+class AllCategoriesLoaded extends CategoryState {
+  final List<Category> categories;
+
+  const AllCategoriesLoaded(this.categories);
+
+  @override
+  List<Object> get props => [categories];
+}
+
 class CategoryActionSuccess extends CategoryState {
   final String message;
 
@@ -38,13 +47,4 @@ class CategoryActionFailure extends CategoryState {
 
   @override
   List<Object> get props => [message];
-}
-
-class FetchAllCategorySuccess extends CategoryState {
-  final List<Category> listCategory;
-
-  const FetchAllCategorySuccess(this.listCategory);
-
-  @override
-  List<Object> get props => [listCategory];
 }
