@@ -115,8 +115,8 @@ class _CategoryCard extends StatelessWidget {
       ),
       child: ListTile(
         contentPadding: const EdgeInsets.symmetric(
-          vertical: 14,
-          horizontal: 15,
+          vertical: 8,
+          horizontal: 24,
         ),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
@@ -181,6 +181,12 @@ class _FormCategoryState extends State<_FormCategory> {
     super.initState();
     _isEdit = widget.category != null;
     _nameController.text = _isEdit ? widget.category!.name : '';
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _nameController.dispose();
   }
 
   @override
