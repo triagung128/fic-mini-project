@@ -52,6 +52,7 @@ dependencies:
   bottom_navy_bar: ^6.0.0
   intl: ^0.17.0
   sqflite: ^2.2.2
+  email_validator: ^2.1.17
 
 dev_dependencies:
   flutter_test:
