@@ -2,28 +2,36 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fic_mini_project/data/datasources/auth_local_data_source.dart';
 import 'package:fic_mini_project/data/datasources/auth_remote_data_source.dart';
 import 'package:fic_mini_project/data/datasources/category_local_data_source.dart';
+import 'package:fic_mini_project/data/datasources/product_local_data_source.dart';
 import 'package:fic_mini_project/data/datasources/user_remote_data_source.dart';
 import 'package:fic_mini_project/data/db/database_helper.dart';
 import 'package:fic_mini_project/data/pf/preference_helper.dart';
 import 'package:fic_mini_project/data/repositories/auth_repository_impl.dart';
 import 'package:fic_mini_project/data/repositories/category_repository_impl.dart';
+import 'package:fic_mini_project/data/repositories/product_repository_impl.dart';
 import 'package:fic_mini_project/data/repositories/user_repository_impl.dart';
 import 'package:fic_mini_project/domain/repositories/auth_repository.dart';
 import 'package:fic_mini_project/domain/repositories/category_repository.dart';
+import 'package:fic_mini_project/domain/repositories/product_repository.dart';
 import 'package:fic_mini_project/domain/repositories/user_repository.dart';
 import 'package:fic_mini_project/domain/usecases/get_all_category.dart';
+import 'package:fic_mini_project/domain/usecases/get_all_products.dart';
 import 'package:fic_mini_project/domain/usecases/get_role.dart';
 import 'package:fic_mini_project/domain/usecases/get_current_user.dart';
 import 'package:fic_mini_project/domain/usecases/get_login_status.dart';
 import 'package:fic_mini_project/domain/usecases/insert_category.dart';
+import 'package:fic_mini_project/domain/usecases/insert_product.dart';
 import 'package:fic_mini_project/domain/usecases/login.dart';
 import 'package:fic_mini_project/domain/usecases/logout.dart';
 import 'package:fic_mini_project/domain/usecases/remove_category.dart';
+import 'package:fic_mini_project/domain/usecases/remove_product.dart';
 import 'package:fic_mini_project/domain/usecases/set_role.dart';
 import 'package:fic_mini_project/domain/usecases/update_category.dart';
 import 'package:fic_mini_project/domain/usecases/update_current_user.dart';
+import 'package:fic_mini_project/domain/usecases/update_product.dart';
 import 'package:fic_mini_project/presentation/blocs/auth/auth_bloc.dart';
 import 'package:fic_mini_project/presentation/blocs/category/category_bloc.dart';
+import 'package:fic_mini_project/presentation/blocs/product/product_bloc.dart';
 import 'package:fic_mini_project/presentation/blocs/profile/profile_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -57,6 +65,14 @@ void init() {
       removeCategory: locator(),
     ),
   );
+  locator.registerFactory(
+    () => ProductBloc(
+      getAllProducts: locator(),
+      insertProduct: locator(),
+      updateProduct: locator(),
+      removeProduct: locator(),
+    ),
+  );
 
   // usecase
   locator.registerLazySingleton(() => Login(locator()));
@@ -70,6 +86,10 @@ void init() {
   locator.registerLazySingleton(() => InsertCategory(locator()));
   locator.registerLazySingleton(() => UpdateCategory(locator()));
   locator.registerLazySingleton(() => RemoveCategory(locator()));
+  locator.registerLazySingleton(() => GetAllProducts(locator()));
+  locator.registerLazySingleton(() => InsertProduct(locator()));
+  locator.registerLazySingleton(() => UpdateProduct(locator()));
+  locator.registerLazySingleton(() => RemoveProduct(locator()));
 
   // repository
   locator.registerLazySingleton<AuthRepository>(
@@ -83,6 +103,9 @@ void init() {
   );
   locator.registerLazySingleton<CategoryRepository>(
     () => CategoryRepositoryImpl(locator()),
+  );
+  locator.registerLazySingleton<ProductRepository>(
+    () => ProductRepositoryImpl(locator()),
   );
 
   // data source
@@ -105,6 +128,9 @@ void init() {
   );
   locator.registerLazySingleton<CategoryLocalDataSource>(
     () => CategoryLocalDataSourceImpl(locator()),
+  );
+  locator.registerLazySingleton<ProductLocalDataSource>(
+    () => ProductLocalDataSourceImpl(locator()),
   );
 
   // helper

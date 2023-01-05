@@ -45,7 +45,7 @@ class _VendorHomePageState extends State<VendorHomePage> {
         labelText: 'Kategori',
       ),
       MenuModel(
-        onPressed: () {},
+        onPressed: () => Navigator.pushNamed(context, productRoute),
         icon: const FaIcon(
           FontAwesomeIcons.mugHot,
           size: 32,
