@@ -16,10 +16,24 @@ class ProductPage extends StatefulWidget {
   State<ProductPage> createState() => _ProductPageState();
 }
 
-class _ProductPageState extends State<ProductPage> {
+class _ProductPageState extends State<ProductPage> with RouteAware {
   @override
   void initState() {
     super.initState();
+    Future.microtask(
+      () => context.read<ProductBloc>().add(OnFetchAllProducts()),
+    );
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    routeObserver.subscribe(this, ModalRoute.of(context)!);
+  }
+
+  @override
+  void didPopNext() {
+    super.didPopNext();
     context.read<ProductBloc>().add(OnFetchAllProducts());
   }
 
@@ -97,6 +111,12 @@ class _ProductPageState extends State<ProductPage> {
       ),
     );
   }
+
+  @override
+  void dispose() {
+    super.dispose();
+    routeObserver.unsubscribe(this);
+  }
 }
 
 class _ProductCard extends StatelessWidget {
@@ -155,8 +175,8 @@ class _ProductCard extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(20),
-              child: Image.asset(
-                'assets/logo.png',
+              child: Image.memory(
+                product.image,
                 width: 120,
                 height: 100,
                 fit: BoxFit.cover,

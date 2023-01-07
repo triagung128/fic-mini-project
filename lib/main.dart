@@ -92,6 +92,7 @@ class MyApp extends StatelessWidget {
               ),
         ),
         initialRoute: splashRoute,
+        navigatorObservers: [routeObserver],
         onGenerateRoute: Routes.generateRoute,
       ),
     );

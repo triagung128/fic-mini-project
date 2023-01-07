@@ -47,6 +47,7 @@ class DatabaseHelper {
         name TEXT,
         price INTEGER,
         category_id INTEGER,
+        image BLOB,
         FOREIGN KEY (category_id) REFERENCES $_tblCategory (id)
       );
     ''');

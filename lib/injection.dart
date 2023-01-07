@@ -37,6 +37,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:image_picker/image_picker.dart';
 
 final locator = GetIt.instance;
 
@@ -71,6 +72,7 @@ void init() {
       insertProduct: locator(),
       updateProduct: locator(),
       removeProduct: locator(),
+      imagePicker: locator(),
     ),
   );
 
@@ -142,4 +144,5 @@ void init() {
   locator.registerLazySingleton(() => FirebaseAuth.instance);
   locator.registerLazySingleton(() => FirebaseFirestore.instance);
   locator.registerLazySingleton(() => FirebaseStorage.instance);
+  locator.registerLazySingleton(() => ImagePicker());
 }

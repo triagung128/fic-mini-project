@@ -4,7 +4,7 @@ abstract class ProductState extends Equatable {
   const ProductState();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class ProductInitial extends ProductState {}
@@ -47,4 +47,13 @@ class ProductActionFailure extends ProductState {
 
   @override
   List<Object> get props => [message];
+}
+
+class ProductImagePicked extends ProductState {
+  final XFile image;
+
+  const ProductImagePicked(this.image);
+
+  @override
+  List<Object> get props => [image];
 }

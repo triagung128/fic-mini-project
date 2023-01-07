@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:fic_mini_project/common/currency_input_formatter.dart';
 import 'package:fic_mini_project/common/currency_rupiah_extension.dart';
 import 'package:fic_mini_project/common/styles.dart';
@@ -7,9 +9,11 @@ import 'package:fic_mini_project/presentation/blocs/category/category_bloc.dart'
 import 'package:fic_mini_project/presentation/blocs/product/product_bloc.dart';
 import 'package:fic_mini_project/presentation/widgets/error_dialog.dart';
 import 'package:fic_mini_project/presentation/widgets/text_form_label.dart';
+import 'package:fic_mini_project/presentation/widgets/warning_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ProductAddUpdatePage extends StatefulWidget {
   const ProductAddUpdatePage({
@@ -29,13 +33,20 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
   final _nameController = TextEditingController();
   final _priceController = TextEditingController();
 
+  late ProductBloc _productBloc;
+
   Category? _categorySelected;
+  XFile? _imageProduct;
   bool _isEdit = false;
 
   @override
   void initState() {
     super.initState();
-    context.read<CategoryBloc>().add(OnFetchAllCategories());
+    Future.microtask(
+      () => context.read<CategoryBloc>().add(OnFetchAllCategories()),
+    );
+
+    _productBloc = context.read<ProductBloc>();
 
     _isEdit = widget.product != null;
 
@@ -47,13 +58,6 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
   }
 
   @override
-  void dispose() {
-    super.dispose();
-    _nameController.dispose();
-    _priceController.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return MultiBlocListener(
       listeners: [
@@ -61,14 +65,6 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
           listener: (context, state) {
             if (state is ProductActionSuccess) {
               Navigator.pop(context);
-              ScaffoldMessenger.of(context)
-                ..hideCurrentSnackBar()
-                ..showSnackBar(
-                  SnackBar(
-                    content: Text(state.message),
-                    backgroundColor: Colors.green[400],
-                  ),
-                );
             }
 
             if (state is ProductActionFailure) {
@@ -83,7 +79,15 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
         BlocListener<CategoryBloc, CategoryState>(
           listener: (context, state) {
             if (state is CategoryEmpty) {
-              _showAlertEmptyCategory(context);
+              showDialog(
+                context: context,
+                barrierDismissible: false,
+                builder: (_) => const WarningDialog(
+                  title: 'Kategori Masih Kosong',
+                  description:
+                      'Harap isikan kategori terlebih dahulu di menu kategori',
+                ),
+              );
             }
           },
         ),
@@ -142,42 +146,38 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
                   const SizedBox(height: 10),
                   BlocBuilder<CategoryBloc, CategoryState>(
                     builder: (_, state) {
-                      if (state is AllCategoriesLoaded) {
-                        return DropdownButtonFormField(
-                          borderRadius: BorderRadius.circular(16),
-                          hint: const Text('Pilih Kategori'),
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(16),
-                              borderSide: BorderSide.none,
-                            ),
+                      return DropdownButtonFormField(
+                        borderRadius: BorderRadius.circular(16),
+                        hint: state is AllCategoriesLoaded
+                            ? const Text('Pilih Kategori')
+                            : const Text('Data Kategori Kosong'),
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(16),
+                            borderSide: BorderSide.none,
                           ),
-                          value: widget.product != null
-                              ? widget.product!.category
-                              : null,
-                          items: state.categories
-                              .map(
-                                (category) => DropdownMenuItem(
-                                  value: category,
-                                  child: Text(category.name),
-                                ),
-                              )
-                              .toList(),
-                          onChanged: (value) {
-                            if (value != null) {
-                              _categorySelected = value;
-                            }
-                          },
-                          validator: (value) {
-                            if (value == null) {
-                              return 'Kategori belum dipilih';
-                            }
-                            return null;
-                          },
-                        );
-                      }
-
-                      return const Text('Kategori masih kosong.');
+                        ),
+                        value: widget.product != null
+                            ? widget.product!.category
+                            : null,
+                        items: state is AllCategoriesLoaded
+                            ? state.categories
+                                .map(
+                                  (category) => DropdownMenuItem(
+                                    value: category,
+                                    child: Text(category.name),
+                                  ),
+                                )
+                                .toList()
+                            : null,
+                        onChanged: (value) {
+                          if (value != null) _categorySelected = value;
+                        },
+                        validator: (value) {
+                          if (value == null) return 'Kategori belum dipilih';
+                          return null;
+                        },
+                      );
                     },
                   ),
                   const SizedBox(height: 20),
@@ -192,9 +192,37 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text('Gambar masih kosong'),
+                        BlocBuilder<ProductBloc, ProductState>(
+                          builder: (_, state) {
+                            if (state is ProductImagePicked) {
+                              _imageProduct = state.image;
+                              return ClipRRect(
+                                borderRadius: BorderRadius.circular(5),
+                                child: Image.file(
+                                  File(state.image.path),
+                                  width: 63,
+                                  height: 63,
+                                  fit: BoxFit.cover,
+                                ),
+                              );
+                            }
+                            return widget.product != null
+                                ? ClipRRect(
+                                    borderRadius: BorderRadius.circular(5),
+                                    child: Image.memory(
+                                      widget.product!.image,
+                                      width: 63,
+                                      height: 63,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  )
+                                : const Text('Gambar masih kosong');
+                          },
+                        ),
                         ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            _productBloc.add(OnPickProductImage());
+                          },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: navyColor,
                             shape: RoundedRectangleBorder(
@@ -208,37 +236,42 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
                   ),
                   const SizedBox(height: 50),
                   ElevatedButton(
-                    onPressed: () {
-                      if (_categorySelected != null) {
-                        if (_formKey.currentState!.validate()) {
+                    onPressed: () async {
+                      if (_formKey.currentState!.validate()) {
+                        if (_imageProduct == null) {
+                          showDialog(
+                            context: context,
+                            barrierDismissible: false,
+                            builder: (_) => const WarningDialog(
+                              title: 'Foto produk belum dipilih',
+                              description:
+                                  'Harap pilih foto produk terlebih dahulu',
+                            ),
+                          );
+                        } else {
                           final product = Product(
                             id: _isEdit ? widget.product!.id : null,
                             name: _nameController.text,
                             price: _priceController.text.formatRupiahToInt,
                             category: _categorySelected!,
+                            image: await _imageProduct!.readAsBytes(),
                           );
 
                           if (_isEdit) {
-                            context
-                                .read<ProductBloc>()
-                                .add(OnUpdateProduct(product));
+                            _productBloc.add(OnUpdateProduct(product));
                           } else {
-                            context
-                                .read<ProductBloc>()
-                                .add(OnCreateProduct(product));
+                            _productBloc.add(OnCreateProduct(product));
                           }
-                        } else {
-                          ScaffoldMessenger.of(context)
-                            ..hideCurrentSnackBar()
-                            ..showSnackBar(
-                              SnackBar(
-                                content: const Text('Lengkapi isian form!'),
-                                backgroundColor: Colors.red[400],
-                              ),
-                            );
                         }
                       } else {
-                        _showAlertEmptyCategory(context);
+                        ScaffoldMessenger.of(context)
+                          ..hideCurrentSnackBar()
+                          ..showSnackBar(
+                            SnackBar(
+                              content: const Text('Lengkapi isian form!'),
+                              backgroundColor: Colors.red[400],
+                            ),
+                          );
                       }
                     },
                     style: ElevatedButton.styleFrom(
@@ -255,22 +288,10 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
     );
   }
 
-  Future<void> _showAlertEmptyCategory(BuildContext context) {
-    return showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => AlertDialog(
-        title: const Text('Kategori Masih Kosong'),
-        content: const Text(
-          'Harap isikan kategori terlebih dahulu di menu kategori',
-        ),
-        actions: [
-          ElevatedButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Oke'),
-          ),
-        ],
-      ),
-    );
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _priceController.dispose();
+    super.dispose();
   }
 }

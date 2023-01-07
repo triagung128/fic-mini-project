@@ -5,6 +5,7 @@ import 'package:fic_mini_project/domain/usecases/insert_product.dart';
 import 'package:fic_mini_project/domain/usecases/remove_product.dart';
 import 'package:fic_mini_project/domain/usecases/update_product.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 
 part 'product_event.dart';
 part 'product_state.dart';
@@ -14,12 +15,14 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
   final InsertProduct insertProduct;
   final UpdateProduct updateProduct;
   final RemoveProduct removeProduct;
+  final ImagePicker imagePicker;
 
   ProductBloc({
     required this.getAllProducts,
     required this.insertProduct,
     required this.updateProduct,
     required this.removeProduct,
+    required this.imagePicker,
   }) : super(ProductInitial()) {
     on<OnFetchAllProducts>((event, emit) async {
       emit(ProductLoading());
@@ -47,8 +50,6 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
         (failure) => emit(ProductActionFailure(failure.message)),
         (successMessage) => emit(ProductActionSuccess(successMessage)),
       );
-
-      add(OnFetchAllProducts());
     });
 
     on<OnUpdateProduct>((event, emit) async {
@@ -60,8 +61,6 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
         (failure) => emit(ProductActionFailure(failure.message)),
         (successMessage) => emit(ProductActionSuccess(successMessage)),
       );
-
-      add(OnFetchAllProducts());
     });
 
     on<OnDeleteProduct>((event, emit) async {
@@ -75,6 +74,11 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       );
 
       add(OnFetchAllProducts());
+    });
+
+    on<OnPickProductImage>((event, emit) async {
+      final image = await imagePicker.pickImage(source: ImageSource.gallery);
+      if (image != null) emit(ProductImagePicked(image));
     });
   }
 }

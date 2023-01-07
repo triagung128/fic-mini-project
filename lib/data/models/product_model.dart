@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:equatable/equatable.dart';
 import 'package:fic_mini_project/data/models/category_model.dart';
 import 'package:fic_mini_project/domain/entity/product.dart';
@@ -7,12 +9,14 @@ class ProductModel extends Equatable {
   final String name;
   final int price;
   final CategoryModel category;
+  final Uint8List image;
 
   const ProductModel({
     required this.id,
     required this.name,
     required this.price,
     required this.category,
+    required this.image,
   });
 
   factory ProductModel.fromMap(Map<String, dynamic> map) => ProductModel(
@@ -23,6 +27,7 @@ class ProductModel extends Equatable {
           'id': map['category_id'],
           'name': map['category_name'],
         }),
+        image: map['image'],
       );
 
   factory ProductModel.fromEntity(Product product) => ProductModel(
@@ -30,6 +35,7 @@ class ProductModel extends Equatable {
         name: product.name,
         price: product.price,
         category: CategoryModel.fromEntity(product.category),
+        image: product.image,
       );
 
   Map<String, dynamic> toMap() => {
@@ -37,6 +43,7 @@ class ProductModel extends Equatable {
         'name': name,
         'price': price,
         'category_id': category.id,
+        'image': image,
       };
 
   Product toEntity() => Product(
@@ -44,8 +51,9 @@ class ProductModel extends Equatable {
         name: name,
         price: price,
         category: category.toEntity(),
+        image: image,
       );
 
   @override
-  List<Object?> get props => [id, name, price, category];
+  List<Object?> get props => [id, name, price, category, image];
 }

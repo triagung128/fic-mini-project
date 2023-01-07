@@ -35,3 +35,5 @@ class OnDeleteProduct extends ProductEvent {
   @override
   List<Object> get props => [product];
 }
+
+class OnPickProductImage extends ProductEvent {}
