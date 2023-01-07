@@ -29,7 +29,7 @@ class _VendorHomePageState extends State<VendorHomePage> {
   @override
   void initState() {
     super.initState();
-    context.read<ProfileBloc>().add(FetchProfile());
+    Future.microtask(() => context.read<ProfileBloc>().add(OnFetchProfile()));
   }
 
   @override
@@ -88,18 +88,17 @@ class _VendorHomePageState extends State<VendorHomePage> {
               Row(
                 children: [
                   BlocBuilder<ProfileBloc, ProfileState>(
-                    buildWhen: (previous, current) =>
-                        current is! SelectImageSuccess,
-                    builder: (context, state) {
+                    buildWhen: (_, current) => current is! ProfileImagePicked,
+                    builder: (_, state) {
                       return CircleAvatar(
                         radius: 20,
                         backgroundColor: Colors.grey[300],
-                        backgroundImage: state is FetchProfileSuccess
+                        backgroundImage: state is ProfileLoaded
                             ? state.user.photoUrl != null
                                 ? NetworkImage(state.user.photoUrl!)
                                 : null
                             : null,
-                        child: state is FetchProfileSuccess
+                        child: state is ProfileLoaded
                             ? state.user.photoUrl == null
                                 ? const Icon(Icons.person)
                                 : null
@@ -112,11 +111,11 @@ class _VendorHomePageState extends State<VendorHomePage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       BlocBuilder<ProfileBloc, ProfileState>(
-                        buildWhen: (previous, current) =>
-                            current is! SelectImageSuccess,
-                        builder: (context, state) {
+                        buildWhen: (_, current) =>
+                            current is! ProfileImagePicked,
+                        builder: (_, state) {
                           return Text(
-                            state is FetchProfileSuccess
+                            state is ProfileLoaded
                                 ? 'Hi, ${state.user.name}'
                                 : 'Loading...',
                           );
@@ -171,7 +170,7 @@ class _VendorHomePageState extends State<VendorHomePage> {
                   physics: const NeverScrollableScrollPhysics(),
                   padding: const EdgeInsets.all(4),
                   itemCount: listMenu.length,
-                  itemBuilder: (context, index) {
+                  itemBuilder: (_, index) {
                     final menuItem = listMenu[index];
                     return _MenuCard(
                       onPressed: menuItem.onPressed,

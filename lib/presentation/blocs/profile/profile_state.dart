@@ -9,51 +9,49 @@ abstract class ProfileState extends Equatable {
 
 class ProfileInitial extends ProfileState {}
 
-class FetchProfileLoading extends ProfileState {}
+class ProfileLoading extends ProfileState {}
 
-class FetchProfileFailure extends ProfileState {
+class ProfileFailure extends ProfileState {
   final String message;
 
-  const FetchProfileFailure(this.message);
+  const ProfileFailure(this.message);
 
   @override
   List<Object> get props => [message];
 }
 
-class FetchProfileSuccess extends ProfileState {
+class ProfileLoaded extends ProfileState {
   final User user;
 
-  const FetchProfileSuccess(this.user);
+  const ProfileLoaded(this.user);
 
   @override
   List<Object> get props => [user];
 }
 
-class UpdateProfileLoading extends ProfileState {}
-
-class UpdateProfileFailure extends ProfileState {
+class ProfileUpdateFailure extends ProfileState {
   final String message;
 
-  const UpdateProfileFailure(this.message);
+  const ProfileUpdateFailure(this.message);
 
   @override
   List<Object> get props => [message];
 }
 
-class UpdateProfileSuccess extends ProfileState {
+class ProfileUpdateSuccess extends ProfileState {
   final String message;
 
-  const UpdateProfileSuccess(this.message);
+  const ProfileUpdateSuccess(this.message);
 
   @override
   List<Object> get props => [message];
 }
 
-class SelectImageSuccess extends ProfileState {
+class ProfileImagePicked extends ProfileState {
   final XFile image;
 
-  const SelectImageSuccess(this.image);
+  const ProfileImagePicked(this.image);
 
   @override
-  List<Object?> get props => [image];
+  List<Object> get props => [image];
 }

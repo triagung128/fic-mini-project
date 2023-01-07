@@ -20,7 +20,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
   @override
   void initState() {
     super.initState();
-    context.read<ProfileBloc>().add(FetchProfile());
+    Future.microtask(() => context.read<ProfileBloc>().add(OnFetchProfile()));
   }
 
   @override
@@ -31,7 +31,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
       ),
       body: BlocListener<ProfileBloc, ProfileState>(
         listener: (context, state) {
-          if (state is UpdateProfileFailure) {
+          if (state is ProfileUpdateFailure) {
             ScaffoldMessenger.of(context)
               ..hideCurrentSnackBar()
               ..showSnackBar(
@@ -42,7 +42,7 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
               );
           }
 
-          if (state is UpdateProfileSuccess) {
+          if (state is ProfileUpdateSuccess) {
             ScaffoldMessenger.of(context)
               ..hideCurrentSnackBar()
               ..showSnackBar(
@@ -54,17 +54,15 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
           }
         },
         child: BlocBuilder<ProfileBloc, ProfileState>(
-          buildWhen: (_, current) =>
-              current is! SelectImageSuccess &&
-              current is! UpdateProfileLoading,
+          buildWhen: (_, current) => current is! ProfileImagePicked,
           builder: (_, state) {
-            if (state is FetchProfileLoading) {
+            if (state is ProfileLoading) {
               return const Center(
                 child: CircularProgressIndicator(),
               );
-            } else if (state is FetchProfileSuccess) {
+            } else if (state is ProfileLoaded) {
               return _ContentUpdateProfile(user: state.user);
-            } else if (state is FetchProfileFailure) {
+            } else if (state is ProfileFailure) {
               return Center(
                 child: Text(state.message),
               );
@@ -98,6 +96,8 @@ class _ContentUpdateProfile extends StatelessWidget {
     _emailController.text = user.email ?? '';
     _phoneNumberController.text = user.phoneNumber ?? '';
 
+    XFile? imageProfile;
+
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(24),
@@ -110,15 +110,8 @@ class _ContentUpdateProfile extends StatelessWidget {
               Center(
                 child: InkWell(
                   borderRadius: BorderRadius.circular(16),
-                  onTap: () async {
-                    final imagePicker = ImagePicker();
-                    await imagePicker
-                        .pickImage(source: ImageSource.gallery)
-                        .then((image) {
-                      if (image != null) {
-                        context.read<ProfileBloc>().add(SelectImage(image));
-                      }
-                    });
+                  onTap: () {
+                    context.read<ProfileBloc>().add(OnPickProfileImage());
                   },
                   child: SizedBox(
                     height: 100,
@@ -126,10 +119,9 @@ class _ContentUpdateProfile extends StatelessWidget {
                     child: Stack(
                       children: [
                         BlocBuilder<ProfileBloc, ProfileState>(
-                          buildWhen: (_, current) =>
-                              current is! UpdateProfileLoading,
                           builder: (_, state) {
-                            if (state is SelectImageSuccess) {
+                            if (state is ProfileImagePicked) {
+                              imageProfile = state.image;
                               return CircleAvatar(
                                 radius: 50,
                                 backgroundColor: Colors.grey[300],
@@ -226,45 +218,37 @@ class _ContentUpdateProfile extends StatelessWidget {
                 },
               ),
               const SizedBox(height: 50),
-              BlocBuilder<ProfileBloc, ProfileState>(
-                builder: (context, state) {
-                  return ElevatedButton.icon(
-                    onPressed: state is UpdateProfileLoading
-                        ? null
-                        : () {
-                            if (_formKey.currentState!.validate()) {
-                              final dataInput = User(
-                                id: user.id,
-                                name: _nameController.text,
-                                email: _emailController.text,
-                                phoneNumber: _phoneNumberController.text,
-                                photoUrl: user.photoUrl,
-                              );
-                              context
-                                  .read<ProfileBloc>()
-                                  .add(UpdateProfile(dataInput));
-                            } else {
-                              ScaffoldMessenger.of(context)
-                                ..hideCurrentSnackBar()
-                                ..showSnackBar(
-                                  SnackBar(
-                                    content: const Text(
-                                      'Harap lengkapi isian form !',
-                                    ),
-                                    backgroundColor: Colors.red[400],
-                                  ),
-                                );
-                            }
-                          },
-                    icon: state is UpdateProfileLoading
-                        ? const CircularProgressIndicator()
-                        : const Icon(Icons.save),
-                    label: const Text('Simpan'),
-                    style: ElevatedButton.styleFrom(
-                      fixedSize: Size(MediaQuery.of(context).size.width, 57),
-                    ),
-                  );
+              ElevatedButton.icon(
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                    final dataInput = User(
+                      id: user.id,
+                      name: _nameController.text,
+                      email: _emailController.text,
+                      phoneNumber: _phoneNumberController.text,
+                      photoUrl: user.photoUrl,
+                    );
+                    context
+                        .read<ProfileBloc>()
+                        .add(OnUpdateProfile(dataInput, imageProfile));
+                  } else {
+                    ScaffoldMessenger.of(context)
+                      ..hideCurrentSnackBar()
+                      ..showSnackBar(
+                        SnackBar(
+                          content: const Text(
+                            'Harap lengkapi isian form !',
+                          ),
+                          backgroundColor: Colors.red[400],
+                        ),
+                      );
+                  }
                 },
+                icon: const Icon(Icons.save),
+                label: const Text('Simpan'),
+                style: ElevatedButton.styleFrom(
+                  fixedSize: Size(MediaQuery.of(context).size.width, 57),
+                ),
               ),
             ],
           ),

@@ -11,40 +11,40 @@ part 'profile_state.dart';
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   final GetCurrentUser getCurrentUser;
   final UpdateCurrentUser updateCurrentUser;
-
-  XFile? image;
+  final ImagePicker imagePicker;
 
   ProfileBloc({
     required this.getCurrentUser,
     required this.updateCurrentUser,
+    required this.imagePicker,
   }) : super(ProfileInitial()) {
-    on<FetchProfile>((event, emit) async {
-      emit(FetchProfileLoading());
+    on<OnFetchProfile>((event, emit) async {
+      emit(ProfileLoading());
 
       final result = await getCurrentUser.execute();
 
       result.fold(
-        (failure) => emit(FetchProfileFailure(failure.message)),
-        (data) => emit(FetchProfileSuccess(data)),
+        (failure) => emit(ProfileFailure(failure.message)),
+        (data) => emit(ProfileLoaded(data)),
       );
     });
 
-    on<UpdateProfile>((event, emit) async {
-      emit(UpdateProfileLoading());
+    on<OnUpdateProfile>((event, emit) async {
+      emit(ProfileLoading());
 
-      final result = await updateCurrentUser.execute(event.user, image);
+      final result = await updateCurrentUser.execute(event.user, event.image);
 
       result.fold(
-        (failure) => emit(UpdateProfileFailure(failure.message)),
-        (successMessage) => emit(UpdateProfileSuccess(successMessage)),
+        (failure) => emit(ProfileUpdateFailure(failure.message)),
+        (successMessage) => emit(ProfileUpdateSuccess(successMessage)),
       );
 
-      add(FetchProfile());
+      add(OnFetchProfile());
     });
 
-    on<SelectImage>((event, emit) {
-      image = event.image;
-      emit(SelectImageSuccess(event.image));
+    on<OnPickProfileImage>((event, emit) async {
+      final image = await imagePicker.pickImage(source: ImageSource.gallery);
+      if (image != null) emit(ProfileImagePicked(image));
     });
   }
 }

@@ -6,19 +6,8 @@ import 'package:fic_mini_project/presentation/blocs/profile/profile_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ProfilePage extends StatefulWidget {
+class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
-
-  @override
-  State<ProfilePage> createState() => _ProfilePageState();
-}
-
-class _ProfilePageState extends State<ProfilePage> {
-  @override
-  void initState() {
-    super.initState();
-    context.read<ProfileBloc>().add(FetchProfile());
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,15 +26,15 @@ class _ProfilePageState extends State<ProfilePage> {
           return previous != current && current is LogoutSuccess;
         },
         child: BlocBuilder<ProfileBloc, ProfileState>(
-          buildWhen: (previous, current) => current is! SelectImageSuccess,
-          builder: (context, state) {
-            if (state is FetchProfileLoading) {
+          buildWhen: (_, current) => current is! ProfileImagePicked,
+          builder: (_, state) {
+            if (state is ProfileLoading) {
               return const Center(
                 child: CircularProgressIndicator(),
               );
-            } else if (state is FetchProfileSuccess) {
+            } else if (state is ProfileLoaded) {
               return _ContentProfile(user: state.user);
-            } else if (state is FetchProfileFailure) {
+            } else if (state is ProfileFailure) {
               return Center(
                 child: Text(state.message),
               );
@@ -118,7 +107,11 @@ class _ContentProfile extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           _ListMenuProfile(
-            onPressed: () => _showConfirmLogout(context),
+            onPressed: () => showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (_) => const _ConfirmLogoutDialog(),
+            ),
             text: 'Logout',
           ),
         ],
@@ -156,48 +149,50 @@ class _ListMenuProfile extends StatelessWidget {
   }
 }
 
-Future<void> _showConfirmLogout(BuildContext context) {
-  return showDialog(
-    context: context,
-    builder: (context) {
-      return AlertDialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
-        title: Text(
-          'Logout',
-          style:
-              Theme.of(context).textTheme.headline6!.copyWith(color: navyColor),
-        ),
-        icon: const Icon(Icons.logout),
-        content: const Text(
-          'Apakah Anda ingin logout ?',
-          textAlign: TextAlign.center,
-        ),
-        actionsAlignment: MainAxisAlignment.center,
-        actions: [
-          ElevatedButton(
-            onPressed: () {
-              context.read<AuthBloc>().add(LogoutRequested());
-            },
-            style: ElevatedButton.styleFrom(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
-              ),
+class _ConfirmLogoutDialog extends StatelessWidget {
+  const _ConfirmLogoutDialog({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+      ),
+      title: Text(
+        'Logout',
+        style:
+            Theme.of(context).textTheme.headline6!.copyWith(color: navyColor),
+      ),
+      icon: const Icon(Icons.logout),
+      content: const Text(
+        'Apakah Anda ingin logout ?',
+        textAlign: TextAlign.center,
+      ),
+      actionsAlignment: MainAxisAlignment.center,
+      actions: [
+        ElevatedButton(
+          onPressed: () {
+            context.read<AuthBloc>().add(LogoutRequested());
+          },
+          style: ElevatedButton.styleFrom(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
             ),
-            child: const Text('Ya'),
           ),
-          ElevatedButton(
-            onPressed: () => Navigator.pop(context),
-            style: ElevatedButton.styleFrom(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
-              ),
+          child: const Text('Ya'),
+        ),
+        ElevatedButton(
+          onPressed: () => Navigator.pop(context),
+          style: ElevatedButton.styleFrom(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
             ),
-            child: const Text('Tidak'),
           ),
-        ],
-      );
-    },
-  );
+          child: const Text('Tidak'),
+        ),
+      ],
+    );
+  }
 }

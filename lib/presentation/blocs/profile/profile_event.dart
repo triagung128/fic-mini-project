@@ -4,25 +4,19 @@ abstract class ProfileEvent extends Equatable {
   const ProfileEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
-class FetchProfile extends ProfileEvent {}
+class OnFetchProfile extends ProfileEvent {}
 
-class UpdateProfile extends ProfileEvent {
+class OnUpdateProfile extends ProfileEvent {
   final User user;
+  final XFile? image;
 
-  const UpdateProfile(this.user);
-
-  @override
-  List<Object> get props => [user];
-}
-
-class SelectImage extends ProfileEvent {
-  final XFile image;
-
-  const SelectImage(this.image);
+  const OnUpdateProfile(this.user, this.image);
 
   @override
-  List<Object> get props => [image];
+  List<Object?> get props => [user, image];
 }
+
+class OnPickProfileImage extends ProfileEvent {}

@@ -56,6 +56,7 @@ void init() {
     () => ProfileBloc(
       updateCurrentUser: locator(),
       getCurrentUser: locator(),
+      imagePicker: locator(),
     ),
   );
   locator.registerFactory(
