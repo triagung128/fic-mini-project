@@ -52,5 +52,3 @@ class Routes {
     }
   }
 }
-
-final RouteObserver<ModalRoute> routeObserver = RouteObserver<ModalRoute>();

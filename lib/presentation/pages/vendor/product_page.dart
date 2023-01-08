@@ -16,25 +16,13 @@ class ProductPage extends StatefulWidget {
   State<ProductPage> createState() => _ProductPageState();
 }
 
-class _ProductPageState extends State<ProductPage> with RouteAware {
+class _ProductPageState extends State<ProductPage> {
   @override
   void initState() {
     super.initState();
     Future.microtask(
       () => context.read<ProductBloc>().add(OnFetchAllProducts()),
     );
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    routeObserver.subscribe(this, ModalRoute.of(context)!);
-  }
-
-  @override
-  void didPopNext() {
-    super.didPopNext();
-    context.read<ProductBloc>().add(OnFetchAllProducts());
   }
 
   @override
@@ -66,6 +54,7 @@ class _ProductPageState extends State<ProductPage> with RouteAware {
           title: const Text('Produk'),
         ),
         body: BlocBuilder<ProductBloc, ProductState>(
+          buildWhen: (_, current) => current is! ProductImagePicked,
           builder: (_, state) {
             if (state is ProductLoading) {
               return const Center(
@@ -110,12 +99,6 @@ class _ProductPageState extends State<ProductPage> with RouteAware {
         ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    routeObserver.unsubscribe(this);
   }
 }
 

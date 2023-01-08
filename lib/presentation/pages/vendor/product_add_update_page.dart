@@ -42,11 +42,15 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
   @override
   void initState() {
     super.initState();
+
     Future.microtask(
       () => context.read<CategoryBloc>().add(OnFetchAllCategories()),
     );
 
     _productBloc = context.read<ProductBloc>();
+
+    // onPick: false => untuk reset state pada pick product image
+    _productBloc.add(const OnPickProductImage(onPick: false));
 
     _isEdit = widget.product != null;
 
@@ -194,18 +198,20 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
                       children: [
                         BlocBuilder<ProductBloc, ProductState>(
                           builder: (_, state) {
-                            if (state is ProductImagePicked) {
+                            if (state is ProductImagePicked &&
+                                state.image != null) {
                               _imageProduct = state.image;
                               return ClipRRect(
                                 borderRadius: BorderRadius.circular(5),
                                 child: Image.file(
-                                  File(state.image.path),
+                                  File(state.image!.path),
                                   width: 63,
                                   height: 63,
                                   fit: BoxFit.cover,
                                 ),
                               );
                             }
+
                             return widget.product != null
                                 ? ClipRRect(
                                     borderRadius: BorderRadius.circular(5),
@@ -221,7 +227,8 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
                         ),
                         ElevatedButton(
                           onPressed: () {
-                            _productBloc.add(OnPickProductImage());
+                            _productBloc
+                                .add(const OnPickProductImage(onPick: true));
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: navyColor,
@@ -238,7 +245,7 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
                   ElevatedButton(
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
-                        if (_imageProduct == null) {
+                        if (!_isEdit && _imageProduct == null) {
                           showDialog(
                             context: context,
                             barrierDismissible: false,
@@ -254,7 +261,9 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
                             name: _nameController.text,
                             price: _priceController.text.formatRupiahToInt,
                             category: _categorySelected!,
-                            image: await _imageProduct!.readAsBytes(),
+                            image: _imageProduct != null
+                                ? await _imageProduct!.readAsBytes()
+                                : widget.product!.image,
                           );
 
                           if (_isEdit) {

@@ -93,6 +93,7 @@ class DatabaseHelper {
         FROM $_tblProduct
         INNER JOIN $_tblCategory
         ON $_tblProduct.category_id = $_tblCategory.id
+        ORDER BY id DESC
       ''',
     );
   }

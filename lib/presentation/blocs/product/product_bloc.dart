@@ -24,7 +24,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     required this.removeProduct,
     required this.imagePicker,
   }) : super(ProductInitial()) {
-    on<OnFetchAllProducts>((event, emit) async {
+    on<OnFetchAllProducts>((_, emit) async {
       emit(ProductLoading());
 
       final result = await getAllProducts.execute();
@@ -50,6 +50,8 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
         (failure) => emit(ProductActionFailure(failure.message)),
         (successMessage) => emit(ProductActionSuccess(successMessage)),
       );
+
+      add(OnFetchAllProducts());
     });
 
     on<OnUpdateProduct>((event, emit) async {
@@ -61,6 +63,8 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
         (failure) => emit(ProductActionFailure(failure.message)),
         (successMessage) => emit(ProductActionSuccess(successMessage)),
       );
+
+      add(OnFetchAllProducts());
     });
 
     on<OnDeleteProduct>((event, emit) async {
@@ -77,8 +81,12 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     });
 
     on<OnPickProductImage>((event, emit) async {
-      final image = await imagePicker.pickImage(source: ImageSource.gallery);
-      if (image != null) emit(ProductImagePicked(image));
+      if (event.onPick == true) {
+        final image = await imagePicker.pickImage(source: ImageSource.gallery);
+        if (image != null) emit(ProductImagePicked(image));
+      } else {
+        emit(const ProductImagePicked(null));
+      }
     });
   }
 }
