@@ -17,6 +17,8 @@ class CategoryPage extends StatefulWidget {
 }
 
 class _CategoryPageState extends State<CategoryPage> {
+  final _scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
+
   @override
   void initState() {
     super.initState();
@@ -28,8 +30,8 @@ class _CategoryPageState extends State<CategoryPage> {
     return BlocListener<CategoryBloc, CategoryState>(
       listener: (context, state) {
         if (state is CategoryActionSuccess) {
-          ScaffoldMessenger.of(context)
-            ..hideCurrentSnackBar()
+          _scaffoldMessengerKey.currentState!
+            ..removeCurrentSnackBar()
             ..showSnackBar(
               SnackBar(
                 content: Text(state.message),
@@ -46,52 +48,55 @@ class _CategoryPageState extends State<CategoryPage> {
           );
         }
       },
-      child: Scaffold(
-        backgroundColor: greyColor,
-        appBar: AppBar(
-          title: const Text('Kategori'),
-        ),
-        body: BlocBuilder<CategoryBloc, CategoryState>(
-          builder: (_, state) {
-            if (state is CategoryLoading) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            } else if (state is CategoryFailure) {
-              return Center(
-                child: Text(state.message),
-              );
-            } else if (state is CategoryEmpty) {
-              return const Center(
-                child: Text('Data Kosong'),
-              );
-            } else if (state is AllCategoriesLoaded) {
-              return ListView.builder(
-                itemCount: state.categories.length,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 24,
-                  vertical: 8,
+      child: ScaffoldMessenger(
+        key: _scaffoldMessengerKey,
+        child: Scaffold(
+          backgroundColor: greyColor,
+          appBar: AppBar(
+            title: const Text('Kategori'),
+          ),
+          body: BlocBuilder<CategoryBloc, CategoryState>(
+            builder: (_, state) {
+              if (state is CategoryLoading) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else if (state is CategoryFailure) {
+                return Center(
+                  child: Text(state.message),
+                );
+              } else if (state is CategoryEmpty) {
+                return const Center(
+                  child: Text('Data Kosong'),
+                );
+              } else if (state is AllCategoriesLoaded) {
+                return ListView.builder(
+                  itemCount: state.categories.length,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 24,
+                    vertical: 8,
+                  ),
+                  itemBuilder: (_, index) {
+                    return _CategoryCard(category: state.categories[index]);
+                  },
+                );
+              } else {
+                return Container();
+              }
+            },
+          ),
+          floatingActionButton: BlocBuilder<CategoryBloc, CategoryState>(
+            buildWhen: (_, current) => current is! CategoryLoading,
+            builder: (context, _) {
+              return FloatingActionButton(
+                onPressed: () => showDialog(
+                  context: context,
+                  builder: (_) => const _FormCategory(),
                 ),
-                itemBuilder: (context, index) {
-                  return _CategoryCard(category: state.categories[index]);
-                },
+                child: const Icon(Icons.add),
               );
-            } else {
-              return Container();
-            }
-          },
-        ),
-        floatingActionButton: BlocBuilder<CategoryBloc, CategoryState>(
-          buildWhen: (_, current) => current is! CategoryLoading,
-          builder: (context, _) {
-            return FloatingActionButton(
-              onPressed: () => showDialog(
-                context: context,
-                builder: (_) => const _FormCategory(),
-              ),
-              child: const Icon(Icons.add),
-            );
-          },
+            },
+          ),
         ),
       ),
     );
@@ -175,19 +180,15 @@ class _FormCategory extends StatefulWidget {
 class _FormCategoryState extends State<_FormCategory> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
+
   bool _isEdit = false;
 
   @override
   void initState() {
     super.initState();
+
     _isEdit = widget.category != null;
     _nameController.text = _isEdit ? widget.category!.name : '';
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _nameController.dispose();
   }
 
   @override
@@ -262,5 +263,11 @@ class _FormCategoryState extends State<_FormCategory> {
         ),
       ],
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _nameController.dispose();
   }
 }

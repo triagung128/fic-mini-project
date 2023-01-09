@@ -73,7 +73,6 @@ void init() {
       insertProduct: locator(),
       updateProduct: locator(),
       removeProduct: locator(),
-      imagePicker: locator(),
     ),
   );
 

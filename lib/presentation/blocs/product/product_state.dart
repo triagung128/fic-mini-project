@@ -48,12 +48,3 @@ class ProductActionFailure extends ProductState {
   @override
   List<Object> get props => [message];
 }
-
-class ProductImagePicked extends ProductState {
-  final XFile? image;
-
-  const ProductImagePicked(this.image);
-
-  @override
-  List<Object?> get props => [image];
-}

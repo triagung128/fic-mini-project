@@ -17,6 +17,8 @@ class ProductPage extends StatefulWidget {
 }
 
 class _ProductPageState extends State<ProductPage> {
+  final _scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
+
   @override
   void initState() {
     super.initState();
@@ -30,8 +32,8 @@ class _ProductPageState extends State<ProductPage> {
     return BlocListener<ProductBloc, ProductState>(
       listener: (context, state) {
         if (state is ProductActionSuccess) {
-          ScaffoldMessenger.of(context)
-            ..hideCurrentSnackBar()
+          _scaffoldMessengerKey.currentState!
+            ..removeCurrentSnackBar()
             ..showSnackBar(
               SnackBar(
                 content: Text(state.message),
@@ -48,54 +50,56 @@ class _ProductPageState extends State<ProductPage> {
           );
         }
       },
-      child: Scaffold(
-        backgroundColor: greyColor,
-        appBar: AppBar(
-          title: const Text('Produk'),
-        ),
-        body: BlocBuilder<ProductBloc, ProductState>(
-          buildWhen: (_, current) => current is! ProductImagePicked,
-          builder: (_, state) {
-            if (state is ProductLoading) {
-              return const Center(
-                child: CircularProgressIndicator(),
+      child: ScaffoldMessenger(
+        key: _scaffoldMessengerKey,
+        child: Scaffold(
+          backgroundColor: greyColor,
+          appBar: AppBar(
+            title: const Text('Produk'),
+          ),
+          body: BlocBuilder<ProductBloc, ProductState>(
+            builder: (_, state) {
+              if (state is ProductLoading) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else if (state is ProductEmpty) {
+                return const Center(
+                  child: Text('Data Kosong'),
+                );
+              } else if (state is ProductFailure) {
+                return Center(
+                  child: Text(state.message),
+                );
+              } else if (state is AllProductsLoaded) {
+                return ListView.builder(
+                  itemCount: state.products.length,
+                  padding: const EdgeInsets.only(
+                    top: 24,
+                    left: 24,
+                    right: 24,
+                    bottom: 4,
+                  ),
+                  itemBuilder: (_, index) {
+                    final product = state.products[index];
+                    return _ProductCard(product: product);
+                  },
+                );
+              } else {
+                return Container();
+              }
+            },
+          ),
+          floatingActionButton: BlocBuilder<ProductBloc, ProductState>(
+            buildWhen: (_, current) => current is! ProductLoading,
+            builder: (context, _) {
+              return FloatingActionButton(
+                onPressed: () =>
+                    Navigator.pushNamed(context, productAddUpdateRoute),
+                child: const Icon(Icons.add),
               );
-            } else if (state is ProductEmpty) {
-              return const Center(
-                child: Text('Data Kosong'),
-              );
-            } else if (state is ProductFailure) {
-              return Center(
-                child: Text(state.message),
-              );
-            } else if (state is AllProductsLoaded) {
-              return ListView.builder(
-                itemCount: state.products.length,
-                padding: const EdgeInsets.only(
-                  top: 24,
-                  left: 24,
-                  right: 24,
-                  bottom: 4,
-                ),
-                itemBuilder: (_, index) {
-                  final product = state.products[index];
-                  return _ProductCard(product: product);
-                },
-              );
-            } else {
-              return Container();
-            }
-          },
-        ),
-        floatingActionButton: BlocBuilder<ProductBloc, ProductState>(
-          buildWhen: (_, current) => current is! ProductLoading,
-          builder: (context, _) {
-            return FloatingActionButton(
-              onPressed: () =>
-                  Navigator.pushNamed(context, productAddUpdateRoute),
-              child: const Icon(Icons.add),
-            );
-          },
+            },
+          ),
         ),
       ),
     );

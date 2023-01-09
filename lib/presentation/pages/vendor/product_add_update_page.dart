@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:fic_mini_project/common/currency_input_formatter.dart';
 import 'package:fic_mini_project/common/currency_rupiah_extension.dart';
 import 'package:fic_mini_project/common/styles.dart';
@@ -33,10 +31,9 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
   final _nameController = TextEditingController();
   final _priceController = TextEditingController();
 
-  late ProductBloc _productBloc;
-
   Category? _categorySelected;
-  XFile? _imageProduct;
+  Uint8List? _imageProduct;
+
   bool _isEdit = false;
 
   @override
@@ -47,17 +44,13 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
       () => context.read<CategoryBloc>().add(OnFetchAllCategories()),
     );
 
-    _productBloc = context.read<ProductBloc>();
-
-    // onPick: false => untuk reset state pada pick product image
-    _productBloc.add(const OnPickProductImage(onPick: false));
-
     _isEdit = widget.product != null;
 
     if (_isEdit) {
       _nameController.text = widget.product!.name;
       _priceController.text = widget.product!.price.intToFormatRupiah;
       _categorySelected = widget.product!.category;
+      _imageProduct = widget.product!.image;
     }
   }
 
@@ -196,39 +189,28 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        BlocBuilder<ProductBloc, ProductState>(
-                          builder: (_, state) {
-                            if (state is ProductImagePicked &&
-                                state.image != null) {
-                              _imageProduct = state.image;
-                              return ClipRRect(
+                        _imageProduct != null
+                            ? ClipRRect(
                                 borderRadius: BorderRadius.circular(5),
-                                child: Image.file(
-                                  File(state.image!.path),
+                                child: Image.memory(
+                                  _imageProduct!,
                                   width: 63,
                                   height: 63,
                                   fit: BoxFit.cover,
                                 ),
-                              );
-                            }
-
-                            return widget.product != null
-                                ? ClipRRect(
-                                    borderRadius: BorderRadius.circular(5),
-                                    child: Image.memory(
-                                      widget.product!.image,
-                                      width: 63,
-                                      height: 63,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  )
-                                : const Text('Gambar masih kosong');
-                          },
-                        ),
+                              )
+                            : const Text('Gambar masih kosong'),
                         ElevatedButton(
-                          onPressed: () {
-                            _productBloc
-                                .add(const OnPickProductImage(onPick: true));
+                          onPressed: () async {
+                            final imagePicker = ImagePicker();
+                            final image = await imagePicker.pickImage(
+                                source: ImageSource.gallery);
+                            if (image != null) {
+                              final imageBytes = await image.readAsBytes();
+                              setState(() {
+                                _imageProduct = imageBytes;
+                              });
+                            }
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: navyColor,
@@ -243,9 +225,9 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
                   ),
                   const SizedBox(height: 50),
                   ElevatedButton(
-                    onPressed: () async {
+                    onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        if (!_isEdit && _imageProduct == null) {
+                        if (_imageProduct == null) {
                           showDialog(
                             context: context,
                             barrierDismissible: false,
@@ -261,26 +243,19 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
                             name: _nameController.text,
                             price: _priceController.text.formatRupiahToInt,
                             category: _categorySelected!,
-                            image: _imageProduct != null
-                                ? await _imageProduct!.readAsBytes()
-                                : widget.product!.image,
+                            image: _imageProduct!,
                           );
 
                           if (_isEdit) {
-                            _productBloc.add(OnUpdateProduct(product));
+                            context
+                                .read<ProductBloc>()
+                                .add(OnUpdateProduct(product));
                           } else {
-                            _productBloc.add(OnCreateProduct(product));
+                            context
+                                .read<ProductBloc>()
+                                .add(OnCreateProduct(product));
                           }
                         }
-                      } else {
-                        ScaffoldMessenger.of(context)
-                          ..hideCurrentSnackBar()
-                          ..showSnackBar(
-                            SnackBar(
-                              content: const Text('Lengkapi isian form!'),
-                              backgroundColor: Colors.red[400],
-                            ),
-                          );
                       }
                     },
                     style: ElevatedButton.styleFrom(
