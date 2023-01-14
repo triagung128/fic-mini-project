@@ -63,6 +63,15 @@ class _VendorHomePageState extends State<VendorHomePage> {
         labelText: 'Point Of Sales',
       ),
       MenuModel(
+        onPressed: () => Navigator.pushNamed(context, transactionRoute),
+        icon: const FaIcon(
+          FontAwesomeIcons.database,
+          size: 32,
+          color: whiteColor,
+        ),
+        labelText: 'Riwayat\nTransaksi',
+      ),
+      MenuModel(
         onPressed: () {},
         icon: const FaIcon(
           FontAwesomeIcons.qrcode,
@@ -75,7 +84,7 @@ class _VendorHomePageState extends State<VendorHomePage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Beranda'),
+        title: const Text('Palem Kafe - POS App'),
       ),
       body: SafeArea(
         child: Padding(
@@ -85,71 +94,79 @@ class _VendorHomePageState extends State<VendorHomePage> {
           ),
           child: Column(
             children: [
-              Row(
-                children: [
-                  BlocBuilder<ProfileBloc, ProfileState>(
-                    buildWhen: (_, current) => current is! ProfileImagePicked,
-                    builder: (_, state) {
-                      return CircleAvatar(
-                        radius: 20,
-                        backgroundColor: Colors.grey[300],
-                        backgroundImage: state is ProfileLoaded
-                            ? state.user.photoUrl != null
-                                ? NetworkImage(state.user.photoUrl!)
-                                : null
-                            : null,
-                        child: state is ProfileLoaded
-                            ? state.user.photoUrl == null
-                                ? const Icon(Icons.person)
-                                : null
-                            : null,
-                      );
-                    },
-                  ),
-                  const SizedBox(width: 8),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      BlocBuilder<ProfileBloc, ProfileState>(
-                        buildWhen: (_, current) =>
-                            current is! ProfileImagePicked,
-                        builder: (_, state) {
-                          return Text(
-                            state is ProfileLoaded
-                                ? 'Hi, ${state.user.name}'
-                                : 'Loading...',
-                          );
-                        },
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        DateFormat('d MMMM yyyy', 'id_ID')
-                            .format(DateTime.now()),
-                        style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                              color: navyColor,
-                              fontWeight: FontWeight.w700,
-                            ),
-                      ),
-                    ],
-                  ),
-                ],
+              GestureDetector(
+                onTap: () => Navigator.pushNamed(context, profileRoute),
+                child: Row(
+                  children: [
+                    BlocBuilder<ProfileBloc, ProfileState>(
+                      buildWhen: (_, current) => current is! ProfileImagePicked,
+                      builder: (_, state) {
+                        return CircleAvatar(
+                          radius: 20,
+                          backgroundColor: Colors.grey[300],
+                          backgroundImage: state is ProfileLoaded
+                              ? state.user.photoUrl != null
+                                  ? NetworkImage(state.user.photoUrl!)
+                                  : null
+                              : null,
+                          child: state is ProfileLoaded
+                              ? state.user.photoUrl == null
+                                  ? const Icon(Icons.person)
+                                  : null
+                              : null,
+                        );
+                      },
+                    ),
+                    const SizedBox(width: 8),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        BlocBuilder<ProfileBloc, ProfileState>(
+                          buildWhen: (_, current) =>
+                              current is! ProfileImagePicked,
+                          builder: (_, state) {
+                            return Text(
+                              state is ProfileLoaded
+                                  ? 'Hi, ${state.user.name}'
+                                  : 'Loading...',
+                            );
+                          },
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          DateFormat('d MMMM yyyy', 'id_ID')
+                              .format(DateTime.now()),
+                          style:
+                              Theme.of(context).textTheme.bodyText1!.copyWith(
+                                    color: navyColor,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
               const SizedBox(height: 24),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: const [
                   Expanded(
+                    flex: 2,
                     child: _SummaryCard(
                       icon: Icons.attach_money,
-                      label: 'Total Omset',
+                      label: 'Omset hari ini',
                       value: 'Rp. 80.000.000',
                     ),
                   ),
                   SizedBox(width: 16),
-                  _SummaryCard(
-                    icon: Icons.data_usage,
-                    label: 'Total Transaksi',
-                    value: '80',
+                  Expanded(
+                    flex: 1,
+                    child: _SummaryCard(
+                      icon: Icons.data_usage,
+                      label: 'Transaksi hari ini',
+                      value: '80',
+                    ),
                   ),
                 ],
               ),
@@ -218,9 +235,13 @@ class _MenuCard extends StatelessWidget {
             child: Center(child: icon),
           ),
           const SizedBox(height: 10),
-          Text(
-            labelText,
-            textAlign: TextAlign.center,
+          SizedBox(
+            height: 30,
+            child: Text(
+              labelText,
+              textAlign: TextAlign.center,
+              maxLines: 2,
+            ),
           ),
         ],
       ),

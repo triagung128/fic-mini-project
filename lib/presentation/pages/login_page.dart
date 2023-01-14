@@ -18,7 +18,7 @@ class LoginPage extends StatelessWidget {
         listener: (context, state) {
           if (state is LoginAsVendorAuthenticated) {
             Navigator.pushNamedAndRemoveUntil(
-                context, vendorMainRoute, (_) => false);
+                context, vendorHomeRoute, (_) => false);
           } else if (state is LoginAsMemberAuthenticated) {
             Navigator.pushNamedAndRemoveUntil(
                 context, memberHomeRoute, (_) => false);

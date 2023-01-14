@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:email_validator/email_validator.dart';
 import 'package:fic_mini_project/common/styles.dart';
 import 'package:fic_mini_project/domain/entity/user.dart';
 import 'package:fic_mini_project/presentation/blocs/profile/profile_bloc.dart';
@@ -96,7 +95,6 @@ class _ContentUpdateProfileState extends State<_ContentUpdateProfile> {
   final _formKey = GlobalKey<FormState>();
 
   final _nameController = TextEditingController();
-  final _emailController = TextEditingController();
   final _phoneNumberController = TextEditingController();
 
   XFile? _imageProfile;
@@ -106,7 +104,6 @@ class _ContentUpdateProfileState extends State<_ContentUpdateProfile> {
     super.initState();
 
     _nameController.text = widget.user.name ?? '';
-    _emailController.text = widget.user.email ?? '';
     _phoneNumberController.text = widget.user.phoneNumber ?? '';
   }
 
@@ -197,25 +194,6 @@ class _ContentUpdateProfileState extends State<_ContentUpdateProfile> {
                 },
               ),
               const SizedBox(height: 20),
-              const TextFormLabel(label: 'Email'),
-              const SizedBox(height: 10),
-              TextFormField(
-                controller: _emailController,
-                decoration: const InputDecoration(
-                  hintText: 'Masukkan Email',
-                ),
-                keyboardType: TextInputType.emailAddress,
-                validator: (value) {
-                  if (value.toString().isEmpty) {
-                    return 'Email tidak boleh kosong';
-                  }
-                  if (value != null && !EmailValidator.validate(value)) {
-                    return 'Email tidak valid';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 20),
               const TextFormLabel(label: 'No. Handphone'),
               const SizedBox(height: 10),
               TextFormField(
@@ -238,7 +216,7 @@ class _ContentUpdateProfileState extends State<_ContentUpdateProfile> {
                     final dataInput = User(
                       id: widget.user.id,
                       name: _nameController.text,
-                      email: _emailController.text,
+                      email: widget.user.email,
                       phoneNumber: _phoneNumberController.text,
                       photoUrl: widget.user.photoUrl,
                     );
