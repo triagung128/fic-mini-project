@@ -54,7 +54,7 @@ class _VendorHomePageState extends State<VendorHomePage> {
         labelText: 'Produk',
       ),
       MenuModel(
-        onPressed: () {},
+        onPressed: () => Navigator.pushNamed(context, posRoute),
         icon: const FaIcon(
           FontAwesomeIcons.cashRegister,
           size: 32,

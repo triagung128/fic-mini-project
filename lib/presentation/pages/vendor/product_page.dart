@@ -194,7 +194,7 @@ class _ProductCard extends StatelessWidget {
                             color: blueColor,
                             fontWeight: FontWeight.w700,
                           ),
-                    )
+                    ),
                   ],
                 ),
               ),

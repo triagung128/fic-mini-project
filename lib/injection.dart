@@ -7,22 +7,29 @@ import 'package:fic_mini_project/data/datasources/user_remote_data_source.dart';
 import 'package:fic_mini_project/data/db/database_helper.dart';
 import 'package:fic_mini_project/data/pf/preference_helper.dart';
 import 'package:fic_mini_project/data/repositories/auth_repository_impl.dart';
+import 'package:fic_mini_project/data/repositories/cart_repository_impl.dart';
 import 'package:fic_mini_project/data/repositories/category_repository_impl.dart';
 import 'package:fic_mini_project/data/repositories/product_repository_impl.dart';
 import 'package:fic_mini_project/data/repositories/user_repository_impl.dart';
 import 'package:fic_mini_project/domain/repositories/auth_repository.dart';
+import 'package:fic_mini_project/domain/repositories/cart_repository.dart';
 import 'package:fic_mini_project/domain/repositories/category_repository.dart';
 import 'package:fic_mini_project/domain/repositories/product_repository.dart';
 import 'package:fic_mini_project/domain/repositories/user_repository.dart';
+import 'package:fic_mini_project/domain/usecases/add_product_quantity.dart';
+import 'package:fic_mini_project/domain/usecases/add_product_to_cart.dart';
+import 'package:fic_mini_project/domain/usecases/clear_cart.dart';
 import 'package:fic_mini_project/domain/usecases/get_all_categories.dart';
 import 'package:fic_mini_project/domain/usecases/get_all_products.dart';
 import 'package:fic_mini_project/domain/usecases/get_role.dart';
 import 'package:fic_mini_project/domain/usecases/get_current_user.dart';
 import 'package:fic_mini_project/domain/usecases/get_login_status.dart';
+import 'package:fic_mini_project/domain/usecases/get_total_price.dart';
 import 'package:fic_mini_project/domain/usecases/insert_category.dart';
 import 'package:fic_mini_project/domain/usecases/insert_product.dart';
 import 'package:fic_mini_project/domain/usecases/login.dart';
 import 'package:fic_mini_project/domain/usecases/logout.dart';
+import 'package:fic_mini_project/domain/usecases/reduce_product_quantity.dart';
 import 'package:fic_mini_project/domain/usecases/remove_category.dart';
 import 'package:fic_mini_project/domain/usecases/remove_product.dart';
 import 'package:fic_mini_project/domain/usecases/set_role.dart';
@@ -31,6 +38,7 @@ import 'package:fic_mini_project/domain/usecases/update_current_user.dart';
 import 'package:fic_mini_project/domain/usecases/update_product.dart';
 import 'package:fic_mini_project/presentation/blocs/auth/auth_bloc.dart';
 import 'package:fic_mini_project/presentation/blocs/category/category_bloc.dart';
+import 'package:fic_mini_project/presentation/blocs/pos/pos_bloc.dart';
 import 'package:fic_mini_project/presentation/blocs/product/product_bloc.dart';
 import 'package:fic_mini_project/presentation/blocs/profile/profile_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -75,6 +83,15 @@ void init() {
       removeProduct: locator(),
     ),
   );
+  locator.registerFactory(
+    () => PosBloc(
+      addProductToCart: locator(),
+      addProductQuantity: locator(),
+      reduceProductQuantity: locator(),
+      getTotalPrice: locator(),
+      clearCart: locator(),
+    ),
+  );
 
   // usecase
   locator.registerLazySingleton(() => Login(locator()));
@@ -92,6 +109,11 @@ void init() {
   locator.registerLazySingleton(() => InsertProduct(locator()));
   locator.registerLazySingleton(() => UpdateProduct(locator()));
   locator.registerLazySingleton(() => RemoveProduct(locator()));
+  locator.registerLazySingleton(() => AddProductToCart(locator()));
+  locator.registerLazySingleton(() => AddProductQuantity(locator()));
+  locator.registerLazySingleton(() => ReduceProductQuantity(locator()));
+  locator.registerLazySingleton(() => GetTotalPrice(locator()));
+  locator.registerLazySingleton(() => ClearCart(locator()));
 
   // repository
   locator.registerLazySingleton<AuthRepository>(
@@ -108,6 +130,9 @@ void init() {
   );
   locator.registerLazySingleton<ProductRepository>(
     () => ProductRepositoryImpl(locator()),
+  );
+  locator.registerLazySingleton<CartRepository>(
+    () => CartRepositoryImpl(),
   );
 
   // data source

@@ -4,6 +4,7 @@ import 'package:fic_mini_project/presentation/pages/member/member_home_page.dart
 import 'package:fic_mini_project/presentation/pages/profile/update_profile_page.dart';
 import 'package:fic_mini_project/presentation/pages/splash_page.dart';
 import 'package:fic_mini_project/presentation/pages/vendor/category_page.dart';
+import 'package:fic_mini_project/presentation/pages/vendor/pos_page.dart';
 import 'package:fic_mini_project/presentation/pages/vendor/product_add_update_page.dart';
 import 'package:fic_mini_project/presentation/pages/vendor/product_page.dart';
 import 'package:fic_mini_project/presentation/pages/vendor/vendor_main_page.dart';
@@ -17,6 +18,7 @@ const String updateProfileRoute = '/update-profile';
 const String categoryRoute = '/category';
 const String productRoute = '/product';
 const String productAddUpdateRoute = '/product-add-update';
+const String posRoute = '/pos';
 
 class Routes {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -35,6 +37,8 @@ class Routes {
         return MaterialPageRoute(builder: (_) => const CategoryPage());
       case productRoute:
         return MaterialPageRoute(builder: (_) => const ProductPage());
+      case posRoute:
+        return MaterialPageRoute(builder: (_) => const PosPage());
       case productAddUpdateRoute:
         final product = settings.arguments as Product?;
         return MaterialPageRoute(
