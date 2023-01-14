@@ -19,12 +19,12 @@ import 'package:fic_mini_project/domain/repositories/user_repository.dart';
 import 'package:fic_mini_project/domain/usecases/add_product_quantity.dart';
 import 'package:fic_mini_project/domain/usecases/add_product_to_cart.dart';
 import 'package:fic_mini_project/domain/usecases/clear_cart.dart';
+import 'package:fic_mini_project/domain/usecases/get_all_carts_map.dart';
 import 'package:fic_mini_project/domain/usecases/get_all_categories.dart';
 import 'package:fic_mini_project/domain/usecases/get_all_products.dart';
 import 'package:fic_mini_project/domain/usecases/get_role.dart';
 import 'package:fic_mini_project/domain/usecases/get_current_user.dart';
 import 'package:fic_mini_project/domain/usecases/get_login_status.dart';
-import 'package:fic_mini_project/domain/usecases/get_total_price.dart';
 import 'package:fic_mini_project/domain/usecases/insert_category.dart';
 import 'package:fic_mini_project/domain/usecases/insert_product.dart';
 import 'package:fic_mini_project/domain/usecases/login.dart';
@@ -86,8 +86,8 @@ void init() {
       addProductToCart: locator(),
       addProductQuantity: locator(),
       reduceProductQuantity: locator(),
-      getTotalPrice: locator(),
       clearCart: locator(),
+      getAllCartsMap: locator(),
     ),
   );
 
@@ -110,8 +110,8 @@ void init() {
   locator.registerLazySingleton(() => AddProductToCart(locator()));
   locator.registerLazySingleton(() => AddProductQuantity(locator()));
   locator.registerLazySingleton(() => ReduceProductQuantity(locator()));
-  locator.registerLazySingleton(() => GetTotalPrice(locator()));
   locator.registerLazySingleton(() => ClearCart(locator()));
+  locator.registerLazySingleton(() => GetAllCartsMap(locator()));
 
   // repository
   locator.registerLazySingleton<AuthRepository>(

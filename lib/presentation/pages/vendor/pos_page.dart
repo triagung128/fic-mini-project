@@ -1,6 +1,7 @@
 import 'package:fic_mini_project/common/currency_rupiah_extension.dart';
+import 'package:fic_mini_project/common/enum_state.dart';
+import 'package:fic_mini_project/common/routes.dart';
 import 'package:fic_mini_project/common/styles.dart';
-import 'package:fic_mini_project/domain/entity/cart.dart';
 import 'package:fic_mini_project/domain/entity/product.dart';
 import 'package:fic_mini_project/presentation/blocs/pos/pos_bloc.dart';
 import 'package:fic_mini_project/presentation/blocs/product/product_bloc.dart';
@@ -27,33 +28,47 @@ class _PosPageState extends State<PosPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: greyColor,
-      appBar: AppBar(
-        title: const Text('Point Of Sales'),
+    return BlocListener<PosBloc, PosState>(
+      listener: (context, state) {
+        if (state.actionState == PosActionState.success) {
+          Navigator.pushReplacementNamed(
+            context,
+            posCheckoutRoute,
+            arguments: {
+              'cart': state.cart,
+              'cartMap': state.cartMap,
+            },
+          );
+        }
+      },
+      child: Scaffold(
+        backgroundColor: greyColor,
+        appBar: AppBar(
+          title: const Text('POS Cart'),
+        ),
+        body: BlocBuilder<ProductBloc, ProductState>(
+          builder: (context, state) {
+            if (state is ProductLoading) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            } else if (state is ProductEmpty) {
+              return const Center(
+                child: Text('Data Produk Kosong'),
+              );
+            } else if (state is ProductFailure) {
+              return Center(
+                child: Text(state.message),
+              );
+            } else if (state is AllProductsLoaded) {
+              return _ListViewPos(products: state.products);
+            } else {
+              return Container();
+            }
+          },
+        ),
+        bottomNavigationBar: const _CustomBottomNavPos(),
       ),
-      body: BlocBuilder<ProductBloc, ProductState>(
-        builder: (context, state) {
-          if (state is ProductLoading) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          } else if (state is ProductEmpty) {
-            return const Center(
-              child: Text('Data Produk Kosong'),
-            );
-          } else if (state is ProductFailure) {
-            return Center(
-              child: Text(state.message),
-            );
-          } else if (state is AllProductsLoaded) {
-            return _ListViewPos(products: state.products);
-          } else {
-            return Container();
-          }
-        },
-      ),
-      bottomNavigationBar: const _CustomBottomNavPos(),
     );
   }
 }
@@ -74,11 +89,11 @@ class _CustomBottomNavPos extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text('Subtotal'),
+              const Text('Total'),
               BlocBuilder<PosBloc, PosState>(
                 builder: (context, state) {
                   return Text(
-                    state.total.intToFormatRupiah,
+                    state.cart.totalPrice.intToFormatRupiah,
                     style: Theme.of(context).textTheme.bodyText1!.copyWith(
                           fontWeight: FontWeight.w700,
                         ),
@@ -91,29 +106,14 @@ class _CustomBottomNavPos extends StatelessWidget {
           BlocBuilder<PosBloc, PosState>(
             builder: (context, state) {
               return ElevatedButton.icon(
-                onPressed: () {
-                  if (state.carts.isEmpty) {
-                    showDialog(
-                      context: context,
-                      barrierDismissible: false,
-                      builder: (context) => AlertDialog(
-                        title: const Text('Tidak bisa melanjutkan'),
-                        content: const Text('Tidak ada menu yang dipilih'),
-                        actions: [
-                          ElevatedButton(
-                            onPressed: () => Navigator.pop(context),
-                            child: const Text('Tutup'),
-                          ),
-                        ],
-                      ),
-                    );
-                  }
-                },
+                onPressed: state.cart.products.isEmpty
+                    ? null
+                    : () => context.read<PosBloc>().add(OnPosAction()),
                 style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(5),
                   ),
-                  fixedSize: Size(MediaQuery.of(context).size.width, 60),
+                  fixedSize: Size(MediaQuery.of(context).size.width, 57),
                 ),
                 icon: const Icon(Icons.arrow_forward),
                 label: const Text('Lanjutkan'),
@@ -233,13 +233,13 @@ class _PosProductCard extends StatelessWidget {
           ),
           BlocBuilder<PosBloc, PosState>(
             builder: (context, state) {
-              Cart? cartItem;
-              final isInCart = state.carts
-                      .indexWhere((item) => item.product.id == product.id) !=
+              late Product cartItem;
+              final isInCart = state.cart.products
+                      .indexWhere((item) => item.id == product.id) !=
                   -1;
               if (isInCart) {
-                cartItem = state.carts
-                    .firstWhere((item) => item.product.id == product.id);
+                cartItem = state.cart.products
+                    .firstWhere((item) => item.id == product.id);
               }
               return isInCart
                   ? Container(
@@ -266,7 +266,7 @@ class _PosProductCard extends StatelessWidget {
                           ),
                           Container(
                             margin: const EdgeInsets.symmetric(horizontal: 8),
-                            child: Text(cartItem!.quantity.toString()),
+                            child: Text(cartItem.quantity.toString()),
                           ),
                           SizedBox(
                             height: 24,

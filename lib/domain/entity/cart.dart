@@ -1,11 +1,15 @@
+import 'package:equatable/equatable.dart';
 import 'package:fic_mini_project/domain/entity/product.dart';
 
-class Cart {
-  final Product product;
-  int quantity;
+class Cart extends Equatable {
+  final List<Product> products;
+  final int totalPrice;
 
-  Cart({
-    required this.product,
-    this.quantity = 0,
+  const Cart({
+    required this.products,
+    this.totalPrice = 0,
   });
+
+  @override
+  List<Object?> get props => [products, totalPrice];
 }

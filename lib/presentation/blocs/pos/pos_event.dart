@@ -35,3 +35,5 @@ class OnReduceProductQuantity extends PosEvent {
   @override
   List<Object> get props => [product];
 }
+
+class OnPosAction extends PosEvent {}

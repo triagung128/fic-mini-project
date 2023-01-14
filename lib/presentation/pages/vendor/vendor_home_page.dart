@@ -60,7 +60,7 @@ class _VendorHomePageState extends State<VendorHomePage> {
           size: 32,
           color: whiteColor,
         ),
-        labelText: 'Point Of Sales',
+        labelText: 'POS',
       ),
       MenuModel(
         onPressed: () => Navigator.pushNamed(context, transactionRoute),
@@ -72,13 +72,13 @@ class _VendorHomePageState extends State<VendorHomePage> {
         labelText: 'Riwayat\nTransaksi',
       ),
       MenuModel(
-        onPressed: () {},
+        onPressed: () => Navigator.pushNamed(context, profileRoute),
         icon: const FaIcon(
-          FontAwesomeIcons.qrcode,
+          FontAwesomeIcons.userGear,
           size: 32,
           color: whiteColor,
         ),
-        labelText: 'Scan QR Code',
+        labelText: 'Profil Saya',
       ),
     ];
 

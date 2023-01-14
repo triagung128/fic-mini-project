@@ -5,6 +5,7 @@ import 'package:fic_mini_project/presentation/pages/profile/profile_page.dart';
 import 'package:fic_mini_project/presentation/pages/profile/update_profile_page.dart';
 import 'package:fic_mini_project/presentation/pages/splash_page.dart';
 import 'package:fic_mini_project/presentation/pages/vendor/category_page.dart';
+import 'package:fic_mini_project/presentation/pages/vendor/pos_checkout_page.dart';
 import 'package:fic_mini_project/presentation/pages/vendor/pos_page.dart';
 import 'package:fic_mini_project/presentation/pages/vendor/product_add_update_page.dart';
 import 'package:fic_mini_project/presentation/pages/vendor/product_page.dart';
@@ -22,6 +23,7 @@ const String categoryRoute = '/category';
 const String productRoute = '/product';
 const String productAddUpdateRoute = '/product-add-update';
 const String posRoute = '/pos';
+const String posCheckoutRoute = '/pos-checkout';
 const String transactionRoute = '/transaction';
 
 class Routes {
@@ -45,6 +47,14 @@ class Routes {
         return MaterialPageRoute(builder: (_) => const ProductPage());
       case posRoute:
         return MaterialPageRoute(builder: (_) => const PosPage());
+      case posCheckoutRoute:
+        final args = settings.arguments as Map;
+        return MaterialPageRoute(
+          builder: (_) => PosCheckoutPage(
+            cartMap: args['cartMap'],
+            cart: args['cart'],
+          ),
+        );
       case transactionRoute:
         return MaterialPageRoute(builder: (_) => const TransactionPage());
       case productAddUpdateRoute:

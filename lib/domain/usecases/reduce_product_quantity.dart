@@ -7,7 +7,7 @@ class ReduceProductQuantity {
 
   ReduceProductQuantity(this.repository);
 
-  Future<List<Cart>> execute(Product product) {
+  Future<Cart> execute(Product product) {
     return repository.reduceProductQuantity(product);
   }
 }

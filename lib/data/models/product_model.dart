@@ -4,19 +4,22 @@ import 'package:equatable/equatable.dart';
 import 'package:fic_mini_project/data/models/category_model.dart';
 import 'package:fic_mini_project/domain/entity/product.dart';
 
+// ignore: must_be_immutable
 class ProductModel extends Equatable {
   final int? id;
   final String name;
   final int price;
   final CategoryModel category;
   final Uint8List image;
+  int quantity;
 
-  const ProductModel({
+  ProductModel({
     required this.id,
     required this.name,
     required this.price,
     required this.category,
     required this.image,
+    this.quantity = 0,
   });
 
   factory ProductModel.fromMap(Map<String, dynamic> map) => ProductModel(
@@ -36,6 +39,7 @@ class ProductModel extends Equatable {
         price: product.price,
         category: CategoryModel.fromEntity(product.category),
         image: product.image,
+        quantity: product.quantity,
       );
 
   Map<String, dynamic> toMap() => {
@@ -46,14 +50,28 @@ class ProductModel extends Equatable {
         'image': image,
       };
 
+  Map<String, dynamic> toCartMap() => {
+        'id': id,
+        'name': name,
+        'price': price,
+      };
+
   Product toEntity() => Product(
         id: id,
         name: name,
         price: price,
         category: category.toEntity(),
         image: image,
+        quantity: quantity,
       );
 
   @override
-  List<Object?> get props => [id, name, price, category, image];
+  List<Object?> get props => [
+        id,
+        name,
+        price,
+        category,
+        image,
+        quantity,
+      ];
 }
