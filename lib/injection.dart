@@ -64,7 +64,6 @@ void init() {
     () => ProfileBloc(
       updateCurrentUser: locator(),
       getCurrentUser: locator(),
-      imagePicker: locator(),
     ),
   );
   locator.registerFactory(
@@ -169,5 +168,4 @@ void init() {
   locator.registerLazySingleton(() => FirebaseAuth.instance);
   locator.registerLazySingleton(() => FirebaseFirestore.instance);
   locator.registerLazySingleton(() => FirebaseStorage.instance);
-  locator.registerLazySingleton(() => ImagePicker());
 }

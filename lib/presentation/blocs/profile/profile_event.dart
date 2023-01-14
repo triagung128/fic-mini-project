@@ -18,5 +18,3 @@ class OnUpdateProfile extends ProfileEvent {
   @override
   List<Object?> get props => [user, image];
 }
-
-class OnPickProfileImage extends ProfileEvent {}

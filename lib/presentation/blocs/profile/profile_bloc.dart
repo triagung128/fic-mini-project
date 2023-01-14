@@ -11,12 +11,10 @@ part 'profile_state.dart';
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   final GetCurrentUser getCurrentUser;
   final UpdateCurrentUser updateCurrentUser;
-  final ImagePicker imagePicker;
 
   ProfileBloc({
     required this.getCurrentUser,
     required this.updateCurrentUser,
-    required this.imagePicker,
   }) : super(ProfileInitial()) {
     on<OnFetchProfile>((event, emit) async {
       emit(ProfileLoading());
@@ -40,11 +38,6 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       );
 
       add(OnFetchProfile());
-    });
-
-    on<OnPickProfileImage>((event, emit) async {
-      final image = await imagePicker.pickImage(source: ImageSource.gallery);
-      if (image != null) emit(ProfileImagePicked(image));
     });
   }
 }
