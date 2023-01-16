@@ -37,7 +37,7 @@ class _MemberHomePageState extends State<MemberHomePage> {
   Widget build(BuildContext context) {
     final List<MenuModel> listMenu = [
       MenuModel(
-        onPressed: () {},
+        onPressed: () => Navigator.pushNamed(context, scanQRCodeRoute),
         icon: const FaIcon(
           FontAwesomeIcons.qrcode,
           size: 32,
@@ -46,7 +46,7 @@ class _MemberHomePageState extends State<MemberHomePage> {
         labelText: 'Scan QR Code',
       ),
       MenuModel(
-        onPressed: () {},
+        onPressed: () => Navigator.pushNamed(context, memberTransactionRoute),
         icon: const FaIcon(
           FontAwesomeIcons.database,
           size: 32,
@@ -175,46 +175,33 @@ class _MemberHomePageState extends State<MemberHomePage> {
                         ))
                     .toList(),
               ),
-              const SizedBox(height: 24),
-              InkWell(
-                onTap: () {},
-                child: Card(
-                  color: blueColor,
-                  elevation: 4,
-                  child: Container(
-                    padding: const EdgeInsets.all(16),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            const FaIcon(
-                              FontAwesomeIcons.wallet,
-                              color: whiteColor,
-                            ),
-                            const SizedBox(width: 16),
-                            Text(
-                              'Point Kamu',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .subtitle1!
-                                  .copyWith(color: whiteColor),
-                            ),
-                          ],
-                        ),
-                        Text(
-                          '1000 Points',
-                          style: Theme.of(context)
-                              .textTheme
-                              .subtitle2!
-                              .copyWith(color: whiteColor),
-                        ),
-                      ],
-                    ),
-                  ),
+              const SizedBox(height: 32),
+              ListTile(
+                onTap: () => Navigator.pushNamed(context, memberPointPageRoute),
+                tileColor: blueColor,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                leading: const FaIcon(
+                  FontAwesomeIcons.wallet,
+                  color: whiteColor,
+                ),
+                title: Text(
+                  'Point Kamu',
+                  style: Theme.of(context)
+                      .textTheme
+                      .subtitle1!
+                      .copyWith(color: whiteColor),
+                ),
+                trailing: Text(
+                  '1000 Points',
+                  style: Theme.of(context)
+                      .textTheme
+                      .subtitle2!
+                      .copyWith(color: whiteColor),
                 ),
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: 32),
               Center(
                 child: Text(
                   'Main Menu',

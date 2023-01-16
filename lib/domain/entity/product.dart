@@ -7,8 +7,8 @@ class Product extends Equatable {
   final int? id;
   final String name;
   final int price;
-  final Category category;
-  final Uint8List image;
+  final Category? category;
+  final Uint8List? image;
   final int quantity;
 
   const Product({
@@ -18,6 +18,15 @@ class Product extends Equatable {
     required this.category,
     required this.image,
     this.quantity = 0,
+  });
+
+  const Product.cart({
+    required this.id,
+    required this.name,
+    required this.price,
+    required this.quantity,
+    this.category,
+    this.image,
   });
 
   @override

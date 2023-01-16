@@ -163,7 +163,7 @@ class _ProductCard extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(20),
               child: Image.memory(
-                product.image,
+                product.image!,
                 width: 120,
                 height: 100,
                 fit: BoxFit.cover,
@@ -184,7 +184,7 @@ class _ProductCard extends StatelessWidget {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      product.category.name,
+                      product.category!.name,
                       style: Theme.of(context).textTheme.caption,
                     ),
                     const SizedBox(height: 20),

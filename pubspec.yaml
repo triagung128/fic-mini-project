@@ -53,6 +53,8 @@ dependencies:
   sqflite: ^2.2.2
   qr_flutter: ^4.0.0
   carousel_slider: ^4.2.1
+  mobile_scanner: ^2.1.0
+  avatar_glow: ^2.0.2
 
 dev_dependencies:
   flutter_test:

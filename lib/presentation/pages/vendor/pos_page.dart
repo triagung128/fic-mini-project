@@ -154,7 +154,7 @@ class _ListViewPos extends StatelessWidget {
         } else {
           final itemBefore = products[index - 1];
 
-          if (product.category.id != itemBefore.category.id) {
+          if (product.category!.id != itemBefore.category!.id) {
             visibleCategory = true;
           }
         }
@@ -166,7 +166,7 @@ class _ListViewPos extends StatelessWidget {
               Container(
                 margin: const EdgeInsets.symmetric(vertical: 16),
                 child: Text(
-                  product.category.name,
+                  product.category!.name,
                   style: Theme.of(context).textTheme.headline6,
                 ),
               ),
@@ -198,7 +198,7 @@ class _PosProductCard extends StatelessWidget {
           ClipRRect(
             borderRadius: BorderRadius.circular(20),
             child: Image.memory(
-              product.image,
+              product.image!,
               width: 108,
               height: 86,
               fit: BoxFit.cover,

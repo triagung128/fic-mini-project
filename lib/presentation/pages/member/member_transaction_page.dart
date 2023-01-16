@@ -1,8 +1,8 @@
 import 'package:fic_mini_project/common/styles.dart';
 import 'package:flutter/material.dart';
 
-class TransactionPage extends StatelessWidget {
-  const TransactionPage({super.key});
+class MemberTransactionPage extends StatelessWidget {
+  const MemberTransactionPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,15 +19,15 @@ class TransactionPage extends StatelessWidget {
         ),
         itemCount: 20,
         itemBuilder: (context, index) {
-          return const _TransactionCard();
+          return const _MemberTransactionCard();
         },
       ),
     );
   }
 }
 
-class _TransactionCard extends StatelessWidget {
-  const _TransactionCard({
+class _MemberTransactionCard extends StatelessWidget {
+  const _MemberTransactionCard({
     Key? key,
   }) : super(key: key);
 
@@ -72,16 +72,6 @@ class _TransactionCard extends StatelessWidget {
             padding: EdgeInsets.symmetric(vertical: 16),
             child: Divider(thickness: 0.2, height: 1),
           ),
-          const Text('Nama Member :'),
-          const SizedBox(height: 4),
-          Text(
-            'Rahmat',
-            style: Theme.of(context)
-                .textTheme
-                .bodyText1!
-                .copyWith(color: blueColor),
-          ),
-          const SizedBox(height: 16),
           const Text('Total :'),
           const SizedBox(height: 4),
           Text(

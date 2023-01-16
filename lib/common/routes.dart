@@ -1,6 +1,12 @@
+import 'package:fic_mini_project/domain/entity/cart.dart';
 import 'package:fic_mini_project/domain/entity/product.dart';
 import 'package:fic_mini_project/presentation/pages/login_page.dart';
+import 'package:fic_mini_project/presentation/pages/member/member_checkout_page.dart';
 import 'package:fic_mini_project/presentation/pages/member/member_home_page.dart';
+import 'package:fic_mini_project/presentation/pages/member/member_transaction_page.dart';
+import 'package:fic_mini_project/presentation/pages/member/order_success_page.dart';
+import 'package:fic_mini_project/presentation/pages/member/member_point_page.dart';
+import 'package:fic_mini_project/presentation/pages/member/scan_qr_code_page.dart';
 import 'package:fic_mini_project/presentation/pages/profile/profile_page.dart';
 import 'package:fic_mini_project/presentation/pages/profile/update_profile_page.dart';
 import 'package:fic_mini_project/presentation/pages/splash_page.dart';
@@ -25,6 +31,11 @@ const String productAddUpdateRoute = '/product-add-update';
 const String posRoute = '/pos';
 const String posCheckoutRoute = '/pos-checkout';
 const String transactionRoute = '/transaction';
+const String scanQRCodeRoute = '/scan-qr-code';
+const String memberCheckoutRoute = '/member-checkout';
+const String orderSuccessRoute = '/order-success';
+const String memberPointPageRoute = '/member-point';
+const String memberTransactionRoute = '/member-transaction';
 
 class Routes {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -57,11 +68,27 @@ class Routes {
         );
       case transactionRoute:
         return MaterialPageRoute(builder: (_) => const TransactionPage());
+      case scanQRCodeRoute:
+        return MaterialPageRoute(builder: (_) => const ScanQrCodePage());
+      case memberCheckoutRoute:
+        final cart = settings.arguments as Cart;
+        return MaterialPageRoute(
+          builder: (_) => MemberCheckoutPage(cart: cart),
+          settings: settings,
+        );
       case productAddUpdateRoute:
         final product = settings.arguments as Product?;
         return MaterialPageRoute(
           builder: (_) => ProductAddUpdatePage(product: product),
           settings: settings,
+        );
+      case orderSuccessRoute:
+        return MaterialPageRoute(builder: (_) => const OrderSuccessPage());
+      case memberPointPageRoute:
+        return MaterialPageRoute(builder: (_) => const MemberPointPage());
+      case memberTransactionRoute:
+        return MaterialPageRoute(
+          builder: (_) => const MemberTransactionPage(),
         );
       default:
         return MaterialPageRoute(
