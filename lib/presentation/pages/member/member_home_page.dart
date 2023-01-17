@@ -77,7 +77,6 @@ class _MemberHomePageState extends State<MemberHomePage> {
                 child: Row(
                   children: [
                     BlocBuilder<ProfileBloc, ProfileState>(
-                      buildWhen: (_, current) => current is! ProfileImagePicked,
                       builder: (_, state) {
                         return CircleAvatar(
                           radius: 20,
@@ -100,8 +99,6 @@ class _MemberHomePageState extends State<MemberHomePage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         BlocBuilder<ProfileBloc, ProfileState>(
-                          buildWhen: (_, current) =>
-                              current is! ProfileImagePicked,
                           builder: (_, state) {
                             return Text(
                               state is ProfileLoaded
@@ -176,30 +173,39 @@ class _MemberHomePageState extends State<MemberHomePage> {
                     .toList(),
               ),
               const SizedBox(height: 32),
-              ListTile(
-                onTap: () => Navigator.pushNamed(context, memberPointPageRoute),
-                tileColor: blueColor,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5),
-                ),
-                leading: const FaIcon(
-                  FontAwesomeIcons.wallet,
-                  color: whiteColor,
-                ),
-                title: Text(
-                  'Point Kamu',
-                  style: Theme.of(context)
-                      .textTheme
-                      .subtitle1!
-                      .copyWith(color: whiteColor),
-                ),
-                trailing: Text(
-                  '1000 Points',
-                  style: Theme.of(context)
-                      .textTheme
-                      .subtitle2!
-                      .copyWith(color: whiteColor),
-                ),
+              BlocBuilder<ProfileBloc, ProfileState>(
+                builder: (context, state) {
+                  return ListTile(
+                    onTap: state is ProfileLoaded
+                        ? () =>
+                            Navigator.pushNamed(context, memberPointPageRoute)
+                        : null,
+                    tileColor: blueColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    leading: const FaIcon(
+                      FontAwesomeIcons.wallet,
+                      color: whiteColor,
+                    ),
+                    title: Text(
+                      'Points Kamu',
+                      style: Theme.of(context)
+                          .textTheme
+                          .subtitle1!
+                          .copyWith(color: whiteColor),
+                    ),
+                    trailing: Text(
+                      state is ProfileLoaded
+                          ? '${state.user.point} Points'
+                          : 'Loading...',
+                      style: Theme.of(context)
+                          .textTheme
+                          .subtitle2!
+                          .copyWith(color: whiteColor),
+                    ),
+                  );
+                },
               ),
               const SizedBox(height: 32),
               Center(

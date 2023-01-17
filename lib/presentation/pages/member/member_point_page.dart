@@ -1,5 +1,10 @@
+import 'package:fic_mini_project/common/point_extension.dart';
 import 'package:fic_mini_project/common/styles.dart';
+import 'package:fic_mini_project/domain/entity/point.dart';
+import 'package:fic_mini_project/presentation/blocs/point/point_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 
 class MemberPointPage extends StatefulWidget {
   const MemberPointPage({super.key});
@@ -15,10 +20,15 @@ class _MemberPointPageState extends State<MemberPointPage>
   @override
   void initState() {
     super.initState();
+
     _tabController = TabController(
       length: 2,
       vsync: this,
       initialIndex: 0,
+    );
+
+    Future.microtask(
+      () => context.read<PointBloc>().add(OnFetchAllPointsHistory()),
     );
   }
 
@@ -26,89 +36,116 @@ class _MemberPointPageState extends State<MemberPointPage>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Point Saya"),
+        title: const Text("Riwayat Points"),
       ),
       body: Column(
         children: [
           TabBar(
             controller: _tabController,
             labelColor: navyColor,
-            labelPadding: const EdgeInsets.all(16),
             labelStyle: Theme.of(context).textTheme.subtitle1,
-            tabs: const [
-              Text('Point Masuk'),
-              Text('Point Keluar'),
+            tabs: [
+              Tab(
+                text: 'Point Masuk',
+                icon: Icon(
+                  Icons.arrow_downward,
+                  size: 18,
+                  color: Colors.green[600],
+                ),
+              ),
+              Tab(
+                text: 'Point Keluar',
+                icon: Icon(
+                  Icons.arrow_upward,
+                  size: 18,
+                  color: Colors.red[600],
+                ),
+              ),
             ],
           ),
           Expanded(
-            child: TabBarView(
-              controller: _tabController,
-              children: const [
-                _EntryPoint(),
-                _ExitPoint(),
-              ],
+            child: BlocBuilder<PointBloc, PointState>(
+              builder: (context, state) {
+                if (state is PointLoading) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                } else if (state is AllPointsLoaded) {
+                  final entryPoints = state.points
+                      .where((item) => item.isEntry == true)
+                      .toList();
+
+                  final exitPoints = state.points
+                      .where((item) => item.isEntry == false)
+                      .toList();
+
+                  return TabBarView(
+                    controller: _tabController,
+                    children: [
+                      _ListViewPoint(points: entryPoints),
+                      _ListViewPoint(points: exitPoints),
+                    ],
+                  );
+                } else if (state is PointFailure) {
+                  return Center(
+                    child: Text(state.message),
+                  );
+                } else {
+                  return Container();
+                }
+              },
             ),
           ),
         ],
       ),
     );
   }
-}
-
-class _EntryPoint extends StatelessWidget {
-  const _EntryPoint({
-    Key? key,
-  }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return ListView.separated(
-      separatorBuilder: (_, __) => const Divider(
-        thickness: 0.2,
-        height: 1,
-      ),
-      itemCount: 20,
-      itemBuilder: (context, index) {
-        return ListTile(
-          title: const Text('17/02/2023 14:32'),
-          trailing: Text(
-            '+4100 Points',
-            style: Theme.of(context)
-                .textTheme
-                .bodyText2!
-                .copyWith(color: Colors.green[600]),
-          ),
-        );
-      },
-    );
+  void dispose() {
+    super.dispose();
+    _tabController.dispose();
   }
 }
 
-class _ExitPoint extends StatelessWidget {
-  const _ExitPoint({
+class _ListViewPoint extends StatelessWidget {
+  const _ListViewPoint({
     Key? key,
+    required this.points,
   }) : super(key: key);
+
+  final List<Point> points;
 
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-      separatorBuilder: (_, __) => const Divider(
-        thickness: 0.2,
-        height: 1,
-      ),
-      itemCount: 20,
-      itemBuilder: (context, index) {
-        return ListTile(
-          title: const Text('17/02/2023 14:32'),
-          trailing: Text(
-            '-4100 Points',
-            style: Theme.of(context)
-                .textTheme
-                .bodyText2!
-                .copyWith(color: Colors.red[600]),
-          ),
-        );
-      },
-    );
+    return points.isEmpty
+        ? const Center(
+            child: Text('Data Kosong'),
+          )
+        : ListView.separated(
+            separatorBuilder: (_, __) => const Divider(
+              thickness: 0.2,
+              height: 1,
+            ),
+            itemCount: points.length,
+            itemBuilder: (context, index) {
+              final point = points[index];
+              return ListTile(
+                title: Text(
+                  DateFormat('dd/MM/yyyy HH:MM').format(point.createdAt),
+                ),
+                trailing: Text(
+                  points.first.isEntry == true
+                      ? '+${point.point.pointFormatter} Points'
+                      : '-${point.point.pointFormatter} Points',
+                  style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                        color: points.first.isEntry == true
+                            ? Colors.green[600]
+                            : Colors.red[600],
+                      ),
+                ),
+              );
+            },
+          );
   }
 }

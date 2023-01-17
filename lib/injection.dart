@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fic_mini_project/data/datasources/auth_local_data_source.dart';
 import 'package:fic_mini_project/data/datasources/auth_remote_data_source.dart';
 import 'package:fic_mini_project/data/datasources/category_local_data_source.dart';
+import 'package:fic_mini_project/data/datasources/point_remote_data_source.dart';
 import 'package:fic_mini_project/data/datasources/product_local_data_source.dart';
 import 'package:fic_mini_project/data/datasources/user_remote_data_source.dart';
 import 'package:fic_mini_project/data/db/database_helper.dart';
@@ -9,11 +10,13 @@ import 'package:fic_mini_project/data/pf/preference_helper.dart';
 import 'package:fic_mini_project/data/repositories/auth_repository_impl.dart';
 import 'package:fic_mini_project/data/repositories/cart_repository_impl.dart';
 import 'package:fic_mini_project/data/repositories/category_repository_impl.dart';
+import 'package:fic_mini_project/data/repositories/point_repository_impl.dart';
 import 'package:fic_mini_project/data/repositories/product_repository_impl.dart';
 import 'package:fic_mini_project/data/repositories/user_repository_impl.dart';
 import 'package:fic_mini_project/domain/repositories/auth_repository.dart';
 import 'package:fic_mini_project/domain/repositories/cart_repository.dart';
 import 'package:fic_mini_project/domain/repositories/category_repository.dart';
+import 'package:fic_mini_project/domain/repositories/point_repository.dart';
 import 'package:fic_mini_project/domain/repositories/product_repository.dart';
 import 'package:fic_mini_project/domain/repositories/user_repository.dart';
 import 'package:fic_mini_project/domain/usecases/add_product_quantity.dart';
@@ -21,6 +24,7 @@ import 'package:fic_mini_project/domain/usecases/add_product_to_cart.dart';
 import 'package:fic_mini_project/domain/usecases/clear_cart.dart';
 import 'package:fic_mini_project/domain/usecases/get_all_carts_map.dart';
 import 'package:fic_mini_project/domain/usecases/get_all_categories.dart';
+import 'package:fic_mini_project/domain/usecases/get_all_points_history.dart';
 import 'package:fic_mini_project/domain/usecases/get_all_products.dart';
 import 'package:fic_mini_project/domain/usecases/get_role.dart';
 import 'package:fic_mini_project/domain/usecases/get_current_user.dart';
@@ -38,6 +42,7 @@ import 'package:fic_mini_project/domain/usecases/update_current_user.dart';
 import 'package:fic_mini_project/domain/usecases/update_product.dart';
 import 'package:fic_mini_project/presentation/blocs/auth/auth_bloc.dart';
 import 'package:fic_mini_project/presentation/blocs/category/category_bloc.dart';
+import 'package:fic_mini_project/presentation/blocs/point/point_bloc.dart';
 import 'package:fic_mini_project/presentation/blocs/pos/pos_bloc.dart';
 import 'package:fic_mini_project/presentation/blocs/product/product_bloc.dart';
 import 'package:fic_mini_project/presentation/blocs/profile/profile_bloc.dart';
@@ -90,6 +95,9 @@ void init() {
       getAllCartsMap: locator(),
     ),
   );
+  locator.registerFactory(
+    () => PointBloc(getAllPointsHistory: locator()),
+  );
 
   // usecase
   locator.registerLazySingleton(() => Login(locator()));
@@ -112,6 +120,7 @@ void init() {
   locator.registerLazySingleton(() => ReduceProductQuantity(locator()));
   locator.registerLazySingleton(() => ClearCart(locator()));
   locator.registerLazySingleton(() => GetAllCartsMap(locator()));
+  locator.registerLazySingleton(() => GetAllPointsHistory(locator()));
 
   // repository
   locator.registerLazySingleton<AuthRepository>(
@@ -131,6 +140,9 @@ void init() {
   );
   locator.registerLazySingleton<CartRepository>(
     () => CartRepositoryImpl(),
+  );
+  locator.registerLazySingleton<PointRepository>(
+    () => PointRepositoryImpl(locator()),
   );
 
   // data source
@@ -156,6 +168,12 @@ void init() {
   );
   locator.registerLazySingleton<ProductLocalDataSource>(
     () => ProductLocalDataSourceImpl(locator()),
+  );
+  locator.registerLazySingleton<PointRemoteDataSource>(
+    () => PointRemoteDataSourceImpl(
+      firebaseAuth: locator(),
+      firebaseFirestore: locator(),
+    ),
   );
 
   // helper

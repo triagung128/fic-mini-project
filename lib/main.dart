@@ -3,6 +3,7 @@ import 'package:fic_mini_project/common/styles.dart';
 import 'package:fic_mini_project/firebase_options.dart';
 import 'package:fic_mini_project/presentation/blocs/auth/auth_bloc.dart';
 import 'package:fic_mini_project/presentation/blocs/category/category_bloc.dart';
+import 'package:fic_mini_project/presentation/blocs/point/point_bloc.dart';
 import 'package:fic_mini_project/presentation/blocs/pos/pos_bloc.dart';
 import 'package:fic_mini_project/presentation/blocs/product/product_bloc.dart';
 import 'package:fic_mini_project/presentation/blocs/profile/profile_bloc.dart';
@@ -48,6 +49,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (_) => di.locator<PosBloc>(),
+        ),
+        BlocProvider(
+          create: (_) => di.locator<PointBloc>(),
         ),
       ],
       child: MaterialApp(

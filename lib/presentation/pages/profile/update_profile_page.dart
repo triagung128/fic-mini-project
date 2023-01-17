@@ -219,6 +219,7 @@ class _ContentUpdateProfileState extends State<_ContentUpdateProfile> {
                       email: widget.user.email,
                       phoneNumber: _phoneNumberController.text,
                       photoUrl: widget.user.photoUrl,
+                      point: widget.user.point,
                     );
 
                     context

@@ -48,6 +48,7 @@ class UserRemoteDataSourceImpl extends UserRemoteDataSource {
         email: user.email,
         phoneNumber: user.phoneNumber,
         photoUrl: imageUrl,
+        point: user.point,
       );
     }
 

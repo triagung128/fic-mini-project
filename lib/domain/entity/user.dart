@@ -6,6 +6,7 @@ class User extends Equatable {
   final String? email;
   final String? phoneNumber;
   final String? photoUrl;
+  final int? point;
 
   const User({
     required this.id,
@@ -13,6 +14,7 @@ class User extends Equatable {
     this.email,
     this.phoneNumber,
     this.photoUrl,
+    this.point,
   });
 
   @override
@@ -22,5 +24,6 @@ class User extends Equatable {
         email,
         phoneNumber,
         photoUrl,
+        point,
       ];
 }

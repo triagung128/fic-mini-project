@@ -9,6 +9,7 @@ class UserModel extends Equatable {
   final String? email;
   final String? phoneNumber;
   final String? photoUrl;
+  final int? point;
 
   const UserModel({
     required this.id,
@@ -16,6 +17,7 @@ class UserModel extends Equatable {
     this.email,
     this.phoneNumber,
     this.photoUrl,
+    this.point,
   });
 
   @override
@@ -25,6 +27,7 @@ class UserModel extends Equatable {
         email,
         phoneNumber,
         photoUrl,
+        point,
       ];
 
   User toEntity() => User(
@@ -33,6 +36,7 @@ class UserModel extends Equatable {
         email: email,
         phoneNumber: phoneNumber,
         photoUrl: photoUrl,
+        point: point,
       );
 
   factory UserModel.fromEntity(User user) => UserModel(
@@ -41,6 +45,7 @@ class UserModel extends Equatable {
         email: user.email,
         phoneNumber: user.phoneNumber,
         photoUrl: user.photoUrl,
+        point: user.point,
       );
 
   factory UserModel.fromSnapshot(DocumentSnapshot snapshot) => UserModel(
@@ -49,6 +54,7 @@ class UserModel extends Equatable {
         email: snapshot.get('email'),
         phoneNumber: snapshot.get('phoneNumber'),
         photoUrl: snapshot.get('photoUrl'),
+        point: snapshot.get('point'),
       );
 
   Map<String, dynamic> toDocument() => {
@@ -57,5 +63,6 @@ class UserModel extends Equatable {
         'email': email,
         'phoneNumber': phoneNumber,
         'photoUrl': photoUrl,
+        'point': point,
       };
 }
