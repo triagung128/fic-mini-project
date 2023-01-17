@@ -39,7 +39,15 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
           firebaseFirestore.collection('users').doc(currentUser.uid);
       final user = await userCollection.get();
       if (!user.exists) {
-        await userCollection.set(UserModel.fromSnapshot(user).toDocument());
+        final newUser = UserModel(
+          id: currentUser.uid,
+          name: currentUser.displayName,
+          email: currentUser.email,
+          phoneNumber: currentUser.phoneNumber,
+          photoUrl: currentUser.photoURL,
+          point: 0,
+        );
+        await userCollection.set(newUser.toDocument());
       }
     } else {
       throw PlatformException(code: GoogleSignIn.kSignInCanceledError);
