@@ -46,12 +46,3 @@ class ProfileUpdateSuccess extends ProfileState {
   @override
   List<Object> get props => [message];
 }
-
-class ProfileImagePicked extends ProfileState {
-  final XFile image;
-
-  const ProfileImagePicked(this.image);
-
-  @override
-  List<Object> get props => [image];
-}

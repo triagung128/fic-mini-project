@@ -26,7 +26,6 @@ class ProfilePage extends StatelessWidget {
           return previous != current && current is LogoutSuccess;
         },
         child: BlocBuilder<ProfileBloc, ProfileState>(
-          buildWhen: (_, current) => current is! ProfileImagePicked,
           builder: (_, state) {
             if (state is ProfileLoading) {
               return const Center(

@@ -89,7 +89,6 @@ class _VendorHomePageState extends State<VendorHomePage> {
                 child: Row(
                   children: [
                     BlocBuilder<ProfileBloc, ProfileState>(
-                      buildWhen: (_, current) => current is! ProfileImagePicked,
                       builder: (_, state) {
                         return CircleAvatar(
                           radius: 20,
@@ -112,8 +111,6 @@ class _VendorHomePageState extends State<VendorHomePage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         BlocBuilder<ProfileBloc, ProfileState>(
-                          buildWhen: (_, current) =>
-                              current is! ProfileImagePicked,
                           builder: (_, state) {
                             return Text(
                               state is ProfileLoaded
