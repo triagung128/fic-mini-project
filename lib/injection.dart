@@ -4,6 +4,8 @@ import 'package:fic_mini_project/data/datasources/auth_remote_data_source.dart';
 import 'package:fic_mini_project/data/datasources/category_local_data_source.dart';
 import 'package:fic_mini_project/data/datasources/point_remote_data_source.dart';
 import 'package:fic_mini_project/data/datasources/product_local_data_source.dart';
+import 'package:fic_mini_project/data/datasources/report_remote_data_source.dart';
+import 'package:fic_mini_project/data/datasources/transaction_remote_data_source.dart';
 import 'package:fic_mini_project/data/datasources/user_remote_data_source.dart';
 import 'package:fic_mini_project/data/db/database_helper.dart';
 import 'package:fic_mini_project/data/pf/preference_helper.dart';
@@ -12,12 +14,16 @@ import 'package:fic_mini_project/data/repositories/cart_repository_impl.dart';
 import 'package:fic_mini_project/data/repositories/category_repository_impl.dart';
 import 'package:fic_mini_project/data/repositories/point_repository_impl.dart';
 import 'package:fic_mini_project/data/repositories/product_repository_impl.dart';
+import 'package:fic_mini_project/data/repositories/report_repository_impl.dart';
+import 'package:fic_mini_project/data/repositories/transaction_repository_impl.dart';
 import 'package:fic_mini_project/data/repositories/user_repository_impl.dart';
 import 'package:fic_mini_project/domain/repositories/auth_repository.dart';
 import 'package:fic_mini_project/domain/repositories/cart_repository.dart';
 import 'package:fic_mini_project/domain/repositories/category_repository.dart';
 import 'package:fic_mini_project/domain/repositories/point_repository.dart';
 import 'package:fic_mini_project/domain/repositories/product_repository.dart';
+import 'package:fic_mini_project/domain/repositories/report_repository.dart';
+import 'package:fic_mini_project/domain/repositories/transaction_repository.dart';
 import 'package:fic_mini_project/domain/repositories/user_repository.dart';
 import 'package:fic_mini_project/domain/usecases/add_product_quantity.dart';
 import 'package:fic_mini_project/domain/usecases/add_product_to_cart.dart';
@@ -26,9 +32,13 @@ import 'package:fic_mini_project/domain/usecases/get_all_carts_map.dart';
 import 'package:fic_mini_project/domain/usecases/get_all_categories.dart';
 import 'package:fic_mini_project/domain/usecases/get_all_points_history.dart';
 import 'package:fic_mini_project/domain/usecases/get_all_products.dart';
+import 'package:fic_mini_project/domain/usecases/get_all_transactions.dart';
+import 'package:fic_mini_project/domain/usecases/get_all_transactions_by_user_id.dart';
+import 'package:fic_mini_project/domain/usecases/get_count_transactions_today.dart';
 import 'package:fic_mini_project/domain/usecases/get_role.dart';
 import 'package:fic_mini_project/domain/usecases/get_current_user.dart';
 import 'package:fic_mini_project/domain/usecases/get_login_status.dart';
+import 'package:fic_mini_project/domain/usecases/get_turn_over_transactions_today.dart';
 import 'package:fic_mini_project/domain/usecases/insert_category.dart';
 import 'package:fic_mini_project/domain/usecases/insert_product.dart';
 import 'package:fic_mini_project/domain/usecases/login.dart';
@@ -36,6 +46,7 @@ import 'package:fic_mini_project/domain/usecases/logout.dart';
 import 'package:fic_mini_project/domain/usecases/reduce_product_quantity.dart';
 import 'package:fic_mini_project/domain/usecases/remove_category.dart';
 import 'package:fic_mini_project/domain/usecases/remove_product.dart';
+import 'package:fic_mini_project/domain/usecases/save_transaction.dart';
 import 'package:fic_mini_project/domain/usecases/set_role.dart';
 import 'package:fic_mini_project/domain/usecases/update_category.dart';
 import 'package:fic_mini_project/domain/usecases/update_current_user.dart';
@@ -46,6 +57,8 @@ import 'package:fic_mini_project/presentation/blocs/point/point_bloc.dart';
 import 'package:fic_mini_project/presentation/blocs/pos/pos_bloc.dart';
 import 'package:fic_mini_project/presentation/blocs/product/product_bloc.dart';
 import 'package:fic_mini_project/presentation/blocs/profile/profile_bloc.dart';
+import 'package:fic_mini_project/presentation/blocs/report/report_bloc.dart';
+import 'package:fic_mini_project/presentation/blocs/transaction/transaction_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get_it/get_it.dart';
@@ -98,6 +111,19 @@ void init() {
   locator.registerFactory(
     () => PointBloc(getAllPointsHistory: locator()),
   );
+  locator.registerFactory(
+    () => TransactionBloc(
+      getAllTransactions: locator(),
+      getAllTransactionsByUserId: locator(),
+      saveTransaction: locator(),
+    ),
+  );
+  locator.registerFactory(
+    () => ReportBloc(
+      getCountTransactionsToday: locator(),
+      getTurnOverTransactionsToday: locator(),
+    ),
+  );
 
   // usecase
   locator.registerLazySingleton(() => Login(locator()));
@@ -121,6 +147,11 @@ void init() {
   locator.registerLazySingleton(() => ClearCart(locator()));
   locator.registerLazySingleton(() => GetAllCartsMap(locator()));
   locator.registerLazySingleton(() => GetAllPointsHistory(locator()));
+  locator.registerLazySingleton(() => GetAllTransactions(locator()));
+  locator.registerLazySingleton(() => GetAllTransactionsByUserId(locator()));
+  locator.registerLazySingleton(() => SaveTransaction(locator()));
+  locator.registerLazySingleton(() => GetCountTransactionsToday(locator()));
+  locator.registerLazySingleton(() => GetTurnOverTransactionsToday(locator()));
 
   // repository
   locator.registerLazySingleton<AuthRepository>(
@@ -143,6 +174,12 @@ void init() {
   );
   locator.registerLazySingleton<PointRepository>(
     () => PointRepositoryImpl(locator()),
+  );
+  locator.registerLazySingleton<TransactionRepository>(
+    () => TransactionRepositoryImpl(locator()),
+  );
+  locator.registerLazySingleton<ReportRepository>(
+    () => ReportRepositoryImpl(locator()),
   );
 
   // data source
@@ -174,6 +211,15 @@ void init() {
       firebaseAuth: locator(),
       firebaseFirestore: locator(),
     ),
+  );
+  locator.registerLazySingleton<TransactionRemoteDataSource>(
+    () => TransactionRemoteDataSourceImpl(
+      firebaseAuth: locator(),
+      firebaseFirestore: locator(),
+    ),
+  );
+  locator.registerLazySingleton<ReportRemoteDataSource>(
+    () => ReportRemoteDataSourceImpl(locator()),
   );
 
   // helper

@@ -57,6 +57,15 @@ class UserModel extends Equatable {
         point: snapshot.get('point'),
       );
 
+  factory UserModel.fromMap(Map<String, dynamic> map) => UserModel(
+        id: map['id'],
+        name: map['name'],
+        email: map['email'],
+        phoneNumber: map['phoneNumber'],
+        photoUrl: map['photoUrl'],
+        point: map['point'],
+      );
+
   Map<String, dynamic> toDocument() => {
         'id': id,
         'name': name,

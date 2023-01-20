@@ -1,7 +1,9 @@
+import 'package:fic_mini_project/common/currency_rupiah_extension.dart';
 import 'package:fic_mini_project/common/routes.dart';
 import 'package:fic_mini_project/common/styles.dart';
 import 'package:fic_mini_project/data/models/menu_model.dart';
 import 'package:fic_mini_project/presentation/blocs/profile/profile_bloc.dart';
+import 'package:fic_mini_project/presentation/blocs/report/report_bloc.dart';
 import 'package:fic_mini_project/presentation/widgets/menu_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,7 +21,10 @@ class _VendorHomePageState extends State<VendorHomePage> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() => context.read<ProfileBloc>().add(OnFetchProfile()));
+    Future.microtask(() {
+      context.read<ProfileBloc>().add(OnFetchProfile());
+      context.read<ReportBloc>().add(OnGetReportTransactionsToday());
+    });
   }
 
   @override
@@ -73,119 +78,127 @@ class _VendorHomePageState extends State<VendorHomePage> {
     ];
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: const Text('Palem Kafe - POS App'),
       ),
-      body: SafeArea(
-        child: Padding(
+      body: RefreshIndicator(
+        onRefresh: () async {
+          context.read<ReportBloc>().add(OnGetReportTransactionsToday());
+        },
+        child: ListView(
           padding: const EdgeInsets.symmetric(
             horizontal: 24,
             vertical: 16,
           ),
-          child: Column(
-            children: [
-              GestureDetector(
-                onTap: () => Navigator.pushNamed(context, profileRoute),
-                child: Row(
+          children: [
+            BlocBuilder<ProfileBloc, ProfileState>(
+              builder: (context, state) {
+                return GestureDetector(
+                  onTap: state is ProfileLoaded
+                      ? () => Navigator.pushNamed(context, profileRoute)
+                      : null,
+                  child: Row(
+                    children: [
+                      CircleAvatar(
+                        radius: 20,
+                        backgroundColor: Colors.grey[300],
+                        backgroundImage: state is ProfileLoaded
+                            ? state.user.photoUrl != null
+                                ? NetworkImage(state.user.photoUrl!)
+                                : null
+                            : null,
+                        child: state is ProfileLoaded
+                            ? state.user.photoUrl == null
+                                ? const Icon(Icons.person)
+                                : null
+                            : null,
+                      ),
+                      const SizedBox(width: 8),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            state is ProfileLoaded
+                                ? 'Hi, ${state.user.name}'
+                                : 'Loading...',
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            DateFormat('d MMMM yyyy', 'id_ID')
+                                .format(DateTime.now()),
+                            style:
+                                Theme.of(context).textTheme.bodyText1!.copyWith(
+                                      color: navyColor,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+            const SizedBox(height: 24),
+            BlocBuilder<ReportBloc, ReportState>(
+              builder: (_, state) {
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    BlocBuilder<ProfileBloc, ProfileState>(
-                      builder: (_, state) {
-                        return CircleAvatar(
-                          radius: 20,
-                          backgroundColor: Colors.grey[300],
-                          backgroundImage: state is ProfileLoaded
-                              ? state.user.photoUrl != null
-                                  ? NetworkImage(state.user.photoUrl!)
-                                  : null
-                              : null,
-                          child: state is ProfileLoaded
-                              ? state.user.photoUrl == null
-                                  ? const Icon(Icons.person)
-                                  : null
-                              : null,
-                        );
-                      },
+                    Expanded(
+                      flex: 2,
+                      child: _SummaryCard(
+                        icon: Icons.attach_money,
+                        label: 'Omset hari ini',
+                        value: state is ReportLoaded
+                            ? state.turnOverTransactions.intToFormatRupiah
+                            : 'Loading...',
+                      ),
                     ),
-                    const SizedBox(width: 8),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        BlocBuilder<ProfileBloc, ProfileState>(
-                          builder: (_, state) {
-                            return Text(
-                              state is ProfileLoaded
-                                  ? 'Hi, ${state.user.name}'
-                                  : 'Loading...',
-                            );
-                          },
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          DateFormat('d MMMM yyyy', 'id_ID')
-                              .format(DateTime.now()),
-                          style:
-                              Theme.of(context).textTheme.bodyText1!.copyWith(
-                                    color: navyColor,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                        ),
-                      ],
+                    const SizedBox(width: 16),
+                    Expanded(
+                      flex: 1,
+                      child: _SummaryCard(
+                        icon: Icons.data_usage,
+                        label: 'Transaksi hari ini',
+                        value: state is ReportLoaded
+                            ? state.countTransactions.toString()
+                            : 'Loading...',
+                      ),
                     ),
                   ],
-                ),
+                );
+              },
+            ),
+            const SizedBox(height: 40),
+            Text(
+              'Main Menu',
+              style: Theme.of(context)
+                  .textTheme
+                  .subtitle2!
+                  .copyWith(color: navyColor),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 16),
+            GridView.builder(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
               ),
-              const SizedBox(height: 24),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: const [
-                  Expanded(
-                    flex: 2,
-                    child: _SummaryCard(
-                      icon: Icons.attach_money,
-                      label: 'Omset hari ini',
-                      value: 'Rp. 80.000.000',
-                    ),
-                  ),
-                  SizedBox(width: 16),
-                  Expanded(
-                    flex: 1,
-                    child: _SummaryCard(
-                      icon: Icons.data_usage,
-                      label: 'Transaksi hari ini',
-                      value: '80',
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 40),
-              Text(
-                'Main Menu',
-                style: Theme.of(context)
-                    .textTheme
-                    .subtitle2!
-                    .copyWith(color: navyColor),
-              ),
-              const SizedBox(height: 16),
-              Expanded(
-                child: GridView.builder(
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
-                  ),
-                  physics: const NeverScrollableScrollPhysics(),
-                  padding: const EdgeInsets.all(4),
-                  itemCount: listMenu.length,
-                  itemBuilder: (_, index) {
-                    final menuItem = listMenu[index];
-                    return MenuCard(
-                      onPressed: menuItem.onPressed,
-                      icon: menuItem.icon,
-                      labelText: menuItem.labelText,
-                    );
-                  },
-                ),
-              ),
-            ],
-          ),
+              physics: const NeverScrollableScrollPhysics(),
+              padding: const EdgeInsets.all(4),
+              itemCount: listMenu.length,
+              shrinkWrap: true,
+              itemBuilder: (_, index) {
+                final menuItem = listMenu[index];
+                return MenuCard(
+                  onPressed: menuItem.onPressed,
+                  icon: menuItem.icon,
+                  labelText: menuItem.labelText,
+                );
+              },
+            ),
+          ],
         ),
       ),
     );

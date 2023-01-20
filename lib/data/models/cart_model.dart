@@ -26,4 +26,11 @@ class CartModel {
         ),
         totalPrice: map['total_price'],
       );
+
+  factory CartModel.fromEntity(Cart cart) => CartModel(
+        products: cart.products
+            .map((item) => ProductCartModel.fromEntity(item))
+            .toList(),
+        totalPrice: cart.totalPrice,
+      );
 }

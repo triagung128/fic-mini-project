@@ -1,4 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:fic_mini_project/common/point_extension.dart';
 import 'package:fic_mini_project/common/routes.dart';
 import 'package:fic_mini_project/common/styles.dart';
 import 'package:fic_mini_project/data/models/menu_model.dart';
@@ -197,7 +198,7 @@ class _MemberHomePageState extends State<MemberHomePage> {
                     ),
                     trailing: Text(
                       state is ProfileLoaded
-                          ? '${state.user.point} Points'
+                          ? '${state.user.point?.pointFormatter} Points'
                           : 'Loading...',
                       style: Theme.of(context)
                           .textTheme

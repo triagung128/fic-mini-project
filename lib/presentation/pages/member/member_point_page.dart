@@ -1,10 +1,10 @@
+import 'package:fic_mini_project/common/datetime_extension.dart';
 import 'package:fic_mini_project/common/point_extension.dart';
 import 'package:fic_mini_project/common/styles.dart';
 import 'package:fic_mini_project/domain/entity/point.dart';
 import 'package:fic_mini_project/presentation/blocs/point/point_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 
 class MemberPointPage extends StatefulWidget {
   const MemberPointPage({super.key});
@@ -131,9 +131,7 @@ class _ListViewPoint extends StatelessWidget {
             itemBuilder: (context, index) {
               final point = points[index];
               return ListTile(
-                title: Text(
-                  DateFormat('dd/MM/yyyy HH:MM').format(point.createdAt),
-                ),
+                title: Text(point.createdAt.dateTimeFormatter),
                 trailing: Text(
                   points.first.isEntry == true
                       ? '+${point.point.pointFormatter} Points'

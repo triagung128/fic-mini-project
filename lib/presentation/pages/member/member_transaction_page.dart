@@ -1,8 +1,24 @@
+import 'package:fic_mini_project/common/currency_rupiah_extension.dart';
+import 'package:fic_mini_project/common/datetime_extension.dart';
 import 'package:fic_mini_project/common/styles.dart';
+import 'package:fic_mini_project/domain/entity/transaction.dart';
+import 'package:fic_mini_project/presentation/blocs/transaction/transaction_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class MemberTransactionPage extends StatelessWidget {
+class MemberTransactionPage extends StatefulWidget {
   const MemberTransactionPage({super.key});
+
+  @override
+  State<MemberTransactionPage> createState() => _MemberTransactionPageState();
+}
+
+class _MemberTransactionPageState extends State<MemberTransactionPage> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<TransactionBloc>().add(OnFetchAllTransactionsByUserId());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -11,15 +27,36 @@ class MemberTransactionPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Riwayat Transaksi'),
       ),
-      body: ListView.builder(
-        padding: const EdgeInsets.only(
-          left: 16,
-          right: 16,
-          top: 16,
-        ),
-        itemCount: 20,
-        itemBuilder: (context, index) {
-          return const _MemberTransactionCard();
+      body: BlocBuilder<TransactionBloc, TransactionState>(
+        builder: (context, state) {
+          if (state is TransactionLoading) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (state is AllTransactionsLoaded) {
+            return ListView.builder(
+              padding: const EdgeInsets.only(
+                left: 16,
+                right: 16,
+                top: 16,
+              ),
+              itemCount: state.transactions.length,
+              itemBuilder: (_, index) {
+                final transaction = state.transactions[index];
+                return _MemberTransactionCard(transaction: transaction);
+              },
+            );
+          } else if (state is TransactionEmpty) {
+            return const Center(
+              child: Text('Data Kosong'),
+            );
+          } else if (state is TransactionFailure) {
+            return Center(
+              child: Text(state.message),
+            );
+          } else {
+            return Container();
+          }
         },
       ),
     );
@@ -27,9 +64,10 @@ class MemberTransactionPage extends StatelessWidget {
 }
 
 class _MemberTransactionCard extends StatelessWidget {
-  const _MemberTransactionCard({
-    Key? key,
-  }) : super(key: key);
+  const _MemberTransactionCard({Key? key, required this.transaction})
+      : super(key: key);
+
+  final TransactionEntity transaction;
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +85,7 @@ class _MemberTransactionCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                '22/07/2023 15:32',
+                transaction.createdAt.dateTimeFormatter,
                 style: Theme.of(context).textTheme.bodyText1,
               ),
               Row(
@@ -75,7 +113,7 @@ class _MemberTransactionCard extends StatelessWidget {
           const Text('Total :'),
           const SizedBox(height: 4),
           Text(
-            'Rp. 15.000',
+            transaction.endTotalPrice.intToFormatRupiah,
             style: Theme.of(context)
                 .textTheme
                 .bodyText1!

@@ -1,6 +1,9 @@
 import 'package:avatar_glow/avatar_glow.dart';
+import 'package:fic_mini_project/common/routes.dart';
 import 'package:fic_mini_project/common/styles.dart';
+import 'package:fic_mini_project/presentation/blocs/profile/profile_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class OrderSuccessPage extends StatelessWidget {
   const OrderSuccessPage({super.key});
@@ -73,7 +76,10 @@ class OrderSuccessPage extends StatelessWidget {
               ),
               const SizedBox(height: 100),
               OutlinedButton(
-                onPressed: () => Navigator.pop(context),
+                onPressed: () {
+                  Navigator.pop(context);
+                  context.read<ProfileBloc>().add(OnFetchProfile());
+                },
                 style: OutlinedButton.styleFrom(
                   side: const BorderSide(
                     color: whiteColor,
@@ -94,7 +100,13 @@ class OrderSuccessPage extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushReplacementNamed(
+                    context,
+                    memberTransactionRoute,
+                  );
+                  context.read<ProfileBloc>().add(OnFetchProfile());
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: whiteColor,
                   shape: RoundedRectangleBorder(

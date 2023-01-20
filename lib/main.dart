@@ -7,6 +7,8 @@ import 'package:fic_mini_project/presentation/blocs/point/point_bloc.dart';
 import 'package:fic_mini_project/presentation/blocs/pos/pos_bloc.dart';
 import 'package:fic_mini_project/presentation/blocs/product/product_bloc.dart';
 import 'package:fic_mini_project/presentation/blocs/profile/profile_bloc.dart';
+import 'package:fic_mini_project/presentation/blocs/report/report_bloc.dart';
+import 'package:fic_mini_project/presentation/blocs/transaction/transaction_bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -52,6 +54,12 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (_) => di.locator<PointBloc>(),
+        ),
+        BlocProvider(
+          create: (_) => di.locator<TransactionBloc>(),
+        ),
+        BlocProvider(
+          create: (_) => di.locator<ReportBloc>(),
         ),
       ],
       child: MaterialApp(
