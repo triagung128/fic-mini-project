@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "266552192086-b3dmlop0dufvhkknvtbdmfb2gi8bvvq4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.triagung.fic_mini_project",
+            "certificate_hash": "a1ac67ec5123f092dbe89444b330151a18f6dae8"
+          }
+        },
+        {
           "client_id": "266552192086-euviurh5av97343g1rk01a34s4prqfj2.apps.googleusercontent.com",
           "client_type": 3
         }
