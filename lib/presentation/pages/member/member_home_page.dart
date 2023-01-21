@@ -19,11 +19,11 @@ class MemberHomePage extends StatefulWidget {
 
 class _MemberHomePageState extends State<MemberHomePage> {
   final images = [
-    'assets/logo.png',
-    'assets/logo.png',
-    'assets/logo.png',
-    'assets/logo.png',
-    'assets/logo.png',
+    'assets/promo_1.png',
+    'assets/promo_2.jpg',
+    'assets/promo_3.jpg',
+    'assets/promo_4.jpg',
+    'assets/promo_5.jpg',
   ];
 
   int _currentIndexImage = 0;
