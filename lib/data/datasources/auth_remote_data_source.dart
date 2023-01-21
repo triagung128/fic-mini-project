@@ -23,6 +23,10 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
 
   @override
   Future<void> loginWithGoogle() async {
+    try {
+      await googleSignIn.disconnect();
+    } catch (_) {}
+
     final GoogleSignInAccount? googleAccount = await googleSignIn.signIn();
     if (googleAccount != null) {
       final GoogleSignInAuthentication googleAuth =
