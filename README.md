@@ -1,16 +1,57 @@
-# fic_mini_project
+# Palem Kafe POS App
+Sebuah aplikasi mini project FIC (Flutter Intensive Club) yang bertemakan POS (Point Of Sales) App untuk mendukung operasional sebuah kafe.
 
-A new Flutter project.
+![Thumbnail](https://github.com/triagung128/fic-mini-project/blob/master/assets/screenshots/screenshot_1.png)
 
-## Getting Started
+## Feature Apps
+Aplikasi ini terdiri dari 2 roles user, yaitu vendor dan member.
+### Vendor
+- Login by Google
+- Dashboard Menu
+- Management Kategori
+- Management Produk
+- Point Of Sales
+- History Transactions
+- My Profile
+### Member
+- Login by Google
+- Home Page
+- Member Points
+- Scan QR Code
+- Checkout
+- History Transactions
+- My Profile
 
-This project is a starting point for a Flutter application.
+## State Management
+- Flutter Bloc
 
-A few resources to get you started if this is your first Flutter project:
+## Dependencies
+- avatar_glow
+- carousel_slider
+- cloud_firestore
+- dartz
+- equatable
+- firebase_auth
+- firebase_core
+- firebase_storage
+- flutter_bloc
+- font_awesome_flutter
+- get_it
+- google_fonts
+- google_sign_in
+- image_picker
+- intl
+- mobile_scanner
+- qr_flutter
+- shared_preferences
+- sqflite
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Screenshots
+![Screenshots 1](https://github.com/triagung128/fic-mini-project/blob/master/assets/screenshots/screenshot_2.png)
+![Screenshots 2](https://github.com/triagung128/fic-mini-project/blob/master/assets/screenshots/screenshot_3.png)
+![Screenshots 3](https://github.com/triagung128/fic-mini-project/blob/master/assets/screenshots/screenshot_4.png)
+![Screenshots 4](https://github.com/triagung128/fic-mini-project/blob/master/assets/screenshots/screenshot_5.png)
+![Screenshots 5](https://github.com/triagung128/fic-mini-project/blob/master/assets/screenshots/screenshot_6.png)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Demo App
+https://youtu.be/5TVLj3m-B5g
