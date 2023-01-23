@@ -4,7 +4,7 @@ Sebuah aplikasi mini project FIC (Flutter Intensive Club) yang bertemakan POS (P
 ![Thumbnail](https://github.com/triagung128/fic-mini-project/blob/master/assets/screenshots/screenshot_1.png)
 
 ## Feature Apps
-Aplikasi ini terdiri dari 2 roles user, yaitu vendor dan member.
+Aplikasi ini terdiri dari 2 role user, yaitu vendor dan member.
 ### Vendor
 - Login by Google
 - Dashboard Menu
