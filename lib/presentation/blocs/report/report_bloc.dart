@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
-import 'package:fic_mini_project/domain/usecases/get_count_transactions_today.dart';
-import 'package:fic_mini_project/domain/usecases/get_turn_over_transactions_today.dart';
+import 'package:fic_mini_project/domain/usecases/report/get_count_transactions_today.dart';
+import 'package:fic_mini_project/domain/usecases/report/get_turn_over_transactions_today.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'report_event.dart';

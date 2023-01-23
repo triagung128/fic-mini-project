@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:fic_mini_project/domain/entity/transaction.dart';
-import 'package:fic_mini_project/domain/usecases/get_all_transactions.dart';
-import 'package:fic_mini_project/domain/usecases/get_all_transactions_by_user_id.dart';
-import 'package:fic_mini_project/domain/usecases/save_transaction.dart';
+import 'package:fic_mini_project/domain/usecases/transaction/get_all_transactions.dart';
+import 'package:fic_mini_project/domain/usecases/transaction/get_all_transactions_by_user_id.dart';
+import 'package:fic_mini_project/domain/usecases/transaction/save_transaction.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'transaction_event.dart';

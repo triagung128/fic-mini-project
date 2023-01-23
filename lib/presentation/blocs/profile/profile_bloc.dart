@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:fic_mini_project/domain/entity/user.dart';
-import 'package:fic_mini_project/domain/usecases/get_current_user.dart';
-import 'package:fic_mini_project/domain/usecases/update_current_user.dart';
+import 'package:fic_mini_project/domain/usecases/user/get_current_user.dart';
+import 'package:fic_mini_project/domain/usecases/user/update_current_user.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 

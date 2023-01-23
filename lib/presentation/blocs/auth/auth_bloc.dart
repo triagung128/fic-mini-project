@@ -1,9 +1,9 @@
 import 'package:equatable/equatable.dart';
-import 'package:fic_mini_project/domain/usecases/get_login_status.dart';
-import 'package:fic_mini_project/domain/usecases/get_role.dart';
-import 'package:fic_mini_project/domain/usecases/login.dart';
-import 'package:fic_mini_project/domain/usecases/logout.dart';
-import 'package:fic_mini_project/domain/usecases/set_role.dart';
+import 'package:fic_mini_project/domain/usecases/auth/get_login_status.dart';
+import 'package:fic_mini_project/domain/usecases/auth/get_role.dart';
+import 'package:fic_mini_project/domain/usecases/auth/login_with_google.dart';
+import 'package:fic_mini_project/domain/usecases/auth/logout.dart';
+import 'package:fic_mini_project/domain/usecases/auth/set_role.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'auth_event.dart';
