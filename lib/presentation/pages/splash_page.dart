@@ -47,7 +47,7 @@ class _SplashPageState extends State<SplashPage> {
                     height: 200,
                     decoration: BoxDecoration(
                       image: const DecorationImage(
-                        image: AssetImage('assets/logo.png'),
+                        image: AssetImage('assets/logo/logo.png'),
                       ),
                       borderRadius: BorderRadius.circular(16),
                     ),
