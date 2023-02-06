@@ -74,29 +74,8 @@ class LoginPage extends StatelessWidget {
                   _LoginButton(
                     onPressed: state is AuthLoading
                         ? null
-                        : () => context
-                            .read<AuthBloc>()
-                            .add(LoginAsVendorSubmitted()),
-                    text: 'Log in as Vendor',
-                  ),
-                  const SizedBox(height: 12),
-                  Center(
-                    child: Text(
-                      'atau',
-                      style: Theme.of(context)
-                          .textTheme
-                          .caption!
-                          .copyWith(color: navyColor),
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  _LoginButton(
-                    onPressed: state is AuthLoading
-                        ? null
-                        : () => context
-                            .read<AuthBloc>()
-                            .add(LoginAsMemberSubmitted()),
-                    text: 'Log in as Member',
+                        : () => context.read<AuthBloc>().add(LoginSubmitted()),
+                    text: 'Log in by Google Account',
                   ),
                   state is AuthLoading
                       ? Container(

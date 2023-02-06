@@ -9,6 +9,7 @@ class UserModel extends Equatable {
   final String? email;
   final String? phoneNumber;
   final String? photoUrl;
+  final String? role;
   final int? point;
 
   const UserModel({
@@ -17,6 +18,7 @@ class UserModel extends Equatable {
     this.email,
     this.phoneNumber,
     this.photoUrl,
+    this.role,
     this.point,
   });
 
@@ -27,6 +29,7 @@ class UserModel extends Equatable {
         email,
         phoneNumber,
         photoUrl,
+        role,
         point,
       ];
 
@@ -36,6 +39,7 @@ class UserModel extends Equatable {
         email: email,
         phoneNumber: phoneNumber,
         photoUrl: photoUrl,
+        role: role,
         point: point,
       );
 
@@ -45,6 +49,7 @@ class UserModel extends Equatable {
         email: user.email,
         phoneNumber: user.phoneNumber,
         photoUrl: user.photoUrl,
+        role: user.role,
         point: user.point,
       );
 
@@ -54,6 +59,7 @@ class UserModel extends Equatable {
         email: snapshot.get('email'),
         phoneNumber: snapshot.get('phoneNumber'),
         photoUrl: snapshot.get('photoUrl'),
+        role: snapshot.get('role'),
         point: snapshot.get('point'),
       );
 
@@ -63,6 +69,7 @@ class UserModel extends Equatable {
         email: map['email'],
         phoneNumber: map['phoneNumber'],
         photoUrl: map['photoUrl'],
+        role: map['role'],
         point: map['point'],
       );
 
@@ -72,6 +79,7 @@ class UserModel extends Equatable {
         'email': email,
         'phoneNumber': phoneNumber,
         'photoUrl': photoUrl,
+        'role': role,
         'point': point,
       };
 }

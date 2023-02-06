@@ -26,28 +26,20 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     required this.setRole,
     required this.getRole,
   }) : super(AuthInitial()) {
-    on<LoginAsVendorSubmitted>((event, emit) async {
+    on<LoginSubmitted>((event, emit) async {
       emit(AuthLoading());
 
       final result = await login.execute();
       result.fold(
         (failure) => emit(AuthFailure(failure.message)),
-        (success) {
-          setRole.execute(roleVendor);
-          emit(LoginAsVendorAuthenticated());
-        },
-      );
-    });
-
-    on<LoginAsMemberSubmitted>((event, emit) async {
-      emit(AuthLoading());
-
-      final result = await login.execute();
-      result.fold(
-        (failure) => emit(AuthFailure(failure.message)),
-        (success) {
-          setRole.execute(roleMember);
-          emit(LoginAsMemberAuthenticated());
+        (user) {
+          if (user.role == 'vendor') {
+            setRole.execute(roleVendor);
+            emit(LoginAsVendorAuthenticated());
+          } else {
+            setRole.execute(roleMember);
+            emit(LoginAsMemberAuthenticated());
+          }
         },
       );
     });

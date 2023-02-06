@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 abstract class AuthRemoteDataSource {
-  Future<void> loginWithGoogle();
+  Future<UserModel> loginWithGoogle();
   bool isLogin();
   Future<void> logout();
 }
@@ -22,7 +22,7 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
   });
 
   @override
-  Future<void> loginWithGoogle() async {
+  Future<UserModel> loginWithGoogle() async {
     try {
       await googleSignIn.disconnect();
     } catch (_) {}
@@ -49,10 +49,14 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
           email: currentUser.email,
           phoneNumber: currentUser.phoneNumber,
           photoUrl: currentUser.photoURL,
+          role: 'member',
           point: 0,
         );
         await userCollection.set(newUser.toDocument());
       }
+
+      final dataUser = await userCollection.get();
+      return UserModel.fromSnapshot(dataUser);
     } else {
       throw PlatformException(code: GoogleSignIn.kSignInCanceledError);
     }
