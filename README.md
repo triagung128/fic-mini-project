@@ -1,15 +1,15 @@
 # Palem Kafe POS App
-Sebuah aplikasi mini project FIC (Flutter Intensive Club) yang bertemakan POS (Point Of Sales) App untuk mendukung operasional sebuah kafe.
+Palem Kafe POS App is an android-based mobile application that simplifies the sales transaction process, manages transaction data, and facilitates payment processing. Its main features include a cashier system, inventory management, payment processing, and displaying a summary of business reports.
 
 ![Thumbnail](https://github.com/triagung128/fic-mini-project/blob/master/assets/screenshots/screenshot_1.png)
 
 ## Feature Apps
-Aplikasi ini terdiri dari 2 role user, yaitu vendor dan member.
+This application consists of 2 user roles, namely vendor and member.
 ### Vendor
 - Login by Google
 - Dashboard Menu
-- Management Kategori
-- Management Produk
+- Category Management
+- Product Management
 - Point Of Sales
 - History Transactions
 - My Profile
