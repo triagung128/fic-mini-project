@@ -1,10 +1,12 @@
 # Palem Kafe POS App
-Palem Kafe POS App is an android-based mobile application that simplifies the sales transaction process, manages transaction data, and facilitates payment processing. Its main features include a cashier system, inventory management, payment processing, and displaying a summary of business reports.
+Palem Kafe POS App adalah aplikasi berbasis android mobile yang mempermudah proses transaksi jual beli, mengelola data transaksi, dan mempermudah pemrosesan pembayaran. Fitur utamanya termasuk sistem kasir, pengelolaan inventori, pemrosesan pembayaran, dan menampilkan ringkasan laporan bisnis.
+
+Project ini merupakan sebuah challenge mini-project program FIC (Flutter Intensive Club) yang diadakan oleh FUGI (Flutter User Group Indonesia).
 
 ![Thumbnail](https://github.com/triagung128/fic-mini-project/blob/master/assets/screenshots/screenshot_1.png)
 
 ## Feature Apps
-This application consists of 2 user roles, namely vendor and member.
+Aplikasi ini terdiri dari 2 role user, yaitu vendor dan member.
 ### Vendor
 - Login by Google
 - Dashboard Menu
