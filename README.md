@@ -5,13 +5,13 @@ Project ini merupakan sebuah challenge mini-project program FIC (Flutter Intensi
 
 ![Thumbnail](https://github.com/triagung128/fic-mini-project/blob/master/assets/screenshots/screenshot_1.png)
 
-## :iphone: Download Apps
+## :iphone: Download App
 <a href='https://play.google.com/store/apps/details?id=com.triagung.fic_mini_project&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png' width=200 /></a>
 
 ## Demo App
 https://youtu.be/5TVLj3m-B5g
 
-## Feature Apps
+## Features App
 Aplikasi ini terdiri dari 2 role user, yaitu vendor dan member.
 ### Vendor
 - Login by Google
