@@ -45,7 +45,7 @@ class PosCheckoutPage extends StatelessWidget {
                         children: [
                           Text(
                             'Tunjukan QR Code Kepada Pembeli',
-                            style: Theme.of(context).textTheme.headline6,
+                            style: Theme.of(context).textTheme.titleLarge,
                           ),
                           const SizedBox(height: 16),
                           QrImage(
@@ -55,7 +55,7 @@ class PosCheckoutPage extends StatelessWidget {
                           const SizedBox(height: 16),
                           Text(
                             'Tunggu konfirmasi pembeli \nsebelum tutup halaman ini',
-                            style: Theme.of(context).textTheme.subtitle1,
+                            style: Theme.of(context).textTheme.titleMedium,
                             textAlign: TextAlign.center,
                           ),
                         ],
@@ -76,7 +76,7 @@ class PosCheckoutPage extends StatelessWidget {
                         title: Text(
                           'Detail Transaksi',
                           style:
-                              Theme.of(context).textTheme.subtitle1!.copyWith(
+                              Theme.of(context).textTheme.titleMedium!.copyWith(
                                     fontWeight: FontWeight.w700,
                                     color: navyColor,
                                   ),
@@ -105,7 +105,7 @@ class PosCheckoutPage extends StatelessWidget {
                                     product.price.intToFormatRupiah,
                                     style: Theme.of(context)
                                         .textTheme
-                                        .bodyText2!
+                                        .bodyMedium!
                                         .copyWith(
                                           color: blueColor,
                                         ),
@@ -117,7 +117,7 @@ class PosCheckoutPage extends StatelessWidget {
                                         product.quantity.toString(),
                                         style: Theme.of(context)
                                             .textTheme
-                                            .bodyText2!
+                                            .bodyMedium!
                                             .copyWith(
                                                 fontWeight: FontWeight.w700),
                                       ),
@@ -141,7 +141,7 @@ class PosCheckoutPage extends StatelessWidget {
                               cart.totalPrice.intToFormatRupiah,
                               style: Theme.of(context)
                                   .textTheme
-                                  .bodyText2!
+                                  .bodyMedium!
                                   .copyWith(fontWeight: FontWeight.w700),
                             ),
                           ),

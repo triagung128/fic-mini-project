@@ -103,7 +103,7 @@ class _ContentMemberCheckoutState extends State<_ContentMemberCheckout> {
               padding: const EdgeInsets.all(16),
               child: Text(
                 'Daftar Pesanan',
-                style: Theme.of(context).textTheme.headline6,
+                style: Theme.of(context).textTheme.titleLarge,
               ),
             ),
             const Divider(thickness: 0.2),
@@ -121,7 +121,7 @@ class _ContentMemberCheckoutState extends State<_ContentMemberCheckout> {
                     product.price.intToFormatRupiah,
                     style: Theme.of(context)
                         .textTheme
-                        .bodyText2!
+                        .bodyMedium!
                         .copyWith(color: blueColor),
                   ),
                   trailing: Text('${product.quantity} items'),
@@ -147,7 +147,7 @@ class _ContentMemberCheckoutState extends State<_ContentMemberCheckout> {
                 child: DropdownButton(
                   value: _selectedPaymentMethod,
                   borderRadius: BorderRadius.circular(16),
-                  style: Theme.of(context).textTheme.bodyText2,
+                  style: Theme.of(context).textTheme.bodyMedium,
                   items: _paymentMethods
                       .map((item) => DropdownMenuItem(
                             value: item,
@@ -170,7 +170,7 @@ class _ContentMemberCheckoutState extends State<_ContentMemberCheckout> {
                   'Points Anda : ${widget.user.point?.pointFormatter} Points',
                   style: Theme.of(context)
                       .textTheme
-                      .bodyText2!
+                      .bodyMedium!
                       .copyWith(color: blueColor),
                 ),
                 trailing: DropdownButtonHideUnderline(
@@ -178,7 +178,7 @@ class _ContentMemberCheckoutState extends State<_ContentMemberCheckout> {
                     value: _isUsedPoints,
                     borderRadius: BorderRadius.circular(16),
                     dropdownColor: whiteColor,
-                    style: Theme.of(context).textTheme.bodyText2,
+                    style: Theme.of(context).textTheme.bodyMedium,
                     items: const [
                       DropdownMenuItem(
                         value: true,

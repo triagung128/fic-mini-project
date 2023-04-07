@@ -56,10 +56,11 @@ class OrderSuccessPage extends StatelessWidget {
                     const SizedBox(height: 24),
                     Text(
                       'Selamat',
-                      style: Theme.of(context).textTheme.headline5!.copyWith(
-                            color: blueColor,
-                            fontWeight: FontWeight.w700,
-                          ),
+                      style:
+                          Theme.of(context).textTheme.headlineSmall!.copyWith(
+                                color: blueColor,
+                                fontWeight: FontWeight.w700,
+                              ),
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 6),
@@ -67,7 +68,7 @@ class OrderSuccessPage extends StatelessWidget {
                       'Transaksi Anda Telah Berhasil !',
                       style: Theme.of(context)
                           .textTheme
-                          .headline6!
+                          .titleLarge!
                           .copyWith(color: blueColor),
                       textAlign: TextAlign.center,
                     ),
@@ -94,7 +95,7 @@ class OrderSuccessPage extends StatelessWidget {
                   'Kembali Ke Beranda',
                   style: Theme.of(context)
                       .textTheme
-                      .button!
+                      .labelLarge!
                       .copyWith(color: whiteColor),
                 ),
               ),
@@ -118,7 +119,7 @@ class OrderSuccessPage extends StatelessWidget {
                   'Lihat Riwayat Transaksi',
                   style: Theme.of(context)
                       .textTheme
-                      .button!
+                      .labelLarge!
                       .copyWith(color: blueColor),
                 ),
               ),

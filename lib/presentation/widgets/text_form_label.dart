@@ -15,7 +15,7 @@ class TextFormLabel extends StatelessWidget {
       label,
       style: Theme.of(context)
           .textTheme
-          .bodyText1!
+          .bodyLarge!
           .copyWith(color: navyColor, fontWeight: FontWeight.w700),
     );
   }

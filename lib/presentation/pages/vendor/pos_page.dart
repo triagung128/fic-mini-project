@@ -94,7 +94,7 @@ class _CustomBottomNavPos extends StatelessWidget {
                 builder: (context, state) {
                   return Text(
                     state.cart.totalPrice.intToFormatRupiah,
-                    style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                           fontWeight: FontWeight.w700,
                         ),
                   );
@@ -167,7 +167,7 @@ class _ListViewPos extends StatelessWidget {
                 margin: const EdgeInsets.symmetric(vertical: 16),
                 child: Text(
                   product.category!.name,
-                  style: Theme.of(context).textTheme.headline6,
+                  style: Theme.of(context).textTheme.titleLarge,
                 ),
               ),
             _PosProductCard(product: product),
@@ -215,14 +215,14 @@ class _PosProductCard extends StatelessWidget {
                 children: [
                   Text(
                     product.name,
-                    style: Theme.of(context).textTheme.subtitle2,
+                    style: Theme.of(context).textTheme.titleSmall,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
                   const SizedBox(height: 20),
                   Text(
                     product.price.intToFormatRupiah,
-                    style: Theme.of(context).textTheme.subtitle1!.copyWith(
+                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
                           color: blueColor,
                           fontWeight: FontWeight.w700,
                         ),

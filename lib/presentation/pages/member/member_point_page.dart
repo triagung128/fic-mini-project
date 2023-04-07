@@ -43,7 +43,7 @@ class _MemberPointPageState extends State<MemberPointPage>
           TabBar(
             controller: _tabController,
             labelColor: navyColor,
-            labelStyle: Theme.of(context).textTheme.subtitle1,
+            labelStyle: Theme.of(context).textTheme.titleMedium,
             tabs: [
               Tab(
                 text: 'Point Masuk',
@@ -136,7 +136,7 @@ class _ListViewPoint extends StatelessWidget {
                   points.first.isEntry == true
                       ? '+${point.point.pointFormatter} Points'
                       : '-${point.point.pointFormatter} Points',
-                  style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                         color: points.first.isEntry == true
                             ? Colors.green[600]
                             : Colors.red[600],

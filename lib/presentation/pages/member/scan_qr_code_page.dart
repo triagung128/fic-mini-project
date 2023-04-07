@@ -15,12 +15,12 @@ class ScanQrCodePage extends StatelessWidget {
         title: const Text('Scan QR Code'),
       ),
       body: MobileScanner(
-        allowDuplicates: false,
-        onDetect: (barcode, _) {
-          final result = barcode.rawValue;
-          if (result != null) {
+        onDetect: (barcode) {
+          final result = barcode.barcodes;
+          if (result.first.rawValue != null) {
             try {
-              final cartMap = jsonDecode(result) as Map<String, dynamic>;
+              final cartMap =
+                  jsonDecode(result.first.rawValue!) as Map<String, dynamic>;
               final cart = CartModel.fromMap(cartMap).toEntity();
               Navigator.pushReplacementNamed(
                 context,

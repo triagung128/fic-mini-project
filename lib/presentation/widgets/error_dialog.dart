@@ -13,7 +13,7 @@ class ErrorDialog extends StatelessWidget {
     return AlertDialog(
       title: Text(
         'Opss.. Error',
-        style: Theme.of(context).textTheme.headline6!.copyWith(
+        style: Theme.of(context).textTheme.titleLarge!.copyWith(
               color: Colors.red[400],
             ),
       ),

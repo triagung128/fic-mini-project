@@ -48,7 +48,7 @@ class LoginPage extends StatelessWidget {
                 children: [
                   Text(
                     'Palem Kafe POS App',
-                    style: Theme.of(context).textTheme.headline5!.copyWith(
+                    style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                           color: navyColor,
                           fontWeight: FontWeight.w700,
                         ),

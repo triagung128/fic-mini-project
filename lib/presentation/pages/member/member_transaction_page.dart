@@ -86,7 +86,7 @@ class _MemberTransactionCard extends StatelessWidget {
             children: [
               Text(
                 transaction.createdAt.dateTimeFormatter,
-                style: Theme.of(context).textTheme.bodyText1,
+                style: Theme.of(context).textTheme.bodyLarge,
               ),
               Row(
                 children: [
@@ -99,7 +99,7 @@ class _MemberTransactionCard extends StatelessWidget {
                     'Selesai',
                     style: Theme.of(context)
                         .textTheme
-                        .bodyText2!
+                        .bodyMedium!
                         .copyWith(color: Colors.green),
                   ),
                 ],
@@ -116,7 +116,7 @@ class _MemberTransactionCard extends StatelessWidget {
             transaction.endTotalPrice.intToFormatRupiah,
             style: Theme.of(context)
                 .textTheme
-                .bodyText1!
+                .bodyLarge!
                 .copyWith(color: blueColor),
           ),
         ],

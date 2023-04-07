@@ -94,7 +94,7 @@ class _TransactionCard extends StatelessWidget {
             children: [
               Text(
                 transaction.createdAt.dateTimeFormatter,
-                style: Theme.of(context).textTheme.bodyText1,
+                style: Theme.of(context).textTheme.bodyLarge,
               ),
               Row(
                 children: [
@@ -107,7 +107,7 @@ class _TransactionCard extends StatelessWidget {
                     'Selesai',
                     style: Theme.of(context)
                         .textTheme
-                        .bodyText2!
+                        .bodyMedium!
                         .copyWith(color: Colors.green),
                   ),
                 ],
@@ -124,7 +124,7 @@ class _TransactionCard extends StatelessWidget {
             transaction.user.name!,
             style: Theme.of(context)
                 .textTheme
-                .bodyText1!
+                .bodyLarge!
                 .copyWith(color: blueColor),
           ),
           const SizedBox(height: 16),
@@ -140,7 +140,7 @@ class _TransactionCard extends StatelessWidget {
                     transaction.endTotalPrice.intToFormatRupiah,
                     style: Theme.of(context)
                         .textTheme
-                        .bodyText1!
+                        .bodyLarge!
                         .copyWith(color: blueColor),
                   ),
                 ],
@@ -149,7 +149,7 @@ class _TransactionCard extends StatelessWidget {
                 transaction.paymentMethod,
                 style: Theme.of(context)
                     .textTheme
-                    .bodyText1!
+                    .bodyLarge!
                     .copyWith(color: blueColor),
               ),
             ],

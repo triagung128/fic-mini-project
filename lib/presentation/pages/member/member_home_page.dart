@@ -113,7 +113,7 @@ class _MemberHomePageState extends State<MemberHomePage> {
                           DateFormat('d MMMM yyyy', 'id_ID')
                               .format(DateTime.now()),
                           style:
-                              Theme.of(context).textTheme.bodyText1!.copyWith(
+                              Theme.of(context).textTheme.bodyLarge!.copyWith(
                                     color: navyColor,
                                     fontWeight: FontWeight.w700,
                                   ),
@@ -126,7 +126,7 @@ class _MemberHomePageState extends State<MemberHomePage> {
               const SizedBox(height: 24),
               Text(
                 'Promo Spesial',
-                style: Theme.of(context).textTheme.headline6,
+                style: Theme.of(context).textTheme.titleLarge,
               ),
               const SizedBox(height: 12),
               CarouselSlider(
@@ -193,7 +193,7 @@ class _MemberHomePageState extends State<MemberHomePage> {
                       'Points Kamu',
                       style: Theme.of(context)
                           .textTheme
-                          .subtitle1!
+                          .titleMedium!
                           .copyWith(color: whiteColor),
                     ),
                     trailing: Text(
@@ -202,7 +202,7 @@ class _MemberHomePageState extends State<MemberHomePage> {
                           : 'Loading...',
                       style: Theme.of(context)
                           .textTheme
-                          .subtitle2!
+                          .titleSmall!
                           .copyWith(color: whiteColor),
                     ),
                   );
@@ -214,7 +214,7 @@ class _MemberHomePageState extends State<MemberHomePage> {
                   'Main Menu',
                   style: Theme.of(context)
                       .textTheme
-                      .subtitle2!
+                      .titleSmall!
                       .copyWith(color: navyColor),
                 ),
               ),

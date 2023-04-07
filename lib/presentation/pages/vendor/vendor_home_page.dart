@@ -128,7 +128,7 @@ class _VendorHomePageState extends State<VendorHomePage> {
                             DateFormat('d MMMM yyyy', 'id_ID')
                                 .format(DateTime.now()),
                             style:
-                                Theme.of(context).textTheme.bodyText1!.copyWith(
+                                Theme.of(context).textTheme.bodyLarge!.copyWith(
                                       color: navyColor,
                                       fontWeight: FontWeight.w700,
                                     ),
@@ -176,7 +176,7 @@ class _VendorHomePageState extends State<VendorHomePage> {
               'Main Menu',
               style: Theme.of(context)
                   .textTheme
-                  .subtitle2!
+                  .titleSmall!
                   .copyWith(color: navyColor),
               textAlign: TextAlign.center,
             ),
@@ -238,7 +238,7 @@ class _SummaryCard extends StatelessWidget {
             label,
             style: Theme.of(context)
                 .textTheme
-                .caption!
+                .bodySmall!
                 .copyWith(color: whiteColor),
           ),
           const SizedBox(height: 6),
@@ -246,7 +246,7 @@ class _SummaryCard extends StatelessWidget {
             value,
             style: Theme.of(context)
                 .textTheme
-                .headline6!
+                .titleLarge!
                 .copyWith(color: whiteColor),
           ),
         ],

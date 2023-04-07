@@ -80,7 +80,7 @@ class _ContentProfile extends StatelessWidget {
                 children: [
                   Text(
                     '${user.name}',
-                    style: Theme.of(context).textTheme.headline5!.copyWith(
+                    style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                           color: navyColor,
                           fontWeight: FontWeight.w700,
                         ),
@@ -90,7 +90,7 @@ class _ContentProfile extends StatelessWidget {
                     '${user.email}',
                     style: Theme.of(context)
                         .textTheme
-                        .subtitle1!
+                        .titleMedium!
                         .copyWith(color: navyColor),
                   ),
                 ],
@@ -162,7 +162,7 @@ class _ConfirmLogoutDialog extends StatelessWidget {
       title: Text(
         'Logout',
         style:
-            Theme.of(context).textTheme.headline6!.copyWith(color: navyColor),
+            Theme.of(context).textTheme.titleLarge!.copyWith(color: navyColor),
       ),
       icon: const Icon(Icons.logout),
       content: const Text(

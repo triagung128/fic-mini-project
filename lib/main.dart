@@ -84,7 +84,7 @@ class MyApp extends StatelessWidget {
                 iconTheme: const IconThemeData(color: blueColor),
                 titleTextStyle: Theme.of(context)
                     .textTheme
-                    .headline6!
+                    .titleLarge!
                     .copyWith(color: blueColor, fontWeight: FontWeight.w700),
               ),
           inputDecorationTheme: Theme.of(context).inputDecorationTheme.copyWith(
@@ -103,7 +103,7 @@ class MyApp extends StatelessWidget {
                 fillColor: Colors.transparent.withOpacity(0.05),
                 hintStyle: Theme.of(context)
                     .textTheme
-                    .bodyText2!
+                    .bodyMedium!
                     .copyWith(color: navyColor.withOpacity(0.5)),
               ),
         ),

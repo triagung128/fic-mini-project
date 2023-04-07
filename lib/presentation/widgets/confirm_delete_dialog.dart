@@ -20,7 +20,7 @@ class ConfirmDeleteDialog extends StatelessWidget {
       title: Text(
         title,
         style:
-            Theme.of(context).textTheme.headline6!.copyWith(color: navyColor),
+            Theme.of(context).textTheme.titleLarge!.copyWith(color: navyColor),
       ),
       icon: Icon(
         Icons.delete_forever,
