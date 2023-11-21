@@ -1,3 +1,7 @@
+import 'package:flutter/material.dart';
+
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:fic_mini_project/common/currency_rupiah_extension.dart';
 import 'package:fic_mini_project/common/enum_state.dart';
 import 'package:fic_mini_project/common/routes.dart';
@@ -5,8 +9,6 @@ import 'package:fic_mini_project/common/styles.dart';
 import 'package:fic_mini_project/domain/entity/product.dart';
 import 'package:fic_mini_project/presentation/blocs/pos/pos_bloc.dart';
 import 'package:fic_mini_project/presentation/blocs/product/product_bloc.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PosPage extends StatefulWidget {
   const PosPage({super.key});
@@ -74,9 +76,7 @@ class _PosPageState extends State<PosPage> {
 }
 
 class _CustomBottomNavPos extends StatelessWidget {
-  const _CustomBottomNavPos({
-    Key? key,
-  }) : super(key: key);
+  const _CustomBottomNavPos();
 
   @override
   Widget build(BuildContext context) {
@@ -128,9 +128,8 @@ class _CustomBottomNavPos extends StatelessWidget {
 
 class _ListViewPos extends StatelessWidget {
   const _ListViewPos({
-    Key? key,
     required this.products,
-  }) : super(key: key);
+  });
 
   final List<Product> products;
 
@@ -180,9 +179,8 @@ class _ListViewPos extends StatelessWidget {
 
 class _PosProductCard extends StatelessWidget {
   const _PosProductCard({
-    Key? key,
     required this.product,
-  }) : super(key: key);
+  });
 
   final Product product;
 

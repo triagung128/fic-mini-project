@@ -1,9 +1,11 @@
+import 'package:flutter/material.dart';
+
 import 'package:avatar_glow/avatar_glow.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:fic_mini_project/common/routes.dart';
 import 'package:fic_mini_project/common/styles.dart';
 import 'package:fic_mini_project/presentation/blocs/profile/profile_bloc.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class OrderSuccessPage extends StatelessWidget {
   const OrderSuccessPage({super.key});

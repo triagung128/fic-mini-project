@@ -14,11 +14,19 @@
       },
       "oauth_client": [
         {
-          "client_id": "266552192086-b3dmlop0dufvhkknvtbdmfb2gi8bvvq4.apps.googleusercontent.com",
+          "client_id": "266552192086-3pf1hqd4cbb3sof8l6g0h5t1sl682j9a.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.triagung.fic_mini_project",
-            "certificate_hash": "a1ac67ec5123f092dbe89444b330151a18f6dae8"
+            "certificate_hash": "930bb0ec000cccf51802f307c7400fe595d9477a"
+          }
+        },
+        {
+          "client_id": "266552192086-mhdamiirq56ha6ni1uftiuaafdk0540g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.triagung.fic_mini_project",
+            "certificate_hash": "0a777e4bdbfd42f4ec3540c6a19726a4829f7b77"
           }
         },
         {

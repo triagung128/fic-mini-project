@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:equatable/equatable.dart';
+
 import 'package:fic_mini_project/data/models/category_model.dart';
 import 'package:fic_mini_project/domain/entity/product.dart';
 

@@ -1,10 +1,12 @@
+import 'package:flutter/material.dart';
+
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:fic_mini_project/common/currency_rupiah_extension.dart';
 import 'package:fic_mini_project/common/datetime_extension.dart';
 import 'package:fic_mini_project/common/styles.dart';
 import 'package:fic_mini_project/domain/entity/transaction.dart';
 import 'package:fic_mini_project/presentation/blocs/transaction/transaction_bloc.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MemberTransactionPage extends StatefulWidget {
   const MemberTransactionPage({super.key});
@@ -64,8 +66,9 @@ class _MemberTransactionPageState extends State<MemberTransactionPage> {
 }
 
 class _MemberTransactionCard extends StatelessWidget {
-  const _MemberTransactionCard({Key? key, required this.transaction})
-      : super(key: key);
+  const _MemberTransactionCard({
+    required this.transaction,
+  });
 
   final TransactionEntity transaction;
 

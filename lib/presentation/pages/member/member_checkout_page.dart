@@ -1,3 +1,7 @@
+import 'package:flutter/material.dart';
+
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:fic_mini_project/common/currency_rupiah_extension.dart';
 import 'package:fic_mini_project/common/point_extension.dart';
 import 'package:fic_mini_project/common/routes.dart';
@@ -7,8 +11,6 @@ import 'package:fic_mini_project/domain/entity/transaction.dart';
 import 'package:fic_mini_project/domain/entity/user.dart';
 import 'package:fic_mini_project/presentation/blocs/profile/profile_bloc.dart';
 import 'package:fic_mini_project/presentation/blocs/transaction/transaction_bloc.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MemberCheckoutPage extends StatefulWidget {
   const MemberCheckoutPage({
@@ -60,10 +62,9 @@ class _MemberCheckoutPageState extends State<MemberCheckoutPage> {
 
 class _ContentMemberCheckout extends StatefulWidget {
   const _ContentMemberCheckout({
-    Key? key,
     required this.cart,
     required this.user,
-  }) : super(key: key);
+  });
 
   final Cart cart;
   final User user;
@@ -285,9 +286,9 @@ class _ContentMemberCheckoutState extends State<_ContentMemberCheckout> {
             fixedSize: Size(MediaQuery.of(context).size.width, 57),
             backgroundColor: Colors.green,
           ),
-          child: Row(
+          child: const Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
+            children: [
               SizedBox(
                 height: 24,
                 width: 24,

@@ -1,11 +1,13 @@
+import 'package:flutter/material.dart';
+
 import 'package:fic_mini_project/domain/entity/cart.dart';
 import 'package:fic_mini_project/domain/entity/product.dart';
 import 'package:fic_mini_project/presentation/pages/login_page.dart';
 import 'package:fic_mini_project/presentation/pages/member/member_checkout_page.dart';
 import 'package:fic_mini_project/presentation/pages/member/member_home_page.dart';
+import 'package:fic_mini_project/presentation/pages/member/member_point_page.dart';
 import 'package:fic_mini_project/presentation/pages/member/member_transaction_page.dart';
 import 'package:fic_mini_project/presentation/pages/member/order_success_page.dart';
-import 'package:fic_mini_project/presentation/pages/member/member_point_page.dart';
 import 'package:fic_mini_project/presentation/pages/member/scan_qr_code_page.dart';
 import 'package:fic_mini_project/presentation/pages/profile/profile_page.dart';
 import 'package:fic_mini_project/presentation/pages/profile/update_profile_page.dart';
@@ -17,7 +19,6 @@ import 'package:fic_mini_project/presentation/pages/vendor/product_add_update_pa
 import 'package:fic_mini_project/presentation/pages/vendor/product_page.dart';
 import 'package:fic_mini_project/presentation/pages/vendor/transaction_page.dart';
 import 'package:fic_mini_project/presentation/pages/vendor/vendor_home_page.dart';
-import 'package:flutter/material.dart';
 
 const String splashRoute = '/';
 const String loginRoute = '/login';

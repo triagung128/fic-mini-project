@@ -1,12 +1,13 @@
-import 'package:fic_mini_project/common/styles.dart';
 import 'package:flutter/material.dart';
+
+import 'package:fic_mini_project/common/styles.dart';
 
 class ConfirmDeleteDialog extends StatelessWidget {
   const ConfirmDeleteDialog({
-    Key? key,
+    super.key,
     required this.yesOnPressed,
     required this.title,
-  }) : super(key: key);
+  });
 
   final Function()? yesOnPressed;
   final String title;

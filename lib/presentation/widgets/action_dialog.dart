@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 
 class ActionDialog extends StatelessWidget {
   const ActionDialog({
-    Key? key,
+    super.key,
     required this.titleUpdateAction,
     required this.titleDeleteAction,
     required this.updateActionOnTap,
     required this.deleteActionOnTap,
-  }) : super(key: key);
+  });
 
   final String titleUpdateAction;
   final String titleDeleteAction;

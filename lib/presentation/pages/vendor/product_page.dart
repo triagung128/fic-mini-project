@@ -1,13 +1,15 @@
-import 'package:fic_mini_project/common/routes.dart';
+import 'package:flutter/material.dart';
+
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:fic_mini_project/common/currency_rupiah_extension.dart';
+import 'package:fic_mini_project/common/routes.dart';
 import 'package:fic_mini_project/common/styles.dart';
 import 'package:fic_mini_project/domain/entity/product.dart';
 import 'package:fic_mini_project/presentation/blocs/product/product_bloc.dart';
 import 'package:fic_mini_project/presentation/widgets/action_dialog.dart';
 import 'package:fic_mini_project/presentation/widgets/confirm_delete_dialog.dart';
 import 'package:fic_mini_project/presentation/widgets/error_dialog.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProductPage extends StatefulWidget {
   const ProductPage({super.key});
@@ -108,9 +110,8 @@ class _ProductPageState extends State<ProductPage> {
 
 class _ProductCard extends StatelessWidget {
   const _ProductCard({
-    Key? key,
     required this.product,
-  }) : super(key: key);
+  });
 
   final Product product;
 

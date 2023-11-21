@@ -1,12 +1,14 @@
 import 'dart:io';
 
+import 'package:flutter/material.dart';
+
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
+
 import 'package:fic_mini_project/common/styles.dart';
 import 'package:fic_mini_project/domain/entity/user.dart';
 import 'package:fic_mini_project/presentation/blocs/profile/profile_bloc.dart';
 import 'package:fic_mini_project/presentation/widgets/text_form_label.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:image_picker/image_picker.dart';
 
 class UpdateProfilePage extends StatefulWidget {
   const UpdateProfilePage({super.key});
@@ -81,9 +83,8 @@ class _UpdateProfilePageState extends State<UpdateProfilePage> {
 
 class _ContentUpdateProfile extends StatefulWidget {
   const _ContentUpdateProfile({
-    Key? key,
     required this.user,
-  }) : super(key: key);
+  });
 
   final User user;
 

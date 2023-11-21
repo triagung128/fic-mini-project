@@ -1,11 +1,13 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
+
+import 'package:qr_flutter/qr_flutter.dart';
+
 import 'package:fic_mini_project/common/currency_rupiah_extension.dart';
 import 'package:fic_mini_project/common/routes.dart';
 import 'package:fic_mini_project/common/styles.dart';
 import 'package:fic_mini_project/domain/entity/cart.dart';
-import 'package:flutter/material.dart';
-import 'package:qr_flutter/qr_flutter.dart';
 
 class PosCheckoutPage extends StatelessWidget {
   const PosCheckoutPage({
@@ -48,7 +50,7 @@ class PosCheckoutPage extends StatelessWidget {
                             style: Theme.of(context).textTheme.titleLarge,
                           ),
                           const SizedBox(height: 16),
-                          QrImage(
+                          QrImageView(
                             data: jsonEncode(cartMap),
                             size: 280,
                           ),

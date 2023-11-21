@@ -1,3 +1,9 @@
+import 'package:flutter/material.dart';
+
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
+
 import 'package:fic_mini_project/common/currency_rupiah_extension.dart';
 import 'package:fic_mini_project/common/routes.dart';
 import 'package:fic_mini_project/common/styles.dart';
@@ -5,10 +11,6 @@ import 'package:fic_mini_project/data/models/menu_model.dart';
 import 'package:fic_mini_project/presentation/blocs/profile/profile_bloc.dart';
 import 'package:fic_mini_project/presentation/blocs/report/report_bloc.dart';
 import 'package:fic_mini_project/presentation/widgets/menu_card.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:intl/intl.dart';
 
 class VendorHomePage extends StatefulWidget {
   const VendorHomePage({super.key});
@@ -207,11 +209,10 @@ class _VendorHomePageState extends State<VendorHomePage> {
 
 class _SummaryCard extends StatelessWidget {
   const _SummaryCard({
-    Key? key,
     required this.icon,
     required this.label,
     required this.value,
-  }) : super(key: key);
+  });
 
   final IconData icon;
   final String label;

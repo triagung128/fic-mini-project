@@ -1,10 +1,12 @@
+import 'package:flutter/material.dart';
+
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:fic_mini_project/common/datetime_extension.dart';
 import 'package:fic_mini_project/common/point_extension.dart';
 import 'package:fic_mini_project/common/styles.dart';
 import 'package:fic_mini_project/domain/entity/point.dart';
 import 'package:fic_mini_project/presentation/blocs/point/point_bloc.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MemberPointPage extends StatefulWidget {
   const MemberPointPage({super.key});
@@ -110,9 +112,8 @@ class _MemberPointPageState extends State<MemberPointPage>
 
 class _ListViewPoint extends StatelessWidget {
   const _ListViewPoint({
-    Key? key,
     required this.points,
-  }) : super(key: key);
+  });
 
   final List<Point> points;
 

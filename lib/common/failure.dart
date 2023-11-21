@@ -10,13 +10,13 @@ abstract class Failure extends Equatable {
 }
 
 class ServerFailure extends Failure {
-  const ServerFailure(String message) : super(message);
+  const ServerFailure(super.message);
 }
 
 class GoogleSignInFailure extends Failure {
-  const GoogleSignInFailure(String message) : super(message);
+  const GoogleSignInFailure(super.message);
 }
 
 class DatabaseFailure extends Failure {
-  const DatabaseFailure(String message) : super(message);
+  const DatabaseFailure(super.message);
 }

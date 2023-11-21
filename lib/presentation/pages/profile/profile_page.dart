@@ -1,10 +1,12 @@
+import 'package:flutter/material.dart';
+
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:fic_mini_project/common/routes.dart';
 import 'package:fic_mini_project/common/styles.dart';
 import 'package:fic_mini_project/domain/entity/user.dart';
 import 'package:fic_mini_project/presentation/blocs/auth/auth_bloc.dart';
 import 'package:fic_mini_project/presentation/blocs/profile/profile_bloc.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -49,9 +51,8 @@ class ProfilePage extends StatelessWidget {
 
 class _ContentProfile extends StatelessWidget {
   const _ContentProfile({
-    Key? key,
     required this.user,
-  }) : super(key: key);
+  });
 
   final User user;
 
@@ -121,10 +122,9 @@ class _ContentProfile extends StatelessWidget {
 
 class _ListMenuProfile extends StatelessWidget {
   const _ListMenuProfile({
-    Key? key,
     required this.onPressed,
     required this.text,
-  }) : super(key: key);
+  });
 
   final Function()? onPressed;
   final String text;
@@ -149,9 +149,7 @@ class _ListMenuProfile extends StatelessWidget {
 }
 
 class _ConfirmLogoutDialog extends StatelessWidget {
-  const _ConfirmLogoutDialog({
-    Key? key,
-  }) : super(key: key);
+  const _ConfirmLogoutDialog();
 
   @override
   Widget build(BuildContext context) {

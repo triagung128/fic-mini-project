@@ -1,8 +1,10 @@
-import 'package:fic_mini_project/common/routes.dart';
-import 'package:fic_mini_project/presentation/blocs/auth/auth_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:fic_mini_project/common/routes.dart';
+import 'package:fic_mini_project/presentation/blocs/auth/auth_bloc.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});

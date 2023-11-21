@@ -1,6 +1,14 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/date_symbol_data_local.dart';
+
 import 'package:fic_mini_project/common/routes.dart';
 import 'package:fic_mini_project/common/styles.dart';
 import 'package:fic_mini_project/firebase_options.dart';
+import 'package:fic_mini_project/injection.dart' as di;
 import 'package:fic_mini_project/presentation/blocs/auth/auth_bloc.dart';
 import 'package:fic_mini_project/presentation/blocs/category/category_bloc.dart';
 import 'package:fic_mini_project/presentation/blocs/point/point_bloc.dart';
@@ -9,12 +17,6 @@ import 'package:fic_mini_project/presentation/blocs/product/product_bloc.dart';
 import 'package:fic_mini_project/presentation/blocs/profile/profile_bloc.dart';
 import 'package:fic_mini_project/presentation/blocs/report/report_bloc.dart';
 import 'package:fic_mini_project/presentation/blocs/transaction/transaction_bloc.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fic_mini_project/injection.dart' as di;
-import 'package:intl/date_symbol_data_local.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -66,6 +68,7 @@ class MyApp extends StatelessWidget {
         title: 'Palem Kafe POS App',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
+          useMaterial3: false,
           scaffoldBackgroundColor: whiteColor,
           visualDensity: VisualDensity.adaptivePlatformDensity,
           textTheme: textTheme,

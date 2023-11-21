@@ -1,6 +1,7 @@
+import 'package:sqflite/sqflite.dart';
+
 import 'package:fic_mini_project/data/models/category_model.dart';
 import 'package:fic_mini_project/data/models/product_model.dart';
-import 'package:sqflite/sqflite.dart';
 
 class DatabaseHelper {
   static DatabaseHelper? _databaseHelper;

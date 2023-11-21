@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+
 import 'package:fic_mini_project/domain/entity/category.dart';
 
 class CategoryModel extends Equatable {

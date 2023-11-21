@@ -1,13 +1,14 @@
-import 'package:fic_mini_project/common/styles.dart';
 import 'package:flutter/material.dart';
+
+import 'package:fic_mini_project/common/styles.dart';
 
 class MenuCard extends StatelessWidget {
   const MenuCard({
-    Key? key,
+    super.key,
     required this.onPressed,
     required this.icon,
     required this.labelText,
-  }) : super(key: key);
+  });
 
   final Function() onPressed;
   final Widget icon;

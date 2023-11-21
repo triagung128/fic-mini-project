@@ -1,10 +1,11 @@
+import 'package:dartz/dartz.dart';
+import 'package:image_picker/image_picker.dart';
+
+import 'package:fic_mini_project/common/failure.dart';
 import 'package:fic_mini_project/data/datasources/user_remote_data_source.dart';
 import 'package:fic_mini_project/data/models/user_model.dart';
 import 'package:fic_mini_project/domain/entity/user.dart';
-import 'package:fic_mini_project/common/failure.dart';
-import 'package:dartz/dartz.dart';
 import 'package:fic_mini_project/domain/repositories/user_repository.dart';
-import 'package:image_picker/image_picker.dart';
 
 class UserRepositoryImpl extends UserRepository {
   final UserRemoteDataSource remoteDataSource;

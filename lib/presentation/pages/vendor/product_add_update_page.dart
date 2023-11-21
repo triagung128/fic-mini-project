@@ -1,3 +1,9 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
+
 import 'package:fic_mini_project/common/currency_input_formatter.dart';
 import 'package:fic_mini_project/common/currency_rupiah_extension.dart';
 import 'package:fic_mini_project/common/styles.dart';
@@ -8,10 +14,6 @@ import 'package:fic_mini_project/presentation/blocs/product/product_bloc.dart';
 import 'package:fic_mini_project/presentation/widgets/error_dialog.dart';
 import 'package:fic_mini_project/presentation/widgets/text_form_label.dart';
 import 'package:fic_mini_project/presentation/widgets/warning_dialog.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:image_picker/image_picker.dart';
 
 class ProductAddUpdatePage extends StatefulWidget {
   const ProductAddUpdatePage({
@@ -154,9 +156,7 @@ class _ProductAddUpdatePageState extends State<ProductAddUpdatePage> {
                             borderSide: BorderSide.none,
                           ),
                         ),
-                        value: widget.product != null
-                            ? widget.product!.category
-                            : null,
+                        value: widget.product?.category,
                         items: state is AllCategoriesLoaded
                             ? state.categories
                                 .map(

@@ -1,3 +1,8 @@
+import 'package:flutter/material.dart';
+
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
 import 'package:fic_mini_project/common/styles.dart';
 import 'package:fic_mini_project/domain/entity/category.dart';
 import 'package:fic_mini_project/presentation/blocs/category/category_bloc.dart';
@@ -5,9 +10,6 @@ import 'package:fic_mini_project/presentation/widgets/action_dialog.dart';
 import 'package:fic_mini_project/presentation/widgets/confirm_delete_dialog.dart';
 import 'package:fic_mini_project/presentation/widgets/error_dialog.dart';
 import 'package:fic_mini_project/presentation/widgets/text_form_label.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class CategoryPage extends StatefulWidget {
   const CategoryPage({super.key});
@@ -105,9 +107,8 @@ class _CategoryPageState extends State<CategoryPage> {
 
 class _CategoryCard extends StatelessWidget {
   const _CategoryCard({
-    Key? key,
     required this.category,
-  }) : super(key: key);
+  });
 
   final Category category;
 
@@ -167,9 +168,8 @@ class _CategoryCard extends StatelessWidget {
 
 class _FormCategory extends StatefulWidget {
   const _FormCategory({
-    Key? key,
     this.category,
-  }) : super(key: key);
+  });
 
   final Category? category;
 

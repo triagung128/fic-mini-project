@@ -1,9 +1,11 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
+
+import 'package:mobile_scanner/mobile_scanner.dart';
+
 import 'package:fic_mini_project/common/routes.dart';
 import 'package:fic_mini_project/data/models/cart_model.dart';
-import 'package:flutter/material.dart';
-import 'package:mobile_scanner/mobile_scanner.dart';
 
 class ScanQrCodePage extends StatelessWidget {
   const ScanQrCodePage({super.key});

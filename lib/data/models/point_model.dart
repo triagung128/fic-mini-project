@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
+
 import 'package:fic_mini_project/domain/entity/point.dart';
 
 class PointModel extends Equatable {

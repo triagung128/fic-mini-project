@@ -1,10 +1,11 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:fic_mini_project/domain/entity/product.dart';
 import 'package:fic_mini_project/domain/usecases/product/get_all_products.dart';
 import 'package:fic_mini_project/domain/usecases/product/insert_product.dart';
 import 'package:fic_mini_project/domain/usecases/product/remove_product.dart';
 import 'package:fic_mini_project/domain/usecases/product/update_product.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'product_event.dart';
 part 'product_state.dart';

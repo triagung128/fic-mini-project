@@ -1,9 +1,11 @@
+import 'package:flutter/material.dart';
+
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
 import 'package:fic_mini_project/common/routes.dart';
 import 'package:fic_mini_project/common/styles.dart';
 import 'package:fic_mini_project/presentation/blocs/auth/auth_bloc.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -97,10 +99,9 @@ class LoginPage extends StatelessWidget {
 
 class _LoginButton extends StatelessWidget {
   const _LoginButton({
-    Key? key,
     required this.onPressed,
     required this.text,
-  }) : super(key: key);
+  });
 
   final Function()? onPressed;
   final String text;

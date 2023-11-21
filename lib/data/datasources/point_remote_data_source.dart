@@ -1,7 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:fic_mini_project/data/models/point_model.dart';
 import 'package:fic_mini_project/data/models/user_model.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 abstract class PointRemoteDataSource {
   Future<List<PointModel>> getAllPointsHistory();

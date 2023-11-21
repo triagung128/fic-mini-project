@@ -1,4 +1,6 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:fic_mini_project/common/enum_state.dart';
 import 'package:fic_mini_project/domain/entity/cart.dart';
 import 'package:fic_mini_project/domain/entity/product.dart';
@@ -7,7 +9,6 @@ import 'package:fic_mini_project/domain/usecases/cart/add_product_to_cart.dart';
 import 'package:fic_mini_project/domain/usecases/cart/clear_cart.dart';
 import 'package:fic_mini_project/domain/usecases/cart/get_all_carts_map.dart';
 import 'package:fic_mini_project/domain/usecases/cart/reduce_product_quantity.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'pos_event.dart';
 part 'pos_state.dart';

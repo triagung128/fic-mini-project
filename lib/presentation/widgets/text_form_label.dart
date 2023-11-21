@@ -1,11 +1,12 @@
-import 'package:fic_mini_project/common/styles.dart';
 import 'package:flutter/material.dart';
+
+import 'package:fic_mini_project/common/styles.dart';
 
 class TextFormLabel extends StatelessWidget {
   const TextFormLabel({
-    Key? key,
+    super.key,
     required this.label,
-  }) : super(key: key);
+  });
 
   final String label;
 

@@ -1,10 +1,11 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:fic_mini_project/domain/entity/category.dart';
 import 'package:fic_mini_project/domain/usecases/category/get_all_categories.dart';
 import 'package:fic_mini_project/domain/usecases/category/insert_category.dart';
 import 'package:fic_mini_project/domain/usecases/category/remove_category.dart';
 import 'package:fic_mini_project/domain/usecases/category/update_category.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'category_event.dart';
 part 'category_state.dart';
